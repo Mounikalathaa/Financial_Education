@@ -1,0 +1,129 @@
+# Financial Education Quiz Engine Configuration
+
+# Application Settings
+app:
+  name: "Financial Education Quiz Engine"
+  version: "1.0.0"
+  debug: false
+
+# LLM Configuration
+llm:
+  provider: "openai"  # Options: openai, anthropic
+  model: "gpt-4-turbo-preview"
+  temperature: 0.7
+  max_tokens: 2000
+
+# Embedding Configuration
+embeddings:
+  model: "all-MiniLM-L6-v2"
+  dimension: 384
+
+# Vector Store Configuration
+vector_store:
+  type: "faiss"
+  index_path: "./data/vector_store/education.index"
+  metadata_path: "./data/vector_store/metadata.pkl"
+  top_k: 5
+
+# MCP Server Configuration
+mcp:
+  base_url: "http://localhost:8000"
+  timeout: 30
+  endpoints:
+    user_profile: "/api/user/profile"
+    transactions: "/api/user/transactions"
+    quiz_history: "/api/user/quiz-history"
+    gamification: "/api/user/gamification"
+    update_gamification: "/api/user/gamification/update"
+
+# Gamification Configuration
+gamification:
+  points_per_correct: 10
+  points_per_quiz: 50
+  levels:
+    - name: "Beginner"
+      min_points: 0
+      max_points: 100
+    - name: "Explorer"
+      min_points: 101
+      max_points: 300
+    - name: "Learner"
+      min_points: 301
+      max_points: 600
+    - name: "Expert"
+      min_points: 601
+      max_points: 1000
+    - name: "Master"
+      min_points: 1001
+      max_points: 999999
+  badges:
+    - id: "first_quiz"
+      name: "First Steps"
+      description: "Complete your first quiz"
+      criteria: "quizzes_completed >= 1"
+    - id: "perfect_score"
+      name: "Perfect!"
+      description: "Get 100% on a quiz"
+      criteria: "perfect_scores >= 1"
+    - id: "week_streak"
+      name: "Weekly Warrior"
+      description: "Complete quizzes 7 days in a row"
+      criteria: "streak_days >= 7"
+    - id: "savings_master"
+      name: "Savings Star"
+      description: "Master savings-related quizzes"
+      criteria: "savings_quizzes >= 5"
+
+# Age Groups Configuration
+age_groups:
+  - name: "Young Explorer"
+    min_age: 6
+    max_age: 9
+    complexity: "simple"
+    story_length: "short"
+    vocabulary: "basic"
+  - name: "Junior Learner"
+    min_age: 10
+    max_age: 12
+    complexity: "moderate"
+    story_length: "medium"
+    vocabulary: "intermediate"
+  - name: "Teen Master"
+    min_age: 13
+    max_age: 17
+    complexity: "advanced"
+    story_length: "detailed"
+    vocabulary: "advanced"
+
+# Financial Concepts
+financial_concepts:
+  - id: "saving"
+    name: "Saving Money"
+    description: "Understanding the importance of saving money"
+    difficulty_levels: ["beginner", "intermediate", "advanced"]
+  - id: "budgeting"
+    name: "Budgeting"
+    description: "Planning and managing spending"
+    difficulty_levels: ["beginner", "intermediate", "advanced"]
+  - id: "needs_vs_wants"
+    name: "Needs vs Wants"
+    description: "Distinguishing between essential and optional purchases"
+    difficulty_levels: ["beginner", "intermediate"]
+  - id: "earning"
+    name: "Earning Money"
+    description: "Understanding how people earn money"
+    difficulty_levels: ["beginner", "intermediate", "advanced"]
+  - id: "compound_interest"
+    name: "Compound Interest"
+    description: "How money grows over time"
+    difficulty_levels: ["intermediate", "advanced"]
+  - id: "risk_reward"
+    name: "Risk & Reward"
+    description: "Understanding financial risks and rewards"
+    difficulty_levels: ["intermediate", "advanced"]
+
+# Logging Configuration
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file: "./logs/app.log"
