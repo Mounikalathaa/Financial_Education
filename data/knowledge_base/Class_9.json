@@ -1,0 +1,317 @@
+{
+  "class": "9",
+  "resource_type": "financial_education_knowledge_base",
+  "topics": [
+    {
+      "topic_name": "Investment",
+      "definition": "The allocation of money or capital into assets with the expectation of generating income or profit in the future.",
+      "key_points": [
+        "Investment helps in wealth creation and meeting long-term financial goals.",
+        "Different investment options carry different levels of risk and return.",
+        "Diversification reduces risk by spreading investments across different assets."
+      ],
+      "processes": [
+        "Identify financial goals and risk tolerance.",
+        "Research different investment options.",
+        "Allocate funds across chosen investments.",
+        "Monitor and review investments periodically."
+      ],
+      "examples": [
+        "Direct equity: buying shares of companies.",
+        "Mutual funds: pooling money with other investors for professionally managed portfolios.",
+        "Fixed deposits: lending money to banks for fixed interest.",
+        "Bonds: lending to governments or companies for fixed returns.",
+        "Real estate: buying property for rental income or capital appreciation.",
+        "Gold: purchasing gold as a traditional safe-haven asset."
+      ],
+      "facts": [
+        "Direct equity carries higher risk but potential for higher returns.",
+        "Fixed deposits offer guaranteed returns with low risk.",
+        "Mutual funds provide diversification and professional management."
+      ]
+    },
+    {
+      "topic_name": "Insurance Regulatory and Development Authority of India (IRDAI)",
+      "definition": "The statutory body established to regulate, promote, and ensure orderly growth of the insurance industry in India.",
+      "key_points": [
+        "Protects policyholders' interests.",
+        "Registers and regulates insurance companies and intermediaries.",
+        "Ensures insurance coverage reaches rural and vulnerable sections.",
+        "Promotes fair competition and consumer choice."
+      ],
+      "processes": [
+        "IRDAI sets rules for insurance companies.",
+        "Monitors financial health and market conduct of insurers.",
+        "Handles policyholder grievances through integrated systems.",
+        "Promotes insurance penetration and awareness."
+      ],
+      "examples": [
+        "Licensing new insurance companies.",
+        "Setting norms for insurance products and premiums.",
+        "Operating grievance redressal through toll-free number 155255.",
+        "Ensuring solvency margins are maintained by insurers."
+      ],
+      "facts": [
+        "Established under IRDAI Act, 1999.",
+        "Comprises a chairman, five full-time, and four part-time members.",
+        "Insurance penetration in India was 3.96% as of 2013.",
+        "Over 52 insurance companies were operating in India as of March 2014."
+      ]
+    },
+    {
+      "topic_name": "Sources of Business Finance",
+      "definition": "Funds required for starting, operating, and expanding a business, obtained from various internal and external sources.",
+      "key_points": [
+        "Classified by period: short-term, medium-term, long-term.",
+        "Classified by ownership: owner’s funds and borrowed funds.",
+        "Classified by source: internal and external."
+      ],
+      "processes": [
+        "Assess financial needs of the business.",
+        "Choose appropriate source based on cost, duration, and control.",
+        "Raise funds through equity, loans, or internal accruals.",
+        "Repay or service the funds as per terms."
+      ],
+      "examples": [
+        "Equity shares: ownership capital raised from public.",
+        "Preference shares: fixed dividend with priority over equity.",
+        "Debentures: long-term loans from investors.",
+        "Retained earnings: profits reinvested in business.",
+        "Trade credit: buying now and paying later to suppliers.",
+        "Bank loans: term loans, cash credit, overdraft."
+      ],
+      "facts": [
+        "Equity shareholders are owners of the company.",
+        "Debenture holders are creditors, not owners.",
+        "Trade credit is a common short-term financing source.",
+        "Retained earnings are the cheapest source of finance."
+      ]
+    },
+    {
+      "topic_name": "PAN Card and Aadhaar Card",
+      "definition": "PAN (Permanent Account Number) is a unique identifier for taxpayers; Aadhaar is a 12-digit unique identity number for residents of India.",
+      "key_points": [
+        "PAN is mandatory for financial transactions above specified limits.",
+        "Aadhaar serves as proof of identity and address.",
+        "Both are used for KYC (Know Your Customer) in financial services.",
+        "Aadhaar facilitates direct benefit transfers and financial inclusion."
+      ],
+      "processes": [
+        "Apply online or through authorized centers.",
+        "Submit proof of identity, address, and photographs.",
+        "Receive unique number after verification.",
+        "Link with bank accounts and other services as required."
+      ],
+      "examples": [
+        "PAN required for opening bank accounts, buying property, or investing.",
+        "Aadhaar used for opening bank accounts, getting SIM cards, and availing subsidies.",
+        "Quoting PAN for deposits above ₹50,000 or foreign travel above ₹25,000."
+      ],
+      "facts": [
+        "PAN is a 10-digit alphanumeric number issued by Income Tax Department.",
+        "Aadhaar is issued by UIDAI (Unique Identification Authority of India).",
+        "Having more than one PAN is illegal.",
+        "Aadhaar is voluntary, not mandatory for all services."
+      ]
+    },
+    {
+      "topic_name": "Grievance Redressal in Insurance",
+      "definition": "Mechanisms available to policyholders to resolve complaints against insurance companies or intermediaries.",
+      "key_points": [
+        "First approach the insurer's Grievance Redressal Officer.",
+        "If unresolved within 15 days, escalate to IRDAI.",
+        "IRDAI facilitates resolution but does not adjudicate.",
+        "Multiple channels: call center, email, online portal, post."
+      ],
+      "processes": [
+        "File written complaint with insurer with supporting documents.",
+        "Insurer must resolve within 15 days.",
+        "If unsatisfied, register complaint with IRDAI via IGMS.",
+        "IRDAI follows up with insurer for resolution."
+      ],
+      "examples": [
+        "Complaint about delay in claim settlement.",
+        "Dispute over policy terms or premium.",
+        "Mis-selling by insurance agent.",
+        "Unauthorized charges or policy changes."
+      ],
+      "facts": [
+        "IRDAI toll-free number: 155255.",
+        "IGMS: Integrated Grievance Management System.",
+        "IRDAI (Protection of Policyholders’ Interests) Regulations, 2002 govern the process.",
+        "IRDAI monitors but does not investigate individual complaints."
+      ]
+    },
+    {
+      "topic_name": "Credit Cards and Debit Cards",
+      "definition": "Credit cards allow borrowing money up to a limit for purchases; debit cards allow spending money directly from bank accounts.",
+      "key_points": [
+        "Credit cards involve borrowing with interest if not repaid fully.",
+        "Debit cards deduct funds immediately from linked account.",
+        "Both offer convenience and security over cash.",
+        "Credit cards offer rewards, but can lead to debt if misused."
+      ],
+      "processes": [
+        "Apply to bank with income and credit history proof.",
+        "Receive card with credit limit (credit card) or linked to account (debit card).",
+        "Use for purchases online/offline by entering PIN/OTP.",
+        "Repay credit card bill by due date to avoid interest."
+      ],
+      "examples": [
+        "Credit card: buy now, pay later with interest on outstanding.",
+        "Debit card: withdraw cash from ATM or pay at merchant outlets.",
+        "Online shopping using card details and CVV.",
+        "Credit card statement shows transactions, due amount, minimum due, and due date."
+      ],
+      "facts": [
+        "Credit cards have high interest rates (often 24–36% p.a.).",
+        "Debit cards do not allow spending beyond account balance.",
+        "CVV (Card Verification Value) is a 3-digit security code.",
+        "Lost/stolen cards should be blocked immediately to prevent fraud."
+      ]
+    },
+    {
+      "topic_name": "Risk and Insurance",
+      "definition": "Risk is uncertainty of loss; insurance is a mechanism to transfer financial impact of risk to an insurer in exchange for premium.",
+      "key_points": [
+        "Insurance works on pooling of risks and law of large numbers.",
+        "Premiums are calculated based on probability and severity of loss.",
+        "Insurance provides financial security and peace of mind.",
+        "Cannot prevent risk, but compensates financial loss."
+      ],
+      "processes": [
+        "Identify risks to life, health, property, etc.",
+        "Choose suitable insurance policy.",
+        "Pay premium regularly.",
+        "File claim with documents when loss occurs.",
+        "Insurer assesses and pays claim if valid."
+      ],
+      "examples": [
+        "Life insurance pays nominee on death of insured.",
+        "Health insurance covers hospitalization costs.",
+        "Car insurance pays for accident repairs or theft.",
+        "Home insurance covers damage from fire, natural disasters."
+      ],
+      "facts": [
+        "Insurance penetration in India is low compared to global average.",
+        "Group insurance is cheaper than individual policies.",
+        "Peril is the event causing loss (e.g., fire, accident).",
+        "Policyholder is the person who owns the insurance policy."
+      ]
+    },
+    {
+      "topic_name": "Reserve Bank of India (RBI)",
+      "definition": "The central bank of India, responsible for monetary policy, currency issue, banking regulation, and financial stability.",
+      "key_points": [
+        "Issuer of currency (except ₹1 notes and coins).",
+        "Banker to government and banks.",
+        "Regulator of banking and payment systems.",
+        "Controller of credit and inflation through monetary policy."
+      ],
+      "processes": [
+        "Formulates and implements monetary policy.",
+        "Supervises banks for compliance and stability.",
+        "Manages foreign exchange reserves.",
+        "Acts as lender of last resort to banks."
+      ],
+      "examples": [
+        "RBI increases repo rate to control inflation.",
+        "Sets CRR and SLR for banks.",
+        "Withdraws old currency notes from circulation.",
+        "Regulates digital payments like UPI, NEFT, RTGS."
+      ],
+      "facts": [
+        "Established on April 1, 1935; nationalized in 1949.",
+        "Headed by a Governor appointed by Government of India.",
+        "Monetary Policy Committee decides interest rates.",
+        "RBI ensures financial inclusion through schemes like PMJDY."
+      ]
+    },
+    {
+      "topic_name": "Budgeting",
+      "definition": "Planning of income and expenses over a period to ensure financial stability, savings, and goal achievement.",
+      "key_points": [
+        "Helps track income, expenses, and savings.",
+        "Differentiates between needs and wants.",
+        "Enables prioritization of spending and goal-setting.",
+        "Prevents overspending and debt accumulation."
+      ],
+      "processes": [
+        "List all sources of income.",
+        "Categorize expenses: fixed, variable, discretionary.",
+        "Allocate funds for savings and investments.",
+        "Monitor actual spending against budget and adjust."
+      ],
+      "examples": [
+        "Monthly household budget covering rent, food, utilities, education, entertainment.",
+        "Personal budget for student’s pocket money.",
+        "Business budget for revenues, costs, and profits.",
+        "Event budget for wedding or travel."
+      ],
+      "facts": [
+        "Budget should be realistic and flexible.",
+        "Emergency fund should be part of budget.",
+        "Budgeting tools: spreadsheets, apps, envelopes system.",
+        "Review budget regularly to stay on track."
+      ]
+    },
+    {
+      "topic_name": "Types of Loans",
+      "definition": "Borrowed funds provided by banks or financial institutions for specific purposes, to be repaid with interest.",
+      "key_points": [
+        "Loans can be secured (against collateral) or unsecured.",
+        "Interest rates vary based on type, tenure, and borrower profile.",
+        "Repayment is through EMIs (Equated Monthly Installments).",
+        "Default affects credit score and may lead to asset seizure."
+      ],
+      "processes": [
+        "Apply with loan application form and documents.",
+        "Bank checks credit history via CIBIL score.",
+        "Sanction and disbursement after verification.",
+        "Repay through EMIs over loan tenure."
+      ],
+      "examples": [
+        "Home loan: for buying/constructing house.",
+        "Personal loan: for weddings, travel, medical needs.",
+        "Education loan: for studies in India/abroad.",
+        "Vehicle loan: for car, bike, commercial vehicle.",
+        "Gold loan: against gold ornaments.",
+        "Agricultural loan: for crops, equipment, irrigation."
+      ],
+      "facts": [
+        "CIBIL score ranges from 300 to 900; higher is better.",
+        "Overdraft allows withdrawing more than account balance up to limit.",
+        "Collateral is asset pledged against loan (e.g., property, gold).",
+        "Loan eligibility depends on income, age, employment, and credit history."
+      ]
+    },
+    {
+      "topic_name": "Inflation",
+      "definition": "A sustained increase in the general price level of goods and services in an economy over time, reducing purchasing power.",
+      "key_points": [
+        "Measured by indices: WPI (Wholesale Price Index) and CPI (Consumer Price Index).",
+        "Causes: demand-pull, cost-push, supply shocks.",
+        "Effects: reduces real income, erodes savings, impacts fixed-income groups.",
+        "Controlled by monetary policy (RBI) and fiscal policy (government)."
+      ],
+      "processes": [
+        "RBI monitors inflation data.",
+        "Uses tools like repo rate, CRR, SLR to control money supply.",
+        "Government adjusts taxes and spending to manage demand.",
+        "Supply-side measures: improve production, reduce bottlenecks."
+      ],
+      "examples": [
+        "Demand-pull inflation: too much money chasing too few goods.",
+        "Cost-push inflation: rise in oil prices increasing transport costs.",
+        "Supply shock: crop failure raising food prices.",
+        "Hyperinflation: extremely high and accelerating inflation (rare)."
+      ],
+      "facts": [
+        "Inflation target in India: 4% with ±2% tolerance.",
+        "CPI includes food, fuel, housing, clothing, etc.",
+        "Deflation is fall in general price level, can harm economy.",
+        "Inflation indexed bonds protect investors from inflation."
+      ]
+    }
+  ]
+}

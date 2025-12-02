@@ -37,28 +37,34 @@ class GamificationAgent:
         try:
             # Get current gamification data
             gamif_data = await self.mcp_client.get_gamification_data(user_id)
+            print(f"🔍 DEBUG: Current gamification data: {gamif_data}")
             
             # Calculate points earned
             points_for_correct = quiz_result.score * config.gamification.points_per_correct
             completion_bonus = config.gamification.points_per_quiz
             total_points_earned = points_for_correct + completion_bonus
+            print(f"💰 DEBUG: Points calculation: {quiz_result.score} correct × {config.gamification.points_per_correct} + {completion_bonus} bonus = {total_points_earned} points")
             
             # Update points
             old_total = gamif_data.total_points
             new_total = old_total + total_points_earned
+            print(f"📊 DEBUG: Points update: {old_total} + {total_points_earned} = {new_total}")
             
             # Check for level up
             old_level = config.get_level_for_points(old_total)
             new_level = config.get_level_for_points(new_total)
             level_up = old_level["name"] != new_level["name"]
+            print(f"🏆 DEBUG: Level: {old_level['name']} → {new_level['name']} (level_up: {level_up})")
             
             # Update streak
             new_streak = self._calculate_streak(gamif_data)
+            print(f"🔥 DEBUG: Streak: {gamif_data.streak_days} → {new_streak}")
             
             # Check for new badges
             new_badges = await self._check_new_badges(
                 user_id, gamif_data, quiz_result, new_streak, concept
             )
+            print(f"🎖️ DEBUG: New badges: {new_badges}")
             
             # Update gamification data
             gamif_data.total_points = new_total
@@ -75,8 +81,11 @@ class GamificationAgent:
                 if badge_id not in gamif_data.badges:
                     gamif_data.badges.append(badge_id)
             
+            print(f"✅ DEBUG: Updated gamification data: points={gamif_data.total_points}, level={gamif_data.level}, quizzes={gamif_data.quizzes_completed}, streak={gamif_data.streak_days}, perfect={gamif_data.perfect_scores}")
+            
             # Save updated data
-            await self.mcp_client.update_gamification_data(user_id, gamif_data)
+            update_result = await self.mcp_client.update_gamification_data(user_id, gamif_data)
+            print(f"💾 DEBUG: Update result: {update_result}")
             
             return {
                 "points_earned": total_points_earned,

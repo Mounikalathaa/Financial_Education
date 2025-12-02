@@ -55,6 +55,7 @@ class RAGService:
         self, 
         concept: str, 
         difficulty: str,
+        age: Optional[int] = None,
         top_k: Optional[int] = None
     ) -> str:
         """
@@ -63,6 +64,7 @@ class RAGService:
         Args:
             concept: Financial concept to retrieve knowledge for
             difficulty: Difficulty level
+            age: User age for class-based filtering
             top_k: Number of documents to retrieve
             
         Returns:
@@ -70,15 +72,21 @@ class RAGService:
         """
         top_k = top_k or config.vector_store.top_k
         
-        logger.info(f"Retrieving knowledge for concept: {concept}, difficulty: {difficulty}")
+        logger.info(f"Retrieving knowledge for concept: {concept}, difficulty: {difficulty}, age: {age}")
         
         if not self.documents:
             logger.warning("No documents in index, returning default knowledge")
             return self._get_default_knowledge(concept, difficulty)
         
         try:
-            # Create query
-            query = f"{concept} {difficulty} financial education for children"
+            # Determine class level based on age
+            class_level = self._get_class_level_for_age(age) if age else None
+            
+            # Create query with class information
+            if class_level:
+                query = f"{concept} {difficulty} financial education class {class_level} for children"
+            else:
+                query = f"{concept} {difficulty} financial education for children"
             
             # Generate query embedding
             query_embedding = self.embedding_model.encode([query])[0]
@@ -153,6 +161,21 @@ class RAGService:
         except Exception as e:
             logger.error(f"Error saving index: {str(e)}")
             raise
+    
+    def _get_class_level_for_age(self, age: int) -> Optional[int]:
+        """Map age to appropriate class level."""
+        # Approximate mapping: Age 11-12 → Class 6, Age 13-14 → Class 7, etc.
+        if age <= 11:
+            return 6
+        elif age <= 12:
+            return 7
+        elif age <= 13:
+            return 8
+        elif age <= 14:
+            return 9
+        elif age >= 15:
+            return 10
+        return None
     
     def _get_default_knowledge(self, concept: str, difficulty: str) -> str:
         """Return default knowledge when index is empty."""

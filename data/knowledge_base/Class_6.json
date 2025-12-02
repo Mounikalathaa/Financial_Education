@@ -1,0 +1,232 @@
+{
+  "class": "6",
+  "resource_type": "financial_education_knowledge_base",
+  "topics": [
+    {
+      "topic_name": "Barter System",
+      "definition": "The barter system is the exchange of goods and services without the use of money.",
+      "key_points": [
+        "People exchanged goods directly based on mutual needs.",
+        "System depended on double coincidence of wants.",
+        "Difficulties included indivisibility of goods, storage problems, mismatch of needs, and inability to compare value."
+      ],
+      "processes": [
+        "Person A offers goods or services to Person B.",
+        "Person B must want exactly what Person A offers at that time.",
+        "Both parties must possess something the other wants simultaneously."
+      ],
+      "examples": [
+        "Farmer giving grains to tailor in exchange for stitched clothes.",
+        "Cobbler giving shoes to weaver in exchange for cloth.",
+        "Direct exchange of perishable goods like fruits and vegetables."
+      ],
+      "facts": [
+        "Barter economy existed before money was invented.",
+        "Double coincidence of wants is a core limitation of barter.",
+        "Perishable goods made long-term barter impractical."
+      ]
+    },
+    {
+      "topic_name": "Evolution of Money",
+      "definition": "Money is a medium of exchange that replaced barter due to difficulties in direct exchange.",
+      "key_points": [
+        "First coins were made of gold and silver around the 6th century BC.",
+        "Sher Shah Suri introduced the silver coin 'Rupiya' (178 grains).",
+        "Paper money was issued by banks (e.g., Bank of Hindustan between 1770–1832).",
+        "Modern currency in India is issued by the Reserve Bank of India (RBI)."
+      ],
+      "processes": [
+        "Discovery and use of metals → minting coins with fixed weight and value.",
+        "Introduction of paper money by banks for easier large-value transactions.",
+        "Government or central bank issuing standardized currency for national use."
+      ],
+      "examples": [
+        "Mauryan period copper/silver/gold coins.",
+        "Rupiya introduced by Sher Shah Suri.",
+        "Post-independence RBI issuing notes and coins for India."
+      ],
+      "facts": [
+        "Coins fixed the problem of value comparison present in barter.",
+        "Paper money simplified high-value and long-distance trade.",
+        "Different countries have different currencies and currency symbols."
+      ]
+    },
+    {
+      "topic_name": "Needs and Wants",
+      "definition": "Needs are essentials required for survival; wants are items that make life more comfortable but are not essential.",
+      "key_points": [
+        "Needs include food, water, shelter and basic clothing.",
+        "Wants include toys, entertainment, luxury items.",
+        "What is a need or want can depend on context (e.g., sports gear for a player)."
+      ],
+      "processes": [
+        "Identify immediate and future requirements.",
+        "Classify items as needs or wants based on essentiality.",
+        "Prioritise needs in budgeting before wants."
+      ],
+      "examples": [
+        "Need: drinking water, shelter; Want: video games, movie outings.",
+        "A costly cricket bat is a want for casual players but a need for a school team member."
+      ],
+      "facts": [
+        "Differentiating needs and wants helps in financial planning.",
+        "Overspending on wants reduces the ability to save for needs."
+      ]
+    },
+    {
+      "topic_name": "Bill and Cash Memo",
+      "definition": "A bill (cash memo/receipt) is a legal document recording the transaction between seller and buyer.",
+      "key_points": [
+        "Bills record date, item descriptions, quantities, unit price, taxes, total amount and seller contact details.",
+        "Bills are important for legal complaints, returns, and warranty claims.",
+        "Asking for a bill protects consumer rights."
+      ],
+      "processes": [
+        "Seller records transaction details at point of sale.",
+        "Bill is printed or issued to buyer as proof of purchase.",
+        "Buyer retains bill for future complaints or returns."
+      ],
+      "examples": [
+        "Grocery store receipts, restaurant bills, cinema tickets, train tickets.",
+        "Bills from roadside vendors, shops, and service providers."
+      ],
+      "facts": [
+        "Without a bill, buyers may lose legal recourse for defective goods.",
+        "Studying bills helps consumers track indirect taxes like VAT or GST."
+      ]
+    },
+    {
+      "topic_name": "Trade",
+      "definition": "Trade is the transfer of ownership of goods and services from one person or entity to another, usually in exchange for money or other goods.",
+      "key_points": [
+        "Trade can be domestic (within a country) or foreign (between countries).",
+        "Trade increases the variety of goods available to consumers.",
+        "Trade occurs because regions or countries have different resources and costs of production."
+      ],
+      "processes": [
+        "Producer or seller supplies goods/services.",
+        "Buyer purchases or exchanges value for goods/services.",
+        "In foreign trade, cross-border transactions and customs procedures apply."
+      ],
+      "examples": [
+        "Domestic trade: A shop in Delhi selling clothes sourced from Mumbai.",
+        "Foreign trade: India importing sugar from another country."
+      ],
+      "facts": [
+        "Domestic trade happens within national boundaries; foreign trade crosses borders.",
+        "Trade can improve overall welfare by allowing specialisation."
+      ]
+    },
+    {
+      "topic_name": "Benefits of Trade",
+      "definition": "Trade enables regions or countries to specialise and exchange goods, leading to better allocation of resources and improved access to varied goods.",
+      "key_points": [
+        "Opportunity cost influences decisions about what to produce or trade.",
+        "Specialisation allows producing goods more efficiently.",
+        "Comparative advantage leads to mutually beneficial trade."
+      ],
+      "processes": [
+        "Identify goods with low opportunity cost for production.",
+        "Specialise in those goods to maximise output.",
+        "Trade specialised goods for items produced efficiently by others."
+      ],
+      "examples": [
+        "Island A with abundant coconuts trading with Island B that has bananas.",
+        "Countries exporting technology and importing agricultural products."
+      ],
+      "facts": [
+        "Trade reduces cost and increases variety of goods.",
+        "Specialisation and comparative advantage are key drivers of beneficial trade."
+      ]
+    },
+    {
+      "topic_name": "Budgeting and Saving",
+      "definition": "Budgeting is planning income and expenses; saving is setting aside part of income for future needs.",
+      "key_points": [
+        "Budgeting helps manage limited resources.",
+        "Saving consistently over time increases financial security.",
+        "Tracking expenses reveals areas to cut spending and increase savings."
+      ],
+      "processes": [
+        "List all incomes and expected expenses for a period.",
+        "Allocate amounts for needs, wants, and savings.",
+        "Monitor actual spending and adjust the budget regularly."
+      ],
+      "examples": [
+        "Child sets aside part of pocket money in a piggy bank each week.",
+        "Saving for a yearly purchase like a violin or school trip."
+      ],
+      "facts": [
+        "Regular small savings compound into meaningful amounts over time.",
+        "A budget prevents overspending and ensures essential needs are met first."
+      ]
+    },
+    {
+      "topic_name": "Stories with Financial Lessons",
+      "definition": "Narrative stories used in the book to teach financial lessons like saving, budgeting, and planning.",
+      "key_points": [
+        "Stories simplify and contextualise financial concepts for children.",
+        "They convey morals like discipline in saving and importance of planning."
+      ],
+      "processes": [
+        "Present a relatable character with financial challenge.",
+        "Show steps that character takes to handle money (budgeting/saving).",
+        "Demonstrate the positive outcome of good financial habits."
+      ],
+      "examples": [
+        "Radha and the Frog: Radha learns budgeting and saving from a frog-turned-teacher.",
+        "Grandfather's Coins: Medha saves weekly coins and later buys a violin."
+      ],
+      "facts": [
+        "Stories encourage children to adopt saving habits.",
+        "Using narratives helps in retention of financial concepts."
+      ]
+    },
+    {
+      "topic_name": "Taxation",
+      "definition": "Taxation is the process by which government collects money from citizens and businesses to fund public services and infrastructure.",
+      "key_points": [
+        "Taxes finance roads, hospitals, schools and public services.",
+        "Taxes are of two main types: direct and indirect.",
+        "GST (Goods and Services Tax) unified indirect taxes across India."
+      ],
+      "processes": [
+        "Government sets tax laws and rates.",
+        "Businesses collect indirect taxes (like GST) from consumers at point of sale.",
+        "Collected taxes are remitted to government and used for public expenditure."
+      ],
+      "examples": [
+        "Income tax paid by salaried individuals (direct tax).",
+        "GST on a restaurant bill (indirect tax).",
+        "Cess applied on certain luxury goods."
+      ],
+      "facts": [
+        "GST rates include 0%, 5%, 12%, 18% and 28%.",
+        "Indirect tax burden is often passed on to the consumer.",
+        "Direct taxes are borne by individuals or entities on whom they are imposed."
+      ]
+    },
+    {
+      "topic_name": "Money Growth and Savings Data (Sunny & Bobby Example)",
+      "definition": "Comparative illustration showing how consistent saving behavior leads to higher accumulated savings.",
+      "key_points": [
+        "Consistent saving yields higher end balance than intermittent saving.",
+        "Tracking monthly pocket money, expenses, and savings reveals habits.",
+        "Short-term lapses in saving can significantly reduce long-term accumulation."
+      ],
+      "processes": [
+        "Record monthly pocket money and expenses.",
+        "Compute monthly savings as pocket money minus expenses.",
+        "Accumulate monthly savings across the year to get total savings."
+      ],
+      "examples": [
+        "Sunny saved regularly for 12 months; Bobby stopped saving after five months — Sunny accumulated more savings overall.",
+        "Monthly table comparing pocket money, expenses and savings for each child."
+      ],
+      "facts": [
+        "Regular monthly saving builds a higher final balance.",
+        "Small monthly contributions add up over time to significant sums."
+      ]
+    }
+  ]
+}

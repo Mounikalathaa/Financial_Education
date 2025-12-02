@@ -25,6 +25,11 @@ vector_store:
   metadata_path: "./data/vector_store/metadata.pkl"
   top_k: 5
 
+# Knowledge Base Configuration
+knowledge_base:
+  directory: "./data/knowledge_base"
+  file_pattern: "Class_*.json"
+
 # MCP Server Configuration
 mcp:
   base_url: "http://localhost:8000"
@@ -121,6 +126,26 @@ financial_concepts:
     name: "Risk & Reward"
     description: "Understanding financial risks and rewards"
     difficulty_levels: ["intermediate", "advanced"]
+  - id: "money_basics"
+    name: "Money & Trade Basics"
+    description: "Barter system, evolution of money, and trade"
+    difficulty_levels: ["beginner", "intermediate"]
+  - id: "borrowing"
+    name: "Borrowing & Credit"
+    description: "Understanding loans, borrowing, and credit"
+    difficulty_levels: ["intermediate", "advanced"]
+  - id: "banking"
+    name: "Banking & Financial Institutions"
+    description: "Understanding banks, RBI, and financial systems"
+    difficulty_levels: ["intermediate", "advanced"]
+  - id: "taxation"
+    name: "Taxation"
+    description: "Understanding taxes and their role in society"
+    difficulty_levels: ["intermediate", "advanced"]
+  - id: "general_finance"
+    name: "General Financial Literacy"
+    description: "Various financial topics and concepts"
+    difficulty_levels: ["beginner", "intermediate", "advanced"]
 
 # Logging Configuration
 logging:

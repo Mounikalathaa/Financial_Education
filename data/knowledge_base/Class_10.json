@@ -1,0 +1,360 @@
+{
+  "class": "10",
+  "resource_type": "financial_education_knowledge_base",
+  "topics": [
+    {
+      "topic_name": "Electronic Commerce (e-Commerce)",
+      "definition": "A business model that enables firms or individuals to conduct business over electronic networks, typically the internet, replacing traditional mail-order purchasing.",
+      "key_points": [
+        "Allows buying and selling of goods/services online.",
+        "Includes retail stores, auction sites, banking services, ticket booking platforms.",
+        "Provides convenience but requires safety precautions."
+      ],
+      "processes": [
+        "Customer visits an e-commerce website.",
+        "Selects product/service and adds to cart.",
+        "Proceeds to checkout, makes payment via digital means.",
+        "Product is delivered to the customer's address."
+      ],
+      "examples": [
+        "www.bookadda.com – online bookstore",
+        "www.ebay.in – auction site",
+        "IRCTC – railway ticket booking"
+      ],
+      "facts": [
+        "E-commerce reduces geographical barriers.",
+        "Payment methods include credit/debit cards, net banking, digital wallets.",
+        "Risks include data theft, fraud, and misuse of card details."
+      ]
+    },
+    {
+      "topic_name": "E-Commerce Safety & Precautions",
+      "definition": "Guidelines to protect users from online fraud and data theft while transacting on e-commerce platforms.",
+      "key_points": [
+        "Use credit cards with low borrowing limits for online transactions.",
+        "Check for secure websites (https:// and lock icon).",
+        "Avoid public computers for financial transactions.",
+        "Keep records of all online transactions."
+      ],
+      "processes": [
+        "Verify website authenticity before entering personal/financial details.",
+        "Never share PIN, CVV, or OTP with anyone.",
+        "Regularly monitor bank statements for unauthorized transactions."
+      ],
+      "examples": [
+        "Checking privacy policy before shopping.",
+        "Memorizing CVV and erasing it from the card.",
+        "Using antivirus and firewall on personal devices."
+      ],
+      "facts": [
+        "Banks never ask for card details via email.",
+        "Lottery winning emails are usually scams.",
+        "Data leakage can occur through malware or phishing."
+      ]
+    },
+    {
+      "topic_name": "Financial Regulatory Bodies in India",
+      "definition": "Independent institutions established to regulate different segments of the financial system in India.",
+      "key_points": [
+        "Reserve Bank of India (RBI) – regulates banking and monetary policy.",
+        "Securities and Exchange Board of India (SEBI) – regulates securities and commodities markets.",
+        "Insurance Regulatory and Development Authority of India (IRDAI) – regulates insurance sector.",
+        "Pension Fund Regulatory and Development Authority (PFRDA) – regulates pension sector."
+      ],
+      "processes": [
+        "RBI issues currency, acts as banker to government and banks, controls credit.",
+        "SEBI protects investor interests, promotes market development.",
+        "IRDAI ensures orderly growth of insurance sector.",
+        "PFRDA develops and regulates pension schemes like NPS."
+      ],
+      "examples": [
+        "RBI head office – Mumbai",
+        "SEBI established – 1988 as administrative body, 1992 as statutory body",
+        "IRDAI head office – Hyderabad"
+      ],
+      "facts": [
+        "RBI was nationalized in 1949.",
+        "SEBI’s primary mandate is investor protection.",
+        "PFRDA was given statutory status in 2013."
+      ]
+    },
+    {
+      "topic_name": "Information Technology in Insurance",
+      "definition": "Use of IT and digital platforms to enhance insurance services, distribution, claim processing, and customer support.",
+      "key_points": [
+        "Enables online policy purchase, premium payment, and claim settlement.",
+        "Supports new distribution channels like tele-marketing, web aggregators.",
+        "Facilitates e-policies and insurance repositories."
+      ],
+      "processes": [
+        "Customer compares policies online via web aggregators.",
+        "Pays premium digitally, receives e-policy in demat form.",
+        "Cashless claim settlement in network hospitals.",
+        "Grievances lodged and tracked via Integrated Grievance Management System (IGMS)."
+      ],
+      "examples": [
+        "Weather insurance for crops using weather data mapping.",
+        "IRDAI’s mobile app for comparing ULIPs.",
+        "V-Seva by Insurance Information Bureau (IIB) for vehicle insurance info."
+      ],
+      "facts": [
+        "e-Policies eliminate paper and reduce storage risks.",
+        "Call centers and SMS services enhance customer support.",
+        "Online sales reduce commission costs, lowering premiums."
+      ]
+    },
+    {
+      "topic_name": "Insurance Ombudsman",
+      "definition": "A grievance redressal mechanism for individual policyholders to resolve complaints against insurers out of court, in a cost-effective and impartial manner.",
+      "key_points": [
+        "Handles complaints related to claim repudiation, premium disputes, delays, etc.",
+        "Complaint value must not exceed ₹20 lakh.",
+        "Ombudsman can give recommendations or awards."
+      ],
+      "processes": [
+        "Policyholder approaches insurer first.",
+        "If unresolved in 30 days, complaint can be filed with Ombudsman.",
+        "Ombudsman acts as mediator; if mediation fails, passes an award within 3 months."
+      ],
+      "examples": [
+        "12 Ombudsman centers across India (Ahmedabad, Mumbai, Delhi, etc.).",
+        "Complaints about non-issuance of policy documents after premium payment."
+      ],
+      "facts": [
+        "Award is binding on insurer but not on policyholder.",
+        "Policyholder can still approach Consumer Forum or court.",
+        "IRDAI does not act as appellate authority over Ombudsman decisions."
+      ]
+    },
+    {
+      "topic_name": "Commodity Futures Market",
+      "definition": "A market where contracts for future delivery of commodities are traded, helping manage price risks and discover future prices.",
+      "key_points": [
+        "Includes ready delivery contracts (within 11 days) and forward contracts (beyond 11 days).",
+        "Regulated by SEBI under Forward Contracts (Regulation) Act, 1952.",
+        "Participants: hedgers, speculators, arbitrageurs."
+      ],
+      "processes": [
+        "Farmers/producers use futures to lock in prices.",
+        "Contracts traded on commodity exchanges (like MCX).",
+        "Settlement occurs on a future date at predetermined price."
+      ],
+      "examples": [
+        "Trading in gold, silver, crude oil, agricultural produce.",
+        "Hedgers: farmers, exporters; Speculators: traders seeking profit."
+      ],
+      "facts": [
+        "Helps in price discovery and price risk management.",
+        "Reduces impact of seasonal price fluctuations.",
+        "113 commodities currently allowed for futures trading in India."
+      ]
+    },
+    {
+      "topic_name": "Economic Depression & Recession",
+      "definition": "Recession is a decline in economic activity; depression is a severe and prolonged recession.",
+      "key_points": [
+        "Recession: two or more quarters of negative GDP growth.",
+        "Characteristics: fall in GDP, industrial output, employment, spending.",
+        "Business cycle includes expansion and recession phases."
+      ],
+      "processes": [
+        "Economy expands: GDP, employment, incomes rise.",
+        "Economy contracts: GDP falls, unemployment increases.",
+        "Recovery phase follows trough of business cycle."
+      ],
+      "examples": [
+        "Global Depression of 1930s.",
+        "Recession of 2008–2009."
+      ],
+      "facts": [
+        "Per capita GDP measures standard of living.",
+        "Unemployment rises during recession.",
+        "Government policies aim to stimulate economy during downturns."
+      ]
+    },
+    {
+      "topic_name": "Investing in Shares",
+      "definition": "Buying ownership stakes in companies through equity shares, enabling participation in profits and growth.",
+      "key_points": [
+        "Face value: nominal value of share.",
+        "Market value: current trading price.",
+        "Dividend: share of profit distributed to shareholders."
+      ],
+      "processes": [
+        "Company issues shares to raise capital.",
+        "Shares traded on stock exchanges (BSE/NSE).",
+        "Investors buy/shares through brokers."
+      ],
+      "examples": [
+        "IPO: Initial Public Offering – first sale of shares to public.",
+        "Buying shares of Reliance, TCS, etc."
+      ],
+      "facts": [
+        "Premium: when market price > face value.",
+        "Discount: when market price < face value.",
+        "Shareholders have voting rights in company decisions."
+      ]
+    },
+    {
+      "topic_name": "Benefits of Insurance",
+      "definition": "Insurance provides financial protection against risks to life, health, property, and assets.",
+      "key_points": [
+        "Protects individuals and families from financial loss.",
+        "Promotes savings and long-term financial planning.",
+        "Supports economic growth by providing capital for infrastructure."
+      ],
+      "processes": [
+        "Policyholder pays premium to insurer.",
+        "Insurer pools premiums to cover claims of affected policyholders.",
+        "Claim is paid out on occurrence of insured event."
+      ],
+      "examples": [
+        "Life insurance, health insurance, motor insurance, crop insurance.",
+        "Loan-linked insurance (home loan, vehicle loan)."
+      ],
+      "facts": [
+        "Insurance is based on risk pooling and risk transfer.",
+        "Different from banking: insurance covers risk, banking deals with lending/borrowing.",
+        "Insurers invest premiums in long-term projects."
+      ]
+    },
+    {
+      "topic_name": "Stock Market Investing",
+      "definition": "Process of buying and selling shares and other securities through stock exchanges.",
+      "key_points": [
+        "Requires trading and demat accounts.",
+        "Diversification reduces risk.",
+        "Brokers facilitate transactions for a fee."
+      ],
+      "processes": [
+        "Open demat and trading accounts with SEBI-registered entities.",
+        "Transfer funds, place buy/sell orders.",
+        "Shares held electronically in demat account."
+      ],
+      "examples": [
+        "Demat account with NSDL or CDSL.",
+        "Trading via Zerodha, ICICI Direct, etc."
+      ],
+      "facts": [
+        "Demat account can have multiple holders, zero balance.",
+        "No account opening charges for basic demat accounts.",
+        "Investing in single company is risky."
+      ]
+    },
+    {
+      "topic_name": "Stock Exchange & Economy",
+      "definition": "Stock exchanges are platforms for trading securities and play a key role in economic development.",
+      "key_points": [
+        "Provide liquidity and price discovery.",
+        "Help companies raise capital for expansion.",
+        "Act as barometer of economic health."
+      ],
+      "processes": [
+        "Companies list shares to raise funds.",
+        "Investors buy shares, providing capital to companies.",
+        "Stock indices (Sensex, Nifty) reflect market trends."
+      ],
+      "examples": [
+        "BSE (Bombay Stock Exchange) – oldest in Asia.",
+        "NSE (National Stock Exchange) – electronic trading pioneer."
+      ],
+      "facts": [
+        "SEBI regulates all stock exchanges in India.",
+        "Stock exchanges ensure transparency and investor protection.",
+        "They mobilize savings for productive investments."
+      ]
+    },
+    {
+      "topic_name": "Goods and Services Tax (GST)",
+      "definition": "A unified indirect tax levied on supply of goods and services across India, replacing multiple central and state taxes.",
+      "key_points": [
+        "Dual GST: CGST (Central) and SGST (State).",
+        "IGST on inter-state supplies.",
+        "Aims to remove cascading effect of taxes."
+      ],
+      "processes": [
+        "Tax levied at each stage of value addition.",
+        "Input tax credit available at subsequent stages.",
+        "Final consumer bears only last-stage GST."
+      ],
+      "examples": [
+        "GST rates: 0%, 5%, 12%, 18%, 28%.",
+        "Exempted: alcohol, petroleum products (temporarily)."
+      ],
+      "facts": [
+        "Implemented on July 1, 2017.",
+        "Improves ease of doing business and tax compliance.",
+        "Reduces overall tax burden on consumers."
+      ]
+    },
+    {
+      "topic_name": "SEBI Grievance Redressal (SCORES)",
+      "definition": "SEBI Complaint Redress System – an online platform for investors to lodge complaints against listed companies or market intermediaries.",
+      "key_points": [
+        "Centralized web-based system.",
+        "Complaints forwarded to concerned entity for resolution.",
+        "Entities must respond within 30 days."
+      ],
+      "processes": [
+        "Investor files complaint on SCORES portal.",
+        "SEBI validates and forwards to entity.",
+        "Entity replies and files action taken report."
+      ],
+      "examples": [
+        "Complaints against brokers, depositories, listed companies.",
+        "Non-payment of dividends, transfer delays."
+      ],
+      "facts": [
+        "SCORES ensures time-bound grievance resolution.",
+        "Investor can track complaint status online.",
+        "Stock exchanges must resolve disputes within 15 days."
+      ]
+    },
+    {
+      "topic_name": "Pension & Retirement Planning",
+      "definition": "Systematic saving and investment to ensure financial security after retirement.",
+      "key_points": [
+        "Pension provides regular post-retirement income.",
+        "Types: Defined Benefit (DB) and Defined Contribution (DC).",
+        "National Pension System (NPS) is a voluntary, long-term scheme."
+      ],
+      "processes": [
+        "Estimate retirement corpus needed.",
+        "Choose pension plan (NPS, Atal Pension Yojana, etc.).",
+        "Contribute regularly during working years."
+      ],
+      "examples": [
+        "NPS for government employees (mandatory) and all citizens (voluntary).",
+        "Atal Pension Yojana for unorganized sector workers."
+      ],
+      "facts": [
+        "PFRDA regulates pension sector.",
+        "NPS is portable across jobs and locations.",
+        "Swavalamban Yojana provides co-contribution from government."
+      ]
+    },
+    {
+      "topic_name": "New Pension System (NPS) & Atal Pension Yojana (APY)",
+      "definition": "Government-backed pension schemes to promote old-age income security, especially for unorganized sector workers.",
+      "key_points": [
+        "NPS: voluntary, market-linked, with choice of investment funds.",
+        "APY: guaranteed minimum pension (₹1000–₹5000 per month).",
+        "Both schemes encourage long-term savings."
+      ],
+      "processes": [
+        "Open NPS/APY account through bank or point of presence.",
+        "Make regular contributions.",
+        "Receive pension after age 60."
+      ],
+      "examples": [
+        "APY: minimum age 18, maximum 40; contribution period ≥20 years.",
+        "NPS: Tier I (pension) and Tier II (savings) accounts."
+      ],
+      "facts": [
+        "NPS launched in 2004 for government employees, extended to all in 2009.",
+        "APY launched in 2015.",
+        "Tax benefits available under NPS."
+      ]
+    }
+  ]
+}

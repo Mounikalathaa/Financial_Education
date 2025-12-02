@@ -1,0 +1,272 @@
+{
+  "class": "7",
+  "resource_type": "financial_education_knowledge_base",
+  "topics": [
+    {
+      "topic_name": "Need and Sources of Borrowing",
+      "definition": "Borrowing is taking money from someone else to fill the gap between what we have and what we need.",
+      "key_points": [
+        "Borrowing happens when available money is less than the required amount.",
+        "Internal sources include friends, family, and relatives.",
+        "External sources include banks, NBFCs, moneylenders, and other financial institutions.",
+        "Loans from banks must be repaid with interest.",
+        "Interest is the extra money paid above the principal amount."
+      ],
+      "processes": [
+        "Identify the gap between available money and required money.",
+        "Borrow the deficit amount from an internal or external source.",
+        "Repay the borrowed principal along with interest within the agreed time."
+      ],
+      "examples": [
+        "Karthik borrowing ₹10 from Anil to buy a pen costing ₹30.",
+        "A farmer borrowing money from a bank to purchase a tractor.",
+        "People taking education loans or home loans from banks."
+      ],
+      "facts": [
+        "Interest is usually expressed as a percentage of the principal.",
+        "Banks earn income from interest charged on loans.",
+        "NBFC stands for Non-Banking Financial Company."
+      ]
+    },
+    {
+      "topic_name": "Role and Functions of the RBI",
+      "definition": "The Reserve Bank of India (RBI) is the central bank of the country that regulates all other banks and manages the financial system.",
+      "key_points": [
+        "RBI regulates and supervises all commercial banks.",
+        "It issues currency notes except one-rupee notes and coins.",
+        "RBI manages foreign exchange and controls inflation.",
+        "It formulates monetary policy to maintain financial stability.",
+        "RBI acts as the banker to the government."
+      ],
+      "processes": [
+        "Issuing and circulating currency into the economy.",
+        "Regulating banks through rules, inspections, and guidelines.",
+        "Managing interest rates and monetary policies.",
+        "Ensuring secure and fast payment systems like NEFT and RTGS."
+      ],
+      "examples": [
+        "RBI adjusting repo rate to control inflation.",
+        "RBI issuing guidelines for digital payment security.",
+        "RBI supervising banks through audits and compliance checks."
+      ],
+      "facts": [
+        "RBI was established in 1935.",
+        "Osborne Smith was the first Governor of RBI.",
+        "RBI controls credit flow in the economy."
+      ]
+    },
+    {
+      "topic_name": "Consumer Protection",
+      "definition": "Consumer protection ensures that buyers are treated fairly and have rights against defective goods, unfair practices, and misleading information.",
+      "key_points": [
+        "Consumers have rights to safety, information, choice, and being heard.",
+        "Products must display necessary details like price, expiry date, and instructions.",
+        "Consumers can file complaints against unfair trade practices.",
+        "Quality marks like ISI and AGMARK ensure standard products.",
+        "Forcing a customer to buy a particular brand violates consumer rights."
+      ],
+      "processes": [
+        "Check product labels for price, manufacturing details, and expiry.",
+        "Identify missing information or poor-quality packaging.",
+        "Use consumer forums or helplines to file complaints when rights are violated."
+      ],
+      "examples": [
+        "Buying crackers without safety instructions.",
+        "Shopkeeper refusing to show available brands.",
+        "Goods sold without quality marks."
+      ],
+      "facts": [
+        "Right to be heard allows consumers to raise complaints.",
+        "Consumer courts operate at district, state, and national levels.",
+        "Consumer protection helps ensure safe shopping experiences."
+      ]
+    },
+    {
+      "topic_name": "Introduction to Banking",
+      "definition": "Banking involves accepting deposits and providing loans along with various other financial services.",
+      "key_points": [
+        "Banks accept deposits and give interest to depositors.",
+        "Banks provide loans for purposes like education, business, or buying a house.",
+        "Credit cards allow purchasing without cash but must be repaid later.",
+        "Debit cards allow using one’s own money electronically.",
+        "ATMs allow cash withdrawal and other services anytime."
+      ],
+      "processes": [
+        "Depositing money into a bank account to earn interest.",
+        "Applying for and availing loans for various needs.",
+        "Using ATM cards for cash withdrawal, balance check, and fund transfer.",
+        "Using cheques to instruct banks to pay a certain amount to someone."
+      ],
+      "examples": [
+        "Using a debit card to pay at a store.",
+        "Using an ATM to withdraw cash late at night.",
+        "Issuing a cheque to pay school fees."
+      ],
+      "facts": [
+        "ATM stands for Automated Teller Machine.",
+        "Credit card payments must be made within 30–50 days to avoid interest.",
+        "Cheques are cleared through a clearing house system."
+      ]
+    },
+    {
+      "topic_name": "Banking: Types of Accounts",
+      "definition": "Banks offer different types of accounts based on customer needs such as savings, business transactions, or long-term deposits.",
+      "key_points": [
+        "Current accounts are used for business transactions and do not earn interest.",
+        "Savings accounts encourage savings and earn nominal interest.",
+        "Recurring deposit accounts require monthly deposits for a fixed period.",
+        "Fixed deposit accounts lock money for a fixed time at higher interest.",
+        "Minors above 10 years can operate savings accounts independently."
+      ],
+      "processes": [
+        "Open a bank account by submitting documents and initial deposit.",
+        "Choose the account type based on purpose: saving, business, or investment.",
+        "Deposit and withdraw money based on rules of the chosen account.",
+        "Receive interest on savings, fixed deposits, or recurring deposits."
+      ],
+      "examples": [
+        "Business firm opening a current account.",
+        "Student opening a savings account with no minimum balance.",
+        "Family saving monthly through a recurring deposit.",
+        "One-time investment in a fixed deposit for 2 years."
+      ],
+      "facts": [
+        "FDs range from 7 days to 10 years.",
+        "RDs allow deposits for 6–120 months.",
+        "Savings Bank Deposit Account (Basic) requires zero minimum balance."
+      ]
+    },
+    {
+      "topic_name": "Banking with New Technology",
+      "definition": "Modern banking uses digital systems like RTGS, NEFT, internet banking, and mobile banking for fast, paperless transactions.",
+      "key_points": [
+        "RTGS enables real-time high-value transfers (minimum ₹2 lakh).",
+        "NEFT settles payments in hourly batches with no minimum limit.",
+        "Internet banking allows banking anytime using the internet.",
+        "Mobile banking enables transactions through mobile phones or SMS.",
+        "Digital payments reduce the need to visit bank branches."
+      ],
+      "processes": [
+        "Provide bank details to initiate RTGS/NEFT transfers.",
+        "Register for internet banking to access online services.",
+        "Register for mobile banking or SMS banking for mobile transactions.",
+        "Use secure login and authentication (PIN/OTP) during digital transactions."
+      ],
+      "examples": [
+        "Transferring ₹3 lakh using RTGS.",
+        "Paying bills online using internet banking.",
+        "Checking balance using mobile banking app.",
+        "Receiving money through NEFT from another city."
+      ],
+      "facts": [
+        "RTGS settles each transaction individually in real time.",
+        "NEFT operates in batches and may take a few hours.",
+        "Internet banking is also called e-banking, virtual banking, or web banking."
+      ]
+    },
+    {
+      "topic_name": "Living Within Means",
+      "definition": "Living within means means spending only as much as one can afford, avoiding unnecessary borrowing.",
+      "key_points": [
+        "Debit card uses one’s own money; credit card is borrowing from the issuer.",
+        "Failure to repay credit card dues adds interest and penalties.",
+        "Not understanding credit can lead to heavy debt.",
+        "Buying unnecessary items on credit can cause financial trouble.",
+        "Planning expenses prevents overspending."
+      ],
+      "processes": [
+        "Identify needs versus wants before spending.",
+        "Use debit card for controlled spending.",
+        "Use credit card only when repayment is possible.",
+        "Track monthly expenses and avoid overspending."
+      ],
+      "examples": [
+        "Sneha’s father using a debit card instead of a credit card.",
+        "Interest piling up if credit card dues are not paid.",
+        "Using a budget to plan festival expenses."
+      ],
+      "facts": [
+        "Credit card payments are usually due within 30–50 days.",
+        "Debit card transactions deduct money instantly.",
+        "Overspending leads to debt accumulation."
+      ]
+    },
+    {
+      "topic_name": "The Poor Man's Wealth",
+      "definition": "A story-based lesson highlighting the importance of values, contentment, and financial wisdom.",
+      "key_points": [
+        "Stories teach moral and financial lessons.",
+        "Contentment is more valuable than material wealth.",
+        "Making wise choices helps manage money better.",
+        "Understanding the value of hard work improves financial habits."
+      ],
+      "processes": [
+        "Use storytelling to introduce financial concepts.",
+        "Show how characters make choices about money.",
+        "Draw lessons applicable to real-life financial situations."
+      ],
+      "examples": [
+        "A character in the story choosing needs over wants.",
+        "Learning the value of savings through daily habits."
+      ],
+      "facts": [
+        "Moral stories help children remember financial concepts.",
+        "Financial discipline can be learned through simple everyday decisions."
+      ]
+    },
+    {
+      "topic_name": "Go for Shopping",
+      "definition": "A chapter that teaches how to make smart purchasing decisions and understand transactions while shopping.",
+      "key_points": [
+        "Shopping requires budgeting and planning.",
+        "Consumers should read labels on products.",
+        "Bills help keep track of spending and taxes.",
+        "Payment methods include cash, cards, and digital modes."
+      ],
+      "processes": [
+        "List required items before shopping.",
+        "Compare prices and check expiry dates.",
+        "Ask for a bill after purchase.",
+        "Choose a payment method: cash, debit card, credit card, or mobile payment."
+      ],
+      "examples": [
+        "Buying groceries by checking MRP.",
+        "Using a debit card at a supermarket.",
+        "Using an ATM to withdraw money before shopping."
+      ],
+      "facts": [
+        "GST is included in most packaged products.",
+        "Bills act as proof for returns and complaints.",
+        "Shopping wisely prevents overspending."
+      ]
+    },
+    {
+      "topic_name": "Simple Interest Rates",
+      "definition": "Simple interest is the extra money earned or paid on a principal amount over a specific time at a fixed rate.",
+      "key_points": [
+        "Simple Interest depends on Principal, Rate, and Time.",
+        "Formula: SI = P × R × T / 100.",
+        "Amount = Principal + Simple Interest.",
+        "Used in savings, bank deposits, and some loans.",
+        "Higher rate or time increases interest earned or paid."
+      ],
+      "processes": [
+        "Identify principal amount (P).",
+        "Identify rate of interest (R).",
+        "Identify time period (T).",
+        "Apply formula: SI = P × R × T / 100.",
+        "Add SI to principal to find total amount."
+      ],
+      "examples": [
+        "Rohan saving money to buy a bicycle and earning 12% interest.",
+        "Calculating interest on savings accounts.",
+        "Finding loan interest paid after one year."
+      ],
+      "facts": [
+        "Simple interest grows linearly with time.",
+        "Used commonly in school-level financial problems.",
+        "Helps understand loan and savings calculations."
+      ]
+    }
+  ]
+}
