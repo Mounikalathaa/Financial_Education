@@ -23,6 +23,10 @@ data/vector_store/*.index
 data/vector_store/*.pkl
 data/vector_store/__pycache__/
 
+# Database files (should be created locally)
+*.db
+data/*.db
+
 # Logs
 logs/
 *.log
