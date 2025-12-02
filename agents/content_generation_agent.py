@@ -44,7 +44,8 @@ class ContentGenerationAgent:
             # Retrieve relevant educational content from RAG
             knowledge = await self.rag_service.retrieve_knowledge(
                 concept=concept,
-                difficulty=difficulty.value
+                difficulty=difficulty.value,
+                age=user_context.get("age")
             )
             
             # Build personalization prompt

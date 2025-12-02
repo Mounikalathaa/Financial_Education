@@ -145,7 +145,10 @@ async def get_gamification_data(user_id: str = Query(..., description="User ID")
 @app.post("/api/user/gamification/update")
 async def update_gamification_data(gamif_data: GamificationData):
     """Update gamification data."""
+    print(f"🔄 MCP SERVER: Received gamification update for user {gamif_data.user_id}")
+    print(f"   Points: {gamif_data.total_points}, Level: {gamif_data.level}, Quizzes: {gamif_data.quizzes_completed}")
     gamification_db[gamif_data.user_id] = gamif_data
+    print(f"✅ MCP SERVER: Updated successfully. Database now has: {gamification_db[gamif_data.user_id].model_dump()}")
     return {"status": "success"}
 
 def generate_sample_transactions(user_id: str) -> List[Transaction]:

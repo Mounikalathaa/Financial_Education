@@ -118,12 +118,13 @@ class MCPClient:
             async with httpx.AsyncClient(timeout=self.timeout) as client:
                 response = await client.post(
                     f"{self.base_url}{self.endpoints['update_gamification']}",
-                    json=gamif_data.model_dump()
+                    json=gamif_data.model_dump(mode='json')
                 )
                 response.raise_for_status()
                 return True
         except Exception as e:
             logger.error(f"Error updating gamification data: {str(e)}")
+            print(f"❌ ERROR in update_gamification_data: {str(e)}")
             return False
     
     async def save_quiz_result(

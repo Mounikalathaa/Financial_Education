@@ -53,7 +53,8 @@ class QuizGenerationAgent:
             # Retrieve knowledge for question generation
             knowledge = await self.rag_service.retrieve_knowledge(
                 concept=concept,
-                difficulty=difficulty.value
+                difficulty=difficulty.value,
+                age=user_context.get("age")
             )
             
             # Build question generation prompt

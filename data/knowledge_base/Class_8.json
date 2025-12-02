@@ -1,0 +1,274 @@
+{
+  "class": "8",
+  "resource_type": "financial_education_knowledge_base",
+  "topics": [
+    {
+      "topic_name": "Insurance",
+      "definition": "A contract between an insurance company (insurer) and a policyholder (insured) where the insurer promises to pay a specified amount in case of a specific event in exchange for a premium.",
+      "key_points": [
+        "Provides financial protection against risks and uncertainties.",
+        "Policyholder pays premium; insurer pays claim on occurrence of insured event.",
+        "Helps in risk pooling – losses of a few are shared by many.",
+        "Cannot prevent events but compensates financial loss."
+      ],
+      "processes": [
+        "Identify risk to be insured (life, health, vehicle, home, etc.).",
+        "Choose insurance type and policy term.",
+        "Pay regular premiums.",
+        "In case of event, file claim with insurer.",
+        "Insurer verifies and pays sum assured to insured/nominee."
+      ],
+      "examples": [
+        "Life insurance pays nominee on death of insured.",
+        "Motor insurance covers repair costs after accident.",
+        "Health insurance pays for hospitalization expenses."
+      ],
+      "facts": [
+        "First life insurance company in India: Oriental Life Insurance Co. (1818).",
+        "General insurance nationalized in 1973; life insurance in 1956.",
+        "IRDAI regulates insurance industry in India.",
+        "Insurance sector reopened to private players in late 1990s."
+      ]
+    },
+    {
+      "topic_name": "Types of Insurance",
+      "definition": "Different categories of insurance designed to cover specific risks related to life, health, property, travel, and vehicles.",
+      "key_points": [
+        "Life Insurance: Covers human life risks – death, disability, retirement.",
+        "Health Insurance: Covers medical and surgical expenses.",
+        "Motor Insurance: Covers vehicle against accident, theft, third-party liability.",
+        "Home Insurance: Covers house and contents against fire, theft, natural disasters.",
+        "Travel Insurance: Covers losses during travel – medical, baggage loss, trip cancellation."
+      ],
+      "processes": [
+        "Assess personal/family risks and needs.",
+        "Compare policies from different insurers.",
+        "Select appropriate type and sum assured.",
+        "Fill proposal form, undergo medical tests if required.",
+        "Pay premium and receive policy document."
+      ],
+      "examples": [
+        "Term life insurance for income replacement.",
+        "Cashless health insurance at network hospitals.",
+        "Comprehensive motor insurance for own damage + third party.",
+        "Group insurance for villages/communities."
+      ],
+      "facts": [
+        "Motor third-party insurance is compulsory by law.",
+        "Group insurance is cheaper than individual policies.",
+        "Insurance helps in economic stability by accumulating and investing funds."
+      ]
+    },
+    {
+      "topic_name": "Banking – Types of Banks",
+      "definition": "Financial institutions that accept deposits from the public and provide loans; classified by function, ownership, and area of operation.",
+      "key_points": [
+        "Commercial Banks: Serve general public and businesses.",
+        "Cooperative Banks: Serve members, often in rural/urban cooperative societies.",
+        "Regional Rural Banks (RRBs): Focus on rural credit and agriculture.",
+        "Public Sector Banks: Government-owned (e.g., SBI, nationalized banks).",
+        "Private Sector Banks: Privately owned (e.g., HDFC, ICICI).",
+        "Foreign Banks: Headquartered outside India (e.g., Citibank, HSBC)."
+      ],
+      "processes": [
+        "Bank accepts deposits (savings, current, fixed).",
+        "Uses deposits to give loans to borrowers.",
+        "Earns from interest difference (lending rate – deposit rate).",
+        "Provides payment services (cheques, drafts, electronic transfers)."
+      ],
+      "examples": [
+        "Savings account in a public sector bank.",
+        "Agricultural loan from a Regional Rural Bank.",
+        "Business account in a private sector bank."
+      ],
+      "facts": [
+        "Scheduled banks are listed in RBI’s Second Schedule.",
+        "RBI is the central bank and regulator of banking system.",
+        "Cooperative banks play key role in agricultural and rural finance."
+      ]
+    },
+    {
+      "topic_name": "Cheque and MICR",
+      "definition": "A cheque is a written order to a bank to pay a specific amount from the drawer’s account to the payee. MICR is a technology used for secure cheque processing.",
+      "key_points": [
+        "Cheque contains drawer’s name, bank details, amount, date, signature.",
+        "Types: bearer, order, crossed, uncrossed, ante-dated, post-dated, stale.",
+        "MICR (Magnetic Ink Character Recognition) code is printed at bottom.",
+        "MICR ensures fast, error-free cheque clearing."
+      ],
+      "processes": [
+        "Drawer writes cheque in favor of payee.",
+        "Payee deposits cheque in their bank.",
+        "Bank sends cheque for clearing via MICR system.",
+        "Funds are transferred from drawer’s to payee’s account."
+      ],
+      "examples": [
+        "Crossed cheque with “A/c Payee” for safety.",
+        "Bearer cheque encashable by anyone holding it.",
+        "MICR code 110002033 – first 3 digits: city, next 3: bank, last 3: branch."
+      ],
+      "facts": [
+        "Cheque is valid for 3 months from date of issue.",
+        "Stale cheque is older than 3 months and not honoured.",
+        "MICR uses special ink containing iron oxide."
+      ]
+    },
+    {
+      "topic_name": "Taxation",
+      "definition": "A compulsory financial charge imposed by government on individuals and businesses to fund public services and infrastructure.",
+      "key_points": [
+        "Income Tax: Levied on personal or business income.",
+        "Property Tax: Levied on buildings and land by local government.",
+        "GST (Goods and Services Tax): Indirect tax on supply of goods and services.",
+        "Taxes fund roads, schools, hospitals, defense, etc."
+      ],
+      "processes": [
+        "Taxpayer earns income or makes purchase.",
+        "Tax is deducted or collected at source.",
+        "Taxpayer files return annually (for direct taxes).",
+        "Government uses revenue for public welfare."
+      ],
+      "examples": [
+        "Income tax paid by salaried employee.",
+        "GST included in bill when buying clothes.",
+        "Property tax paid annually to municipal corporation."
+      ],
+      "facts": [
+        "GST replaced multiple indirect taxes (VAT, excise, service tax).",
+        "GST is multi-stage, destination-based tax.",
+        "GST rates: 0%, 5%, 12%, 18%, 28%.",
+        "Alcohol, petroleum products, electricity are outside GST currently."
+      ]
+    },
+    {
+      "topic_name": "Goods and Services Tax (GST)",
+      "definition": "A comprehensive, multi-stage, destination-based indirect tax levied on every value addition in the supply chain of goods and services.",
+      "key_points": [
+        "Multi-stage: Tax levied at each stage of production and distribution.",
+        "Value addition: Tax on increase in value at each stage.",
+        "Destination-based: Tax revenue goes to state where goods/services are consumed.",
+        "Components: CGST (Central), SGST/UTGST (State/UT), IGST (Inter-state)."
+      ],
+      "processes": [
+        "Manufacturer pays GST on raw materials.",
+        "Adds value, sells to wholesaler – charges GST.",
+        "Wholesaler sells to retailer – charges GST.",
+        "Retailer sells to consumer – final GST paid by consumer."
+      ],
+      "examples": [
+        "Goods made in Rajasthan sold in Karnataka – IGST goes to Karnataka.",
+        "GST on restaurant meal includes CGST + SGST."
+      ],
+      "facts": [
+        "Implemented on 1 July 2017.",
+        "Aims to create unified national market.",
+        "Reduces cascading effect of tax-on-tax."
+      ]
+    },
+    {
+      "topic_name": "Bank Accounts – Opening and Operation",
+      "definition": "Procedure to open and operate a bank account for depositing, withdrawing, and managing money.",
+      "key_points": [
+        "Types: Savings, Current, Recurring Deposit, Fixed Deposit.",
+        "Required documents: Proof of identity, address, photographs.",
+        "KYC norms: Know Your Customer – mandatory verification.",
+        "Children’s accounts can be opened by parent/guardian."
+      ],
+      "processes": [
+        "Fill account opening form.",
+        "Submit documents and photographs.",
+        "Provide specimen signature.",
+        "Deposit minimum balance.",
+        "Receive passbook, cheque book, debit card."
+      ],
+      "examples": [
+        "Minor above 10 years can operate savings account independently.",
+        "Joint account in two names.",
+        "Zero-balance account under financial inclusion."
+      ],
+      "facts": [
+        "Passbook records all transactions.",
+        "Withdrawal slip used to withdraw cash from own account.",
+        "Deposit slip used to deposit money into any account."
+      ]
+    },
+    {
+      "topic_name": "Demand Draft (DD) / Payment Order",
+      "definition": "A secure payment instrument issued by a bank, directing another branch/bank to pay a specified amount to a named beneficiary.",
+      "key_points": [
+        "Safer than cheque because drawer is bank, not individual.",
+        "Valid for 6 months.",
+        "Requires payment of amount + commission + tax.",
+        "Used for secure remittance, especially outstation payments."
+      ],
+      "processes": [
+        "Applicant fills DD request form.",
+        "Pays amount + charges in cash or via account.",
+        "Bank issues DD with unique number.",
+        "Beneficiary presents DD to their bank for payment."
+      ],
+      "examples": [
+        "DD sent for college fee payment.",
+        "Payment order for within-city transactions.",
+        "DD purchased against cash up to ₹49,999."
+      ],
+      "facts": [
+        "DD cannot be dishonoured for insufficient funds.",
+        "Payment order is like DD but for local use, valid 3 months.",
+        "Details needed: payee name, amount, place of payment."
+      ]
+    },
+    {
+      "topic_name": "Financial Documents – Slips, Passbook, Cheque",
+      "definition": "Key documents used in banking for depositing, withdrawing, and tracking transactions.",
+      "key_points": [
+        "Deposit slip: Used to deposit money into account.",
+        "Withdrawal slip: Used to withdraw cash from own account.",
+        "Passbook: Record of all account transactions provided by bank.",
+        "Cheque: Instrument to make payment from account to others."
+      ],
+      "processes": [
+        "Fill slip with date, account details, amount in words and figures.",
+        "Submit slip at bank counter with cash/cheque.",
+        "Passbook updated periodically to show balance.",
+        "Cheque written with payee name, amount, date, signature."
+      ],
+      "examples": [
+        "Pay-in slip with cash denomination details.",
+        "Passbook showing credits and debits.",
+        "Crossed cheque with “A/c Payee” marking."
+      ],
+      "facts": [
+        "Overwriting on cheque not allowed.",
+        "Passbook helps track income, expenses, and savings.",
+        "Withdrawal slip can only be used by account holder for self-payment."
+      ]
+    },
+    {
+      "topic_name": "Financial Awareness and Responsibilities",
+      "definition": "Understanding financial products, rights, duties, and ethical practices as a consumer and citizen.",
+      "key_points": [
+        "Pay taxes honestly for nation’s development.",
+        "Use banking services for safety and growth of money.",
+        "Insure life and assets to manage risks.",
+        "Keep financial documents safe and confidential."
+      ],
+      "processes": [
+        "Plan savings and investments.",
+        "Compare financial products before choosing.",
+        "Read terms and conditions of policies/accounts.",
+        "Safeguard passwords, PINs, cheque books."
+      ],
+      "examples": [
+        "Asking for bill to ensure tax payment.",
+        "Not sharing bank details with strangers.",
+        "Nominating family members in insurance policies."
+      ],
+      "facts": [
+        "Financial education helps in informed decision-making.",
+        "RBI, SEBI, IRDAI, PFRDA are financial regulators in India.",
+        "Financial inclusion aims to bring everyone into formal banking system."
+      ]
+    }
+  ]
+}

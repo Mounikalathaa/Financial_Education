@@ -120,14 +120,64 @@ def run_async(coro):
     finally:
         loop.close()
 
+def load_sample_users():
+    """Load sample users from data file."""
+    import json
+    sample_file = Path(__file__).parent / "data" / "sample_users.json"
+    try:
+        with open(sample_file, 'r') as f:
+            data = json.load(f)
+            return data.get('users', [])
+    except:
+        return []
+
 def onboarding_flow():
     """User onboarding flow."""
     st.title("🎓 Welcome to Financial Education!")
     st.markdown("### Let's get to know you!")
     
-    with st.form("onboarding_form"):
-        st.markdown("#### 📝 Tell us about yourself")
+    # Load sample users
+    sample_users = load_sample_users()
+    
+    # Option to select existing user
+    if sample_users:
+        st.markdown("#### 👥 Select an Existing User")
+        user_options = ["Create New User"] + [f"{u['name']} (Age {u['age']})" for u in sample_users]
+        selected = st.selectbox("Choose a user:", user_options)
         
+        if selected != "Create New User":
+            # Extract selected user
+            selected_idx = user_options.index(selected) - 1
+            selected_user = sample_users[selected_idx]
+            
+            if st.button("Login as " + selected_user['name'], type="primary"):
+                # Create profile from selected user
+                profile = UserProfile(
+                    user_id=selected_user['user_id'],
+                    name=selected_user['name'],
+                    age=selected_user['age'],
+                    hobbies=selected_user.get('hobbies', []),
+                    interests=selected_user.get('interests', []),
+                    preferred_learning_style=selected_user.get('preferred_learning_style', 'visual')
+                )
+                
+                # Update session state
+                st.session_state.user_profile = profile
+                st.session_state.onboarding_complete = True
+                
+                # Load gamification data
+                st.session_state.gamification_data = run_async(
+                    mcp_client.get_gamification_data(profile.user_id)
+                )
+                
+                st.success(f"Welcome back, {profile.name}! 🎉")
+                st.rerun()
+            
+            st.markdown("---")
+    
+    # Create new user form
+    st.markdown("#### 📝 Or Create New User")
+    with st.form("onboarding_form"):
         name = st.text_input("What's your name?", placeholder="Enter your name")
         age = st.number_input("How old are you?", min_value=6, max_value=17, value=10)
         
@@ -213,6 +263,76 @@ def dashboard():
                 if badge:
                     badge_html += f'<span class="badge" title="{badge["description"]}">🏅 {badge["name"]}</span>'
             st.markdown(badge_html, unsafe_allow_html=True)
+    
+    st.markdown("---")
+    
+    # Quiz History Section
+    st.markdown("### 📊 Your Quiz History")
+    quiz_history = run_async(mcp_client.get_quiz_history(profile.user_id))
+    
+    if quiz_history:
+        # Create tabs for different views
+        tab1, tab2 = st.tabs(["Recent Quizzes", "Performance by Topic"])
+        
+        with tab1:
+            # Show last 5 quizzes
+            st.markdown("#### 🕐 Recent Activity")
+            for quiz in quiz_history[-5:]:
+                percentage = (quiz.score / quiz.total_questions * 100) if quiz.total_questions > 0 else 0
+                
+                # Color based on score
+                if percentage >= 80:
+                    emoji = "🌟"
+                    color = "#4CAF50"
+                elif percentage >= 60:
+                    emoji = "👍"
+                    color = "#FFA726"
+                else:
+                    emoji = "📖"
+                    color = "#FF7043"
+                
+                st.markdown(f"""
+                <div style="background-color: #f0f2f6; padding: 1rem; border-radius: 10px; margin: 0.5rem 0; border-left: 5px solid {color};">
+                    {emoji} <b>{quiz.concept.replace('_', ' ').title()}</b><br/>
+                    Score: {quiz.score}/{quiz.total_questions} ({percentage:.0f}%)<br/>
+                    <small>Completed: {quiz.completed_at.strftime('%b %d, %Y at %I:%M %p')}</small>
+                </div>
+                """, unsafe_allow_html=True)
+        
+        with tab2:
+            # Analyze performance by concept
+            st.markdown("#### 📈 Performance Analysis")
+            
+            # Group by concept
+            concept_stats = {}
+            for quiz in quiz_history:
+                concept = quiz.concept
+                if concept not in concept_stats:
+                    concept_stats[concept] = {"total": 0, "correct": 0, "count": 0}
+                concept_stats[concept]["total"] += quiz.total_questions
+                concept_stats[concept]["correct"] += quiz.score
+                concept_stats[concept]["count"] += 1
+            
+            # Display stats
+            for concept, stats in concept_stats.items():
+                avg_percentage = (stats["correct"] / stats["total"] * 100) if stats["total"] > 0 else 0
+                
+                col1, col2, col3, col4 = st.columns([3, 1, 1, 1])
+                with col1:
+                    st.write(f"**{concept.replace('_', ' ').title()}**")
+                with col2:
+                    st.write(f"{stats['count']} quiz{'zes' if stats['count'] != 1 else ''}")
+                with col3:
+                    st.write(f"{stats['correct']}/{stats['total']}")
+                with col4:
+                    if avg_percentage >= 80:
+                        st.write(f"🌟 {avg_percentage:.0f}%")
+                    elif avg_percentage >= 60:
+                        st.write(f"👍 {avg_percentage:.0f}%")
+                    else:
+                        st.write(f"📖 {avg_percentage:.0f}%")
+    else:
+        st.info("📝 No quiz history yet. Start your first quiz below!")
     
     st.markdown("---")
     
@@ -314,6 +434,11 @@ def quiz_interface():
                     total=result.total_questions
                 ))
                 
+                # Refresh gamification data to show updated stats
+                st.session_state.gamification_data = run_async(
+                    mcp_client.get_gamification_data(quiz.user_id)
+                )
+                
                 st.rerun()
     else:
         st.info(f"Please answer all questions ({len(st.session_state.user_answers)}/{len(quiz.questions)} answered)")
@@ -322,6 +447,7 @@ def results_screen():
     """Display quiz results."""
     result = st.session_state.quiz_result
     quiz = st.session_state.current_quiz
+    profile = st.session_state.user_profile
     
     if not result:
         return
@@ -352,6 +478,21 @@ def results_screen():
             badge = next((b for b in config.gamification.badges if b["id"] == badge_id), None)
             if badge:
                 st.markdown(f"**🏅 {badge['name']}** - {badge['description']}")
+    
+    # Show updated gamification stats
+    gamif = st.session_state.gamification_data
+    if gamif:
+        st.markdown("---")
+        st.markdown("### 📊 Your Current Stats")
+        cols = st.columns(4)
+        with cols[0]:
+            st.metric("💎 Total Points", gamif.total_points)
+        with cols[1]:
+            st.metric("🏆 Level", gamif.level)
+        with cols[2]:
+            st.metric("📚 Quizzes Completed", gamif.quizzes_completed)
+        with cols[3]:
+            st.metric("🔥 Streak", f"{gamif.streak_days} days")
     
     st.markdown("---")
     

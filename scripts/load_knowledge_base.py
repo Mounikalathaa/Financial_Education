@@ -1,265 +1,170 @@
 """Script to populate the vector store with financial education knowledge."""
 
 import sys
+import json
 from pathlib import Path
 sys.path.append(str(Path(__file__).parent.parent))
 
 from services.rag_service import RAGService
+
+def load_json_knowledge_base():
+    """Load financial education knowledge from JSON files."""
+    
+    # Get the project root directory
+    project_root = Path(__file__).parent.parent
+    knowledge_base_dir = project_root / "data" / "knowledge_base"
+    
+    # List of JSON files to load
+    json_files = [
+        "Class_6.json",
+        "Class_7.json",
+        "Class_8.json",
+        "Class_9.json",
+        "Class_10.json"
+    ]
+    
+    documents = []
+    metadata = []
+    
+    print("Loading knowledge from JSON files...")
+    
+    for json_file in json_files:
+        file_path = knowledge_base_dir / json_file
+        
+        if not file_path.exists():
+            print(f"⚠️  Warning: {json_file} not found at {file_path}, skipping...")
+            continue
+        
+        try:
+            with open(file_path, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+            
+            class_level = data.get("class", "unknown")
+            topics = data.get("topics", [])
+            
+            print(f"  Loading {len(topics)} topics from {json_file}...")
+            
+            for topic in topics:
+                topic_name = topic.get("topic_name", "Unknown Topic")
+                definition = topic.get("definition", "")
+                key_points = topic.get("key_points", [])
+                processes = topic.get("processes", [])
+                examples = topic.get("examples", [])
+                facts = topic.get("facts", [])
+                
+                # Create a comprehensive document text
+                doc_text = f"""
+Topic: {topic_name}
+Class Level: {class_level}
+
+Definition:
+{definition}
+
+Key Points:
+{chr(10).join('- ' + point for point in key_points)}
+
+{('Processes:' + chr(10) + chr(10).join('- ' + proc for proc in processes)) if processes else ''}
+
+{('Examples:' + chr(10) + chr(10).join('- ' + ex for ex in examples)) if examples else ''}
+
+{('Facts:' + chr(10) + chr(10).join('- ' + fact for fact in facts)) if facts else ''}
+"""
+                
+                documents.append(doc_text.strip())
+                
+                # Determine age group and difficulty based on class level
+                age_group, difficulty = _map_class_to_age_difficulty(class_level)
+                
+                # Map topic to financial concept
+                concept = _map_topic_to_concept(topic_name)
+                
+                metadata.append({
+                    "class": class_level,
+                    "topic": topic_name,
+                    "concept": concept,
+                    "difficulty": difficulty,
+                    "age_group": age_group,
+                    "source": json_file
+                })
+        
+        except Exception as e:
+            print(f"❌ Error loading {json_file}: {str(e)}")
+            continue
+    
+    return documents, metadata
+
+def _map_class_to_age_difficulty(class_level):
+    """Map class level to age group and difficulty."""
+    try:
+        class_num = int(class_level)
+        
+        if class_num <= 7:
+            return "6-9", "beginner"
+        elif class_num <= 9:
+            return "10-12", "intermediate"
+        else:
+            return "13-17", "advanced"
+    except:
+        return "10-12", "intermediate"  # default
+
+def _map_topic_to_concept(topic_name):
+    """Map topic name to financial concept."""
+    topic_lower = topic_name.lower()
+    
+    # Mapping patterns
+    if any(word in topic_lower for word in ["saving", "save", "savings"]):
+        return "saving"
+    elif any(word in topic_lower for word in ["budget", "expense", "planning"]):
+        return "budgeting"
+    elif any(word in topic_lower for word in ["need", "want", "essential"]):
+        return "needs_vs_wants"
+    elif any(word in topic_lower for word in ["earn", "income", "salary", "wage"]):
+        return "earning"
+    elif any(word in topic_lower for word in ["interest", "compound", "growth"]):
+        return "compound_interest"
+    elif any(word in topic_lower for word in ["risk", "reward", "investment", "stock"]):
+        return "risk_reward"
+    elif any(word in topic_lower for word in ["barter", "money", "currency", "trade"]):
+        return "money_basics"
+    elif any(word in topic_lower for word in ["borrow", "loan", "credit", "debt"]):
+        return "borrowing"
+    elif any(word in topic_lower for word in ["bank", "rbi", "financial"]):
+        return "banking"
+    elif any(word in topic_lower for word in ["tax", "gst"]):
+        return "taxation"
+    else:
+        return "general_finance"
 
 def load_knowledge_base():
     """Load financial education knowledge into vector store."""
     
     rag_service = RAGService()
     
-    documents = [
-        # Saving Money
-        """
-        Saving Money - Beginner Level
-        
-        Saving money is one of the most important financial skills you can learn. When you save money, you're putting some aside instead of spending it all right away. This helps you:
-        - Buy bigger things you really want
-        - Be prepared for emergencies
-        - Feel proud of yourself
-        - Learn to be patient
-        
-        How to start saving:
-        1. Get a piggy bank or savings jar
-        2. Decide to save a little bit each time you get money
-        3. Think about what you're saving for
-        4. Don't touch your savings unless it's really important
-        
-        Example: If you get $10 for your birthday, you could save $5 and spend $5. After a few months, you'll have enough to buy something special!
-        """,
-        
-        """
-        Saving Money - Intermediate Level
-        
-        Saving money is about making smart choices today so you can have what you want tomorrow. It's not just about putting money in a piggy bank - it's about planning and setting goals.
-        
-        Different types of savings:
-        - Short-term savings: For things you want soon (like a new game)
-        - Long-term savings: For bigger things (like a bicycle)
-        - Emergency savings: For unexpected needs
-        
-        The 50-30-20 rule (simplified for kids):
-        - 50% for things you need (saved by parents)
-        - 30% for things you want
-        - 20% goes into savings
-        
-        Tips for successful saving:
-        - Set specific goals with amounts and dates
-        - Track your progress
-        - Celebrate milestones
-        - Don't get discouraged if you slip up
-        """,
-        
-        """
-        Saving Money - Advanced Level
-        
-        Understanding compound interest and long-term wealth building.
-        
-        Advanced saving concepts:
-        - Interest: Money that grows your savings
-        - Compound interest: When your interest earns interest
-        - Savings accounts vs. investment accounts
-        - The power of starting early
-        
-        Real-world example: If you save $10 per month starting at age 10, by age 18 you'll have saved $960. With just 3% annual interest, you'll actually have over $1,000!
-        
-        Advanced strategies:
-        - Automate your savings
-        - Use multiple accounts for different goals
-        - Review and adjust your savings plan quarterly
-        - Learn about different savings vehicles
-        """,
-        
-        # Budgeting
-        """
-        Budgeting - Beginner Level
-        
-        A budget is a plan for your money. It helps you make sure you have enough for what you need and want.
-        
-        Simple budgeting steps:
-        1. Know how much money you have
-        2. List what you want to buy
-        3. Make sure you don't spend more than you have
-        4. Save some for later
-        
-        Example budget for $20 allowance:
-        - Save: $5
-        - Spend on needs: $10
-        - Spend on wants: $5
-        
-        Why budgeting matters:
-        - You won't run out of money
-        - You can save for bigger things
-        - You learn to make smart choices
-        - You feel in control
-        """,
-        
-        """
-        Budgeting - Intermediate Level
-        
-        Creating and following a personal budget plan.
-        
-        Budget categories:
-        - Fixed expenses: Things that stay the same (lunch money, savings)
-        - Variable expenses: Things that change (snacks, entertainment)
-        - Savings goals: Money for future purchases
-        
-        Creating your budget:
-        1. Track your income (allowance, gifts, etc.)
-        2. List all your expenses
-        3. Categorize each expense
-        4. Compare income to expenses
-        5. Adjust to make sure you're not overspending
-        
-        Budget tracking tips:
-        - Write down every purchase
-        - Review your budget weekly
-        - Adjust when needed
-        - Learn from mistakes
-        """,
-        
-        # Needs vs Wants
-        """
-        Needs vs Wants - Beginner Level
-        
-        Understanding the difference between needs and wants is crucial for making smart money decisions.
-        
-        NEEDS are things you must have to live:
-        - Food and water
-        - A home to live in
-        - Clothes to wear
-        - Medicine when sick
-        - School supplies
-        
-        WANTS are things that are nice to have but not essential:
-        - Toys and games
-        - Candy and treats
-        - Latest gadgets
-        - Designer clothes
-        - Entertainment
-        
-        Smart money rule: Always take care of needs first, then think about wants.
-        """,
-        
-        """
-        Needs vs Wants - Intermediate Level
-        
-        Making smart spending decisions by prioritizing needs over wants.
-        
-        The tricky part: Sometimes wants can feel like needs! How to tell the difference:
-        - Ask: "Can I live without this?"
-        - Ask: "Do I really need this or do I just want it?"
-        - Wait 24 hours before buying wants
-        
-        Categories in between:
-        Some things are both needs and wants. You NEED shoes, but designer sneakers are a WANT. You NEED food, but expensive snacks are a WANT.
-        
-        Decision-making framework:
-        1. Identify if it's a need or want
-        2. If it's a want, check your budget
-        3. Consider if it's worth the cost
-        4. Think about what you might give up
-        5. Make your decision
-        """,
-        
-        # Earning Money
-        """
-        Earning Money - Beginner Level
-        
-        Understanding how people earn money and how you can start earning too.
-        
-        How do people earn money?
-        - Working jobs (what most adults do)
-        - Doing chores (what kids can do)
-        - Selling things they make
-        - Helping others with tasks
-        
-        Ways kids can earn money:
-        - Extra chores at home
-        - Helping neighbors (with parent permission)
-        - Selling handmade crafts
-        - Lemonade stand
-        - Tutoring younger kids
-        
-        Important earning lessons:
-        - You must work to earn
-        - Harder work often earns more
-        - Being reliable gets you more opportunities
-        - Save some of what you earn
-        """,
-        
-        # Compound Interest
-        """
-        Compound Interest - Intermediate Level
-        
-        Understanding how money can grow over time.
-        
-        What is compound interest?
-        Compound interest is when your money earns money, and then that earned money also earns money!
-        
-        Simple example:
-        - You save $100
-        - The bank gives you 5% interest per year
-        - Year 1: You earn $5 (you now have $105)
-        - Year 2: You earn interest on $105 (not just $100!)
-        - You earn $5.25, so you have $110.25
-        
-        The magic of starting early:
-        The longer your money grows, the more powerful compound interest becomes. Starting to save young means your money has more time to grow.
-        
-        Real-world application:
-        If you save just $10 per month from age 10 to 18, and it earns 5% interest per year, you'll have over $1,000 when you're 18!
-        """,
-        
-        # Risk and Reward
-        """
-        Risk & Reward - Advanced Level
-        
-        Understanding that different financial choices come with different levels of risk and potential reward.
-        
-        What is financial risk?
-        Risk is the chance that you might lose money or not gain as much as you hoped.
-        
-        Risk levels:
-        - Low risk: Savings account (you won't lose money, but you don't earn much)
-        - Medium risk: Some investments (might lose some, might gain some)
-        - High risk: Risky investments (could lose a lot or gain a lot)
-        
-        The risk-reward relationship:
-        Generally, higher risk means potential for higher rewards, but also potential for bigger losses.
-        
-        Kid-friendly examples:
-        - Low risk: Saving birthday money in a piggy bank
-        - Medium risk: Using allowance to buy items to resell
-        - Higher risk: Starting a small business
-        
-        Important lesson: Never risk money you can't afford to lose!
-        """
-    ]
+    # Load documents and metadata from JSON files
+    documents, metadata = load_json_knowledge_base()
     
-    metadata = [
-        {"concept": "saving", "difficulty": "beginner", "age_group": "6-9"},
-        {"concept": "saving", "difficulty": "intermediate", "age_group": "10-12"},
-        {"concept": "saving", "difficulty": "advanced", "age_group": "13-17"},
-        {"concept": "budgeting", "difficulty": "beginner", "age_group": "6-9"},
-        {"concept": "budgeting", "difficulty": "intermediate", "age_group": "10-12"},
-        {"concept": "needs_vs_wants", "difficulty": "beginner", "age_group": "6-9"},
-        {"concept": "needs_vs_wants", "difficulty": "intermediate", "age_group": "10-12"},
-        {"concept": "earning", "difficulty": "beginner", "age_group": "6-9"},
-        {"concept": "compound_interest", "difficulty": "intermediate", "age_group": "10-12"},
-        {"concept": "risk_reward", "difficulty": "advanced", "age_group": "13-17"}
-    ]
+    if not documents:
+        print("❌ No documents loaded! Please check your JSON files.")
+        return
     
-    print("Adding documents to vector store...")
+    print(f"\n📚 Total documents prepared: {len(documents)}")
+    print("\nAdding documents to vector store...")
     rag_service.add_documents(documents, metadata)
     
     print("Saving index to disk...")
     rag_service.save_index()
     
-    print(f"✅ Successfully loaded {len(documents)} documents into vector store!")
+    print(f"\n✅ Successfully loaded {len(documents)} documents into vector store!")
+    
+    # Print summary by class
+    class_counts = {}
+    for meta in metadata:
+        class_level = meta.get("class", "unknown")
+        class_counts[class_level] = class_counts.get(class_level, 0) + 1
+    
+    print("\n📊 Summary by Class:")
+    for class_level in sorted(class_counts.keys(), key=lambda x: int(x) if x.isdigit() else 0):
+        print(f"  Class {class_level}: {class_counts[class_level]} topics")
 
 if __name__ == "__main__":
     load_knowledge_base()

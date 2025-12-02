@@ -18,9 +18,10 @@ dist/
 *.egg-info/
 
 # Data & Models
-data/vector_store/
-*.index
-*.pkl
+# Note: Vector store should be built locally using: python scripts/load_knowledge_base.py
+data/vector_store/*.index
+data/vector_store/*.pkl
+data/vector_store/__pycache__/
 
 # Logs
 logs/
