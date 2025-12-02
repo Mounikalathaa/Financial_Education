@@ -20,7 +20,8 @@ class MCPClient:
     
     async def get_user_profile(self, user_id: str) -> UserProfile:
         """Retrieve user profile from MCP."""
-        logger.info(f"Fetching user profile for {user_id}")
+        logger.info(f"🔧 [MCP TOOL] Fetching user profile for {user_id}")
+        logger.debug(f"   → URL: {self.base_url}{self.endpoints['user_profile']}")
         
         try:
             async with httpx.AsyncClient(timeout=self.timeout) as client:
@@ -30,17 +31,25 @@ class MCPClient:
                 )
                 response.raise_for_status()
                 data = response.json()
-                return UserProfile(**data)
+                profile = UserProfile(**data)
+                
+                logger.info(f"✓ [MCP OUTPUT] Profile retrieved: {profile.name}, age {profile.age}")
+                logger.debug(f"   → Hobbies: {profile.hobbies[:2]}...")
+                logger.debug(f"   → Interests: {profile.interests[:2]}...")
+                
+                return profile
         except Exception as e:
-            logger.error(f"Error fetching user profile: {str(e)}")
+            logger.error(f"✗ [MCP ERROR] Error fetching user profile: {str(e)}")
             # Return default profile on error
-            return UserProfile(
+            default_profile = UserProfile(
                 user_id=user_id,
                 name="User",
                 age=10,
                 hobbies=[],
                 interests=[]
             )
+            logger.warning(f"   → Using default profile")
+            return default_profile
     
     async def get_recent_transactions(
         self, 

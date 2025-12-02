@@ -42,16 +42,25 @@ class ContentGenerationAgent:
         
         try:
             # Retrieve relevant educational content from RAG
+            logger.info(f"🔧 [RAG TOOL] Retrieving knowledge for: {concept}")
+            logger.debug(f"   → Difficulty: {difficulty.value}, Age: {user_context.get('age')}")
+            
             knowledge = await self.rag_service.retrieve_knowledge(
                 concept=concept,
                 difficulty=difficulty.value,
                 age=user_context.get("age")
             )
             
+            logger.info(f"✓ [RAG OUTPUT] Retrieved {len(knowledge)} characters of knowledge")
+            
             # Build personalization prompt
             prompt = self._build_story_prompt(concept, user_context, difficulty, knowledge)
             
             # Generate story using LLM
+            logger.info(f"🔧 [OpenAI TOOL] Generating personalized story")
+            logger.debug(f"   → Model: {os.getenv('MODEL_NAME', 'gpt-4o')}")
+            logger.debug(f"   → Temperature: {config.llm.temperature}")
+            
             response = await self.client.chat.completions.create(
                 model=os.getenv("MODEL_NAME", "gpt-4o"),
                 messages=[
@@ -70,6 +79,9 @@ class ContentGenerationAgent:
             
             story_content = response.choices[0].message.content
             
+            logger.info(f"✓ [OpenAI OUTPUT] Story generated ({len(story_content)} characters)")
+            logger.debug(f"   → Tokens used: {response.usage.total_tokens if response.usage else 'N/A'}")
+            
             # Extract title (first line) and content
             lines = story_content.strip().split('\n', 1)
             title = lines[0].replace('Title:', '').replace('#', '').strip()
@@ -83,6 +95,7 @@ class ContentGenerationAgent:
                 personalization_elements=self._extract_personalization_elements(user_context)
             )
             
+            logger.info(f"🎯 [REASONING] Story personalized with elements: {story.personalization_elements}")
             logger.info(f"Story generated successfully: {story.title}")
             return story
             

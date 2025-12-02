@@ -51,11 +51,16 @@ class QuizGenerationAgent:
             )
             
             # Retrieve knowledge for question generation
+            logger.info(f"🔧 [RAG TOOL] Retrieving knowledge for: {concept}")
+            logger.debug(f"   → Difficulty: {difficulty.value}, Age: {user_context.get('age')}")
+            
             knowledge = await self.rag_service.retrieve_knowledge(
                 concept=concept,
                 difficulty=difficulty.value,
                 age=user_context.get("age")
             )
+            
+            logger.info(f"✓ [RAG OUTPUT] Retrieved {len(knowledge)} knowledge chunks")
             
             # Build question generation prompt
             prompt = self._build_question_prompt(
@@ -63,6 +68,10 @@ class QuizGenerationAgent:
             )
             
             # Generate questions using LLM
+            logger.info(f"🔧 [OpenAI TOOL] Generating {num_questions} questions")
+            logger.debug(f"   → Model: {os.getenv('MODEL_NAME', 'gpt-4o')}")
+            logger.debug(f"   → Temperature: 0.7")
+            
             response = await self.client.chat.completions.create(
                 model=os.getenv("MODEL_NAME", "gpt-4o"),
                 messages=[
@@ -83,6 +92,9 @@ class QuizGenerationAgent:
             # Parse response
             questions_data = json.loads(response.choices[0].message.content)
             
+            logger.info(f"✓ [OpenAI OUTPUT] Received {len(questions_data.get('questions', []))} questions")
+            logger.debug(f"   → Tokens used: {response.usage.total_tokens if response.usage else 'N/A'}")
+            
             # Convert to QuizQuestion objects
             questions = []
             for idx, q_data in enumerate(questions_data.get("questions", [])):
@@ -96,7 +108,7 @@ class QuizGenerationAgent:
                 )
                 questions.append(question)
             
-            logger.info(f"Generated {len(questions)} questions successfully")
+            logger.info(f"🎯 [REASONING] Successfully validated {len(questions)} questions for {difficulty.value} difficulty")
             return questions
             
         except Exception as e:

@@ -948,7 +948,11 @@ def dashboard():
     
     # Show loading message at the top if generating
     if st.session_state.generating_quiz:
-        st.info("🎨 Creating your personalized quiz... Please wait! This may take a few moments.")
+        # Show a proper loading spinner with message
+        with st.spinner('🎨 Creating your personalized quiz... Please wait, this may take 20-30 seconds.'):
+            # This will keep showing until the quiz generation completes
+            import time
+            time.sleep(0.1)  # Small delay to ensure spinner shows
     
     # Create a container to maintain stable layout
     quiz_container = st.container()
@@ -992,18 +996,26 @@ def dashboard():
         
         concept_id = st.session_state.selected_concept
         
-        # Generate quiz
+        # Generate quiz with loading indicator
         try:
-            quiz = run_async(orchestrator.generate_personalized_quiz(
-                user_id=profile.user_id,
-                concept=concept_id
-            ))
-            st.session_state.current_quiz = quiz
-            st.session_state.user_answers = {}
-            st.session_state.quiz_result = None
-            st.session_state.generating_quiz = False
-            st.session_state.selected_concept = None
-            st.rerun()
+            with st.spinner('🎨 Creating your personalized quiz... This may take 20-30 seconds.'):
+                quiz = run_async(orchestrator.generate_personalized_quiz(
+                    user_id=profile.user_id,
+                    concept=concept_id
+                ))
+                st.session_state.current_quiz = quiz
+                st.session_state.user_answers = {}
+                st.session_state.quiz_result = None
+                
+                # Store the execution trace for display
+                st.session_state.execution_trace = orchestrator.tracer.traces
+                
+                st.session_state.generating_quiz = False
+                st.session_state.selected_concept = None
+                st.success("✅ Quiz created successfully!")
+                import time
+                time.sleep(0.5)  # Brief pause to show success message
+                st.rerun()
         except Exception as e:
             st.session_state.generating_quiz = False
             st.session_state.selected_concept = None
@@ -1418,6 +1430,78 @@ def results_screen():
                 </div>
             </div>
             """, unsafe_allow_html=True)
+    
+    st.markdown("---")
+    
+    # Execution Trace Section
+    if 'execution_trace' in st.session_state and st.session_state.execution_trace:
+        with st.expander("🔍 **Behind the Scenes: How Your Quiz Was Generated**", expanded=False):
+            st.markdown("""
+            <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+                 padding: 1rem; border-radius: 15px; color: white; margin-bottom: 1rem;">
+                <h4 style="margin: 0;">✨ Execution Trace</h4>
+                <p style="margin: 0.5rem 0 0 0; opacity: 0.9;">
+                    See the step-by-step process of how our AI agents created your personalized quiz!
+                </p>
+            </div>
+            """, unsafe_allow_html=True)
+            
+            # Display each trace step
+            for idx, trace in enumerate(st.session_state.execution_trace):
+                timestamp = trace.get('timestamp', '')
+                agent = trace.get('agent', 'System')
+                action = trace.get('action', '')
+                details = trace.get('details', {})
+                
+                # Determine icon based on action or agent
+                icon = "🔧"
+                if "Tool output received" in action or "OUTPUT" in action:
+                    icon = "✓"
+                elif "Reasoning" in action:
+                    icon = "🎯"
+                elif agent == "Orchestrator":
+                    icon = "🎭"
+                
+                # Create collapsible card for each step
+                with st.expander(f"{icon} **Step {idx + 1}**: {agent} - {action}", expanded=False):
+                    col1, col2 = st.columns([1, 3])
+                    with col1:
+                        st.markdown(f"""
+                        <div style="background: #f8f9fa; padding: 0.5rem; border-radius: 10px; text-align: center;">
+                            <strong>Agent</strong><br/>
+                            <span style="color: #667eea;">{agent}</span>
+                        </div>
+                        """, unsafe_allow_html=True)
+                    with col2:
+                        st.markdown(f"""
+                        <div style="background: #f8f9fa; padding: 0.5rem; border-radius: 10px;">
+                            <strong>Action</strong><br/>
+                            {action}
+                        </div>
+                        """, unsafe_allow_html=True)
+                    
+                    # Display details if available
+                    if details:
+                        st.markdown("**Details:**")
+                        st.json(details)
+                    
+                    # Display timestamp
+                    if timestamp:
+                        st.caption(f"⏰ {timestamp}")
+            
+            # Summary statistics
+            st.markdown("---")
+            st.markdown("### 📊 Trace Summary")
+            
+            col1, col2, col3 = st.columns(3)
+            with col1:
+                st.metric("Total Steps", len(st.session_state.execution_trace))
+            with col2:
+                agents = set(t.get('agent', '') for t in st.session_state.execution_trace)
+                st.metric("Agents Involved", len(agents))
+            with col3:
+                tool_calls = sum(1 for t in st.session_state.execution_trace if 'TOOL' in t.get('action', '').upper() or 'Calling' in t.get('action', ''))
+                st.metric("Tool Calls", tool_calls)
     
     st.markdown("---")
     

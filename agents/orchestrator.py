@@ -3,6 +3,7 @@
 import logging
 from typing import Dict, Any, Optional
 from datetime import datetime
+import json
 
 from models import (
     UserProfile, Quiz, QuizResponse, QuizResult, 
@@ -16,6 +17,7 @@ from agents.gamification_agent import GamificationAgent
 from services.mcp_client import MCPClient
 from services.rag_service import RAGService
 from config import config
+from utils.logging_utils import AgentTracer
 
 logger = logging.getLogger(__name__)
 
@@ -36,6 +38,9 @@ class OrchestratorAgent:
         self.quiz_agent = QuizGenerationAgent(rag_service)
         self.evaluation_agent = EvaluationAgent()
         self.gamification_agent = GamificationAgent(mcp_client)
+        
+        # Initialize tracer
+        self.tracer = AgentTracer(logger)
         
         logger.info("Orchestrator initialized with all sub-agents")
     
@@ -64,32 +69,129 @@ class OrchestratorAgent:
         """
         logger.info(f"Starting quiz generation for user {user_id}, concept: {concept}")
         
+        # Clear previous traces and start new trace session
+        self.tracer.clear_traces()
+        logger.info(f"\n{'='*80}")
+        logger.info(f"🚀 STARTING QUIZ GENERATION")
+        logger.info(f"User: {user_id} | Concept: {concept} | Difficulty: {difficulty}")
+        logger.info(f"{'='*80}\n")
+        
         try:
             # Step 1: Gather personalization context
-            logger.info("Step 1: Gathering personalization context")
+            self.tracer.log_step(
+                "Orchestrator", 
+                "Initiating personalization phase",
+                {"user_id": user_id, "concept": concept}
+            )
+            
+            self.tracer.log_step(
+                "PersonalizationAgent", 
+                "Calling gather_user_context",
+                {"tool": "MCP.get_user_profile", "status": "starting"}
+            )
+            
             context = await self.personalization_agent.gather_user_context(
                 user_id, concept
+            )
+            
+            self.tracer.log_step(
+                "PersonalizationAgent",
+                "Tool output received",
+                {
+                    "tool": "MCP.get_user_profile",
+                    "output_summary": {
+                        "age": context.get("age"),
+                        "quiz_history_count": len(context.get("quiz_history", [])),
+                        "has_transactions": len(context.get("transactions", [])) > 0
+                    }
+                }
             )
             
             # Determine difficulty if not provided
             if not difficulty:
                 difficulty = self._determine_difficulty(context)
+                self.tracer.log_step(
+                    "Orchestrator",
+                    "Reasoning: Difficulty determined",
+                    {"difficulty": difficulty.value, "reason": "Based on age and quiz history"}
+                )
             
             # Step 2: Generate educational story
-            logger.info("Step 2: Generating educational story")
+            self.tracer.log_step(
+                "Orchestrator",
+                "Initiating content generation phase",
+                {"concept": concept, "difficulty": difficulty.value}
+            )
+            
+            self.tracer.log_step(
+                "ContentGenerationAgent",
+                "Calling generate_story",
+                {"tool": "RAG.retrieve_knowledge + OpenAI.chat", "status": "starting"}
+            )
+            
             story = await self.content_agent.generate_story(
                 concept=concept,
                 user_context=context,
                 difficulty=difficulty
             )
             
+            self.tracer.log_step(
+                "ContentGenerationAgent",
+                "Tool output received",
+                {
+                    "tool": "OpenAI.chat",
+                    "output_summary": {
+                        "title": story.title,
+                        "content_length": len(story.content),
+                        "personalization_elements": len(story.personalization_elements)
+                    }
+                }
+            )
+            
+            self.tracer.log_step(
+                "ContentGenerationAgent",
+                "Reasoning: Story personalized",
+                {
+                    "reason": f"Story tailored for age {context.get('age')} with interests: {context.get('interests', [])[:2]}"
+                }
+            )
+            
             # Step 3: Generate quiz questions
-            logger.info("Step 3: Generating quiz questions")
+            self.tracer.log_step(
+                "Orchestrator",
+                "Initiating quiz generation phase",
+                {"concept": concept, "story_title": story.title}
+            )
+            
+            self.tracer.log_step(
+                "QuizGenerationAgent",
+                "Calling generate_questions",
+                {"tool": "RAG.retrieve_knowledge + OpenAI.chat", "status": "starting"}
+            )
+            
             questions = await self.quiz_agent.generate_questions(
                 concept=concept,
                 story=story,
                 difficulty=difficulty,
                 user_context=context
+            )
+            
+            self.tracer.log_step(
+                "QuizGenerationAgent",
+                "Tool output received",
+                {
+                    "tool": "OpenAI.chat",
+                    "output_summary": {
+                        "question_count": len(questions),
+                        "difficulty": difficulty.value
+                    }
+                }
+            )
+            
+            self.tracer.log_step(
+                "QuizGenerationAgent",
+                "Reasoning: Questions validated",
+                {"reason": f"Generated {len(questions)} questions matching difficulty {difficulty.value}"}
             )
             
             # Step 4: Create complete quiz
@@ -102,7 +204,26 @@ class OrchestratorAgent:
                 difficulty=difficulty
             )
             
-            logger.info(f"Successfully generated quiz {quiz.quiz_id}")
+            self.tracer.log_step(
+                "Orchestrator",
+                "Quiz assembly complete",
+                {
+                    "quiz_id": quiz.quiz_id,
+                    "total_components": {
+                        "story": 1,
+                        "questions": len(questions),
+                        "personalization_elements": len(story.personalization_elements)
+                    }
+                }
+            )
+            
+            # Log complete trace
+            logger.info(f"\n{'='*80}")
+            logger.info(f"✅ QUIZ GENERATION COMPLETE")
+            logger.info(f"Quiz ID: {quiz.quiz_id}")
+            logger.info(f"{'='*80}\n")
+            logger.info(self.tracer.get_trace_summary())
+            
             return quiz
             
         except Exception as e:
