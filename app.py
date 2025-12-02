@@ -13,7 +13,7 @@ sys.path.append(str(Path(__file__).parent.parent))
 from models import (
     UserProfile, Quiz, QuizResponse, DifficultyLevel
 )
-from agents.orchestrator import OrchestratorAgent
+from agents.team_orchestrator import TeamOrchestrator
 from services.mcp_client import MCPClient
 from services.rag_service import RAGService
 from config import config
@@ -604,10 +604,10 @@ st.markdown("""
 # Initialize services
 @st.cache_resource
 def initialize_services():
-    """Initialize MCP client, RAG service, and orchestrator."""
+    """Initialize MCP client, RAG service, and Team orchestrator."""
     mcp_client = MCPClient()
     rag_service = RAGService()
-    orchestrator = OrchestratorAgent(mcp_client, rag_service)
+    orchestrator = TeamOrchestrator(mcp_client, rag_service)
     return orchestrator, mcp_client
 
 def get_services():
