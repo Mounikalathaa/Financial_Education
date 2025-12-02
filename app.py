@@ -17,6 +17,10 @@ from agents.orchestrator import OrchestratorAgent
 from services.mcp_client import MCPClient
 from services.rag_service import RAGService
 from config import config
+import database as db
+
+# Initialize database
+db.init_database()
 
 # Page configuration
 st.set_page_config(
@@ -642,16 +646,9 @@ def run_async(coro):
     finally:
         loop.close()
 
-def load_sample_users():
-    """Load sample users from data file."""
-    import json
-    sample_file = Path(__file__).parent / "data" / "sample_users.json"
-    try:
-        with open(sample_file, 'r') as f:
-            data = json.load(f)
-            return data.get('users', [])
-    except:
-        return []
+def load_existing_users():
+    """Load existing users from database."""
+    return db.get_all_users()
 
 def onboarding_flow():
     """User onboarding flow."""
@@ -673,17 +670,17 @@ def onboarding_flow():
     </div>
     """, unsafe_allow_html=True)
     
-    # Load sample users
-    sample_users = load_sample_users()
+    # Load existing users from database
+    existing_users = load_existing_users()
     
     # Option to select existing user
-    if sample_users:
+    if existing_users:
         st.markdown('<div class="section-header">👥 Welcome Back, Friends!</div>', unsafe_allow_html=True)
         st.markdown("##### Click on your profile to continue:")
         
         # Display user cards
-        cols = st.columns(min(3, len(sample_users)))
-        for idx, user in enumerate(sample_users):
+        cols = st.columns(min(3, len(existing_users)))
+        for idx, user in enumerate(existing_users):
             with cols[idx % 3]:
                 # Assign fun emojis based on user index
                 emoji_list = ["🦁", "🐼", "🦊", "🐨", "🐯", "🦄", "🐸", "🐙"]
@@ -707,6 +704,16 @@ def onboarding_flow():
                         hobbies=user.get('hobbies', []),
                         interests=user.get('interests', []),
                         preferred_learning_style=user.get('preferred_learning_style', 'visual')
+                    )
+                    
+                    # Save user to database
+                    db.save_user(
+                        user_id=profile.user_id,
+                        name=profile.name,
+                        age=profile.age,
+                        hobbies=profile.hobbies,
+                        interests=profile.interests,
+                        learning_style=profile.preferred_learning_style
                     )
                     
                     # Update session state
@@ -775,6 +782,15 @@ def onboarding_flow():
                 interests=clean_interests
             )
             
+            # Save user to database
+            db.save_user(
+                user_id=profile.user_id,
+                name=profile.name,
+                age=profile.age,
+                hobbies=profile.hobbies,
+                interests=profile.interests
+            )
+            
             # Update session state
             st.session_state.user_profile = profile
             st.session_state.onboarding_complete = True
@@ -792,15 +808,13 @@ def onboarding_flow():
 def dashboard():
     """User dashboard."""
     profile = st.session_state.user_profile
-    gamif = st.session_state.gamification_data
     
     # Get services
     orchestrator, mcp_client = get_services()
     
-    # Refresh gamification data
-    if gamif:
-        gamif = run_async(mcp_client.get_gamification_data(profile.user_id))
-        st.session_state.gamification_data = gamif
+    # Load gamification data from database
+    gamif = db.get_gamification_data(profile.user_id)
+    st.session_state.gamification_data = gamif
     
     # Header
     col1, col2 = st.columns([2, 1])
@@ -814,23 +828,23 @@ def dashboard():
     
     # Gamification display
     if gamif:
-        st.markdown(f'<div class="level-badge">🏆 Level: {gamif.level}</div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="level-badge">🏆 Level: {gamif["level"]}</div>', unsafe_allow_html=True)
         
         cols = st.columns(4)
         with cols[0]:
-            st.metric("💎 Points", gamif.total_points)
+            st.metric("💎 Points", gamif["total_points"])
         with cols[1]:
-            st.metric("📚 Quizzes", gamif.quizzes_completed)
+            st.metric("📚 Quizzes", gamif["quizzes_completed"])
         with cols[2]:
-            st.metric("🔥 Streak", f"{gamif.streak_days} days")
+            st.metric("🔥 Streak", f"{gamif['streak_days']} days")
         with cols[3]:
-            st.metric("⭐ Perfect", gamif.perfect_scores)
+            st.metric("⭐ Perfect", gamif["perfect_scores"])
         
         # Badges
-        if gamif.badges:
+        if gamif["badges"]:
             st.markdown("### 🎖️ Your Badges")
             badge_html = ""
-            for badge_id in gamif.badges:
+            for badge_id in gamif["badges"]:
                 badge = next((b for b in config.gamification.badges if b["id"] == badge_id), None)
                 if badge:
                     badge_html += f'<span class="badge" title="{badge["description"]}">🏅 {badge["name"]}</span>'
@@ -840,7 +854,20 @@ def dashboard():
     
     # Quiz History Section
     st.markdown("### 📊 Your Quiz History")
-    quiz_history = run_async(mcp_client.get_quiz_history(profile.user_id))
+    # Load quiz history from database
+    quiz_history_data = db.get_quiz_history(profile.user_id, limit=50)
+    # Convert to quiz objects for compatibility
+    from types import SimpleNamespace
+    quiz_history = [
+        SimpleNamespace(
+            quiz_id=q['quiz_id'],
+            concept=q['concept'],
+            score=q['score'],
+            total_questions=q['total_questions'],
+            completed_at=q['completed_at']
+        )
+        for q in quiz_history_data
+    ]
     
     if quiz_history:
         # Create tabs for different views
@@ -1190,7 +1217,39 @@ def quiz_interface():
                     result = run_async(orchestrator.evaluate_quiz(quiz, response))
                     st.session_state.quiz_result = result
                     
-                    # Save quiz result
+                    # Prepare detailed answers for database
+                    detailed_answers = []
+                    for q in quiz.questions:
+                        user_answer = st.session_state.user_answers.get(q.question_id, "")
+                        is_correct = q.question_id in result.correct_questions
+                        detailed_answers.append({
+                            'question_id': q.question_id,
+                            'question_text': q.question_text,
+                            'correct_answer': q.correct_answer,
+                            'user_answer': user_answer,
+                            'is_correct': is_correct
+                        })
+                    
+                    # Save quiz result to database
+                    db.save_quiz_result(
+                        user_id=quiz.user_id,
+                        quiz_id=quiz.quiz_id,
+                        concept=quiz.concept,
+                        score=result.score,
+                        total_questions=result.total_questions,
+                        answers=detailed_answers
+                    )
+                    
+                    # Update gamification data in database
+                    is_perfect = result.score == result.total_questions
+                    db.update_gamification_data(
+                        user_id=quiz.user_id,
+                        points_earned=result.points_earned,
+                        is_perfect_score=is_perfect,
+                        new_badges=result.new_badges
+                    )
+                    
+                    # Also save to MCP for backward compatibility
                     run_async(mcp_client.save_quiz_result(
                         user_id=quiz.user_id,
                         quiz_id=quiz.quiz_id,
@@ -1199,10 +1258,8 @@ def quiz_interface():
                         total=result.total_questions
                     ))
                     
-                    # Refresh gamification data to show updated stats
-                    st.session_state.gamification_data = run_async(
-                        mcp_client.get_gamification_data(quiz.user_id)
-                    )
+                    # Refresh gamification data from database
+                    st.session_state.gamification_data = db.get_gamification_data(quiz.user_id)
                     
                     st.rerun()
     else:
@@ -1318,13 +1375,13 @@ def results_screen():
         st.markdown("### 📊 Your Current Stats")
         cols = st.columns(4)
         with cols[0]:
-            st.metric("💎 Total Points", gamif.total_points)
+            st.metric("💎 Total Points", gamif["total_points"])
         with cols[1]:
-            st.metric("🏆 Level", gamif.level)
+            st.metric("🏆 Level", gamif["level"])
         with cols[2]:
-            st.metric("📚 Quizzes Completed", gamif.quizzes_completed)
+            st.metric("📚 Quizzes Completed", gamif["quizzes_completed"])
         with cols[3]:
-            st.metric("🔥 Streak", f"{gamif.streak_days} days")
+            st.metric("🔥 Streak", f"{gamif['streak_days']} days")
     
     st.markdown("---")
     
