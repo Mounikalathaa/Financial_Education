@@ -5,6 +5,7 @@ streamlit-extras>=0.3.6
 # AI/LLM Framework
 openai>=1.12.0
 anthropic>=0.18.1
+agno>=2.3.0
 
 # Vector Store & RAG
 faiss-cpu>=1.9.0

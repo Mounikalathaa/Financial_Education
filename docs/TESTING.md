@@ -369,7 +369,7 @@ Create `tests/test_integration.py`:
 
 ```python
 import pytest
-from agents.orchestrator import OrchestratorAgent
+from agents.team_orchestrator import TeamOrchestrator
 from services.mcp_client import MCPClient
 from services.rag_service import RAGService
 
@@ -377,7 +377,7 @@ from services.rag_service import RAGService
 async def test_full_quiz_flow():
     mcp_client = MCPClient()
     rag_service = RAGService()
-    orchestrator = OrchestratorAgent(mcp_client, rag_service)
+    orchestrator = TeamOrchestrator(mcp_client, rag_service)
     
     # Generate quiz
     quiz = await orchestrator.generate_personalized_quiz(
