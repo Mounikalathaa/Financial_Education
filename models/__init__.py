@@ -111,3 +111,47 @@ class Feedback(BaseModel):
     difficulty_rating: Optional[str] = None  # "too_easy", "just_right", "too_hard"
     engagement_rating: Optional[int] = None  # 1-5
     submitted_at: datetime = Field(default_factory=datetime.now)
+
+class BiasAnalysis(BaseModel):
+    """Analysis of potential bias in content."""
+    has_bias: bool
+    bias_types: List[str] = []  # e.g., ["gender", "cultural", "economic"]
+    severity: str = "low"  # "low", "medium", "high"
+    specific_issues: List[str] = []
+    recommendations: List[str] = []
+    confidence_score: float = 0.0
+    analyzed_at: datetime = Field(default_factory=datetime.now)
+
+class QuizFeedback(BaseModel):
+    """Enhanced feedback model with bias analysis."""
+    feedback_id: str
+    quiz_id: str
+    user_id: str
+    concept: str
+    rating: int = Field(ge=1, le=5)
+    comments: Optional[str] = None
+    difficulty_perception: Optional[str] = None  # "too_easy", "just_right", "too_hard"
+    relevance_score: Optional[int] = Field(None, ge=1, le=5)
+    bias_analysis: Optional[BiasAnalysis] = None
+    created_at: datetime = Field(default_factory=datetime.now)
+    processed: bool = False
+
+class ReviewAction(str, Enum):
+    """Admin review action types."""
+    APPROVE = "approve"  # AI decision was correct
+    REJECT = "reject"  # AI decision was wrong
+    FLAG_BIAS = "flag_bias"  # Admin found bias AI missed
+    UPDATE_CONTENT = "update_content"  # Force content update
+    DISMISS = "dismiss"  # False alarm, no action needed
+
+class AdminReview(BaseModel):
+    """Admin review of feedback and bias detection."""
+    review_id: str
+    feedback_id: str
+    admin_id: str
+    decision: ReviewAction
+    admin_notes: Optional[str] = None
+    bias_override: Optional[Dict[str, Any]] = None
+    actions_taken: List[str] = []
+    reviewed_at: datetime = Field(default_factory=datetime.now)
+

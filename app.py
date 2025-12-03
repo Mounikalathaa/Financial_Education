@@ -11,7 +11,7 @@ from pathlib import Path
 sys.path.append(str(Path(__file__).parent.parent))
 
 from models import (
-    UserProfile, Quiz, QuizResponse, DifficultyLevel
+    UserProfile, Quiz, QuizResponse, DifficultyLevel, QuizFeedback, BiasAnalysis
 )
 from agents.orchestrator import OrchestratorAgent
 from services.mcp_client import MCPClient
@@ -1421,106 +1421,110 @@ def results_screen():
     
     st.markdown("---")
     
-    # Enhanced Feedback section
-    st.markdown("""
-    <div class="section-header">💬 Tell Us What You Think!</div>
-    <div style="text-align: center; margin: 1rem 0;">
-        <p style="font-size: 1.2rem; color: #666;">Your feedback helps us make quizzes even better! 🌈</p>
-    </div>
-    """, unsafe_allow_html=True)
-    
-    # Initialize session state for emoji rating
-    if 'emoji_rating' not in st.session_state:
-        st.session_state.emoji_rating = None
-    
-    with st.form("feedback_form"):
-        st.markdown('<div class="feedback-box">', unsafe_allow_html=True)
-        
-        # Emoji-based rating
-        st.markdown("#### 😊 How did you feel about this quiz?")
-        st.markdown('<div style="text-align: center; padding: 1rem;">', unsafe_allow_html=True)
-        
-        col1, col2, col3, col4, col5 = st.columns(5)
-        emojis = ["😢", "😕", "😐", "😊", "🤩"]
-        labels = ["Sad", "Meh", "Okay", "Happy", "Amazing!"]
-        
-        emoji_rating = st.radio(
-            "Select how you feel:",
-            options=list(range(5)),
-            format_func=lambda x: f"{emojis[x]} {labels[x]}",
-            horizontal=True,
-            label_visibility="collapsed"
-        )
-        
-        st.markdown('</div>', unsafe_allow_html=True)
-        
-        st.markdown("---")
-        
-        # Star rating
-        st.markdown("#### ⭐ Rate this quiz (1-5 stars)")
-        star_rating = st.select_slider(
-            "Star Rating",
-            options=[1, 2, 3, 4, 5],
-            value=3,
-            format_func=lambda x: "⭐" * x,
-            label_visibility="collapsed"
-        )
-        
-        st.markdown("---")
-        
-        # Difficulty rating with emojis
-        st.markdown("#### 🎯 Was the difficulty level right for you?")
-        difficulty_rating = st.radio(
-            "Difficulty Level:",
-            ["😴 Too Easy", "🎯 Just Right", "😰 Too Hard"],
-            horizontal=True,
-            label_visibility="collapsed"
-        )
-        
-        st.markdown("---")
-        
-        # What did you learn?
-        st.markdown("#### 🧠 What did you learn today?")
-        learning = st.text_area(
-            "Share something new you learned:",
-            placeholder="I learned that...",
-            height=80,
-            label_visibility="collapsed"
-        )
-        
-        # Comments
-        st.markdown("#### 💭 Any other thoughts?")
-        comments = st.text_area(
-            "Your comments:",
-            placeholder="Tell us anything else you'd like to share!",
-            height=100,
-            label_visibility="collapsed"
-        )
-        
-        st.markdown('</div>', unsafe_allow_html=True)
-        
-        # Submit button
-        col1, col2, col3 = st.columns([1, 2, 1])
-        with col2:
-            submitted = st.form_submit_button("✨ Send Feedback ✨", use_container_width=True)
-        
-        if submitted:
-            # Show appreciation message
-            st.balloons()
-            st.markdown("""
-            <div style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); 
-                 padding: 2rem; border-radius: 25px; text-align: center; margin: 1rem 0;
-                 box-shadow: 0 8px 20px rgba(0,0,0,0.15);">
-                <h2 style="color: #667eea;">🎉 Thank You!</h2>
-                <p style="font-size: 1.2rem; color: #2d3436;">
-                    Your feedback helps us make learning more fun for everyone! 💖
-                </p>
-                <div style="font-size: 2rem; margin-top: 1rem;">
-                    🌟 ⭐ 💫 ✨ 🎯
-                </div>
-            </div>
-            """, unsafe_allow_html=True)
-    
+    # Feedback form with bias detection
+    if not st.session_state.get('feedback_submitted', False):
+        with st.form("feedback_form"):
+            st.markdown("### 💬 How was this quiz?")
+            st.write("Your feedback helps us create better, more inclusive content!")
+
+            rating = st.slider("Overall rating:", 1, 5, 3, help="1=Poor, 5=Excellent")
+
+            difficulty_perception = st.radio(
+                "Was this quiz...",
+                ["too_easy", "just_right", "too_hard"],
+                format_func=lambda x: x.replace('_', ' ').title()
+            )
+
+            relevance_score = st.slider(
+                "How relevant was the story to you?",
+                1, 5, 3,
+                help="Did the story relate to your interests and experiences?"
+            )
+
+            comments = st.text_area(
+                "Share your thoughts (optional):",
+                placeholder="Tell us what you liked or what could be better. We check for bias and improve our content based on your feedback!"
+            )
+
+            if st.form_submit_button("Submit Feedback", type="primary"):
+                with st.spinner("🔍 Analyzing your feedback and checking for content improvements..."):
+                    # Get services first
+                    orchestrator, mcp_client = get_services()
+
+                    # Collect and process feedback
+                    feedback = run_async(orchestrator.feedback_agent.collect_feedback(
+                        quiz_id=quiz.quiz_id,
+                        user_id=quiz.user_id,
+                        concept=quiz.concept,
+                        rating=rating,
+                        comments=comments if comments else None,
+                        difficulty_perception=difficulty_perception,
+                        relevance_score=relevance_score
+                    ))
+
+                    # Process feedback (with admin review agent for queueing)
+                    processing_result = run_async(
+                        orchestrator.feedback_agent.process_feedback(
+                            feedback,
+                            admin_review_agent=orchestrator.admin_review_agent
+                        )
+                    )
+
+                    # Save feedback to file
+                    from utils.feedback_processor import FeedbackProcessor
+                    feedback_processor = FeedbackProcessor()
+                    feedback_processor.add_feedback(feedback)
+
+                    st.session_state.feedback_submitted = True
+                    st.session_state.feedback_result = processing_result
+                    st.session_state.feedback_data = feedback
+                    st.rerun()
+    else:
+        # Show feedback results
+        st.success("✅ Thank you for your feedback!")
+
+        feedback_data = st.session_state.get('feedback_data')
+        processing_result = st.session_state.get('feedback_result')
+
+        if feedback_data and feedback_data.bias_analysis:
+            bias = feedback_data.bias_analysis
+
+            if bias.has_bias:
+                st.warning(f"⚠️ We detected potential bias in the content (Severity: {bias.severity})")
+
+                with st.expander("📋 What we found and how we're fixing it"):
+                    if bias.specific_issues:
+                        st.markdown("**Issues detected:**")
+                        for issue in bias.specific_issues:
+                            st.markdown(f"- {issue}")
+
+                    if bias.recommendations:
+                        st.markdown("**Our action plan:**")
+                        for rec in bias.recommendations:
+                            st.markdown(f"✓ {rec}")
+
+                    if "knowledge_base_updated" in processing_result.get('actions_taken', []):
+                        st.success("✨ We've already updated our knowledge base with more inclusive content!")
+            else:
+                st.info("✓ No bias detected. Our content is inclusive and appropriate!")
+
+        if processing_result:
+            actions = processing_result.get('actions_taken', [])
+            if actions:
+                st.markdown("**Actions taken based on your feedback:**")
+                action_messages = {
+                    'flagged_for_review': '🔍 Flagged for team review',
+                    'urgent_bias_review': '⚠️ Urgent bias review initiated',
+                    'knowledge_base_updated': '✨ Knowledge base updated with better content',
+                    'difficulty_adjustment_needed': '📊 Difficulty levels being adjusted',
+                    'personalization_improvement_needed': '🎯 Personalization improvements queued'
+                }
+                for action in actions:
+                    if action in action_messages:
+                        st.write(f"- {action_messages[action]}")
+
+        st.info("💡 Your feedback makes our educational content better for everyone!")
+
     # Action buttons
     col1, col2 = st.columns(2)
     with col1:
@@ -1528,11 +1532,13 @@ def results_screen():
             st.session_state.current_quiz = None
             st.session_state.user_answers = {}
             st.session_state.quiz_result = None
+            st.session_state.feedback_submitted = False
             st.rerun()
     with col2:
         if st.button("🔄 Retake This Quiz"):
             st.session_state.user_answers = {}
             st.session_state.quiz_result = None
+            st.session_state.feedback_submitted = False
             st.rerun()
 
 # Main app logic

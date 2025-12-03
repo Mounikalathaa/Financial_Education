@@ -1,0 +1,311 @@
+[
+  {
+    "feedback_id": "feedback_quiz_user_test_1764668042.470679_1764668243.866813",
+    "quiz_id": "quiz_user_test_1764668042.470679",
+    "user_id": "user_test",
+    "concept": "saving",
+    "rating": 3,
+    "comments": "i think there was a gender bais as you didnt introduce any female character in your story.",
+    "difficulty_perception": "too_easy",
+    "relevance_score": 3,
+    "bias_analysis": {
+      "has_bias": false,
+      "bias_types": [],
+      "severity": "low",
+      "specific_issues": [],
+      "recommendations": [],
+      "confidence_score": 0.0,
+      "analyzed_at": "2025-12-02T15:07:24.458439"
+    },
+    "created_at": "2025-12-02T15:07:23.866855",
+    "processed": false
+  },
+  {
+    "feedback_id": "feedback_quiz_user_test_1764679959.637654_1764680032.605374",
+    "quiz_id": "quiz_user_test_1764679959.637654",
+    "user_id": "user_test",
+    "concept": "saving",
+    "rating": 4,
+    "comments": "I thin there is some gender bias issue as no character in story was female",
+    "difficulty_perception": "just_right",
+    "relevance_score": 4,
+    "bias_analysis": {
+      "has_bias": false,
+      "bias_types": [],
+      "severity": "low",
+      "specific_issues": [],
+      "recommendations": [],
+      "confidence_score": 0.0,
+      "analyzed_at": "2025-12-02T18:23:53.164375"
+    },
+    "created_at": "2025-12-02T18:23:52.605391",
+    "processed": false
+  },
+  {
+    "feedback_id": "feedback_quiz_user_test_1764680677.262137_1764680710.226597",
+    "quiz_id": "quiz_user_test_1764680677.262137",
+    "user_id": "user_test",
+    "concept": "budgeting",
+    "rating": 3,
+    "comments": "I think it bias against people of different economic background",
+    "difficulty_perception": "too_easy",
+    "relevance_score": 3,
+    "bias_analysis": {
+      "has_bias": false,
+      "bias_types": [],
+      "severity": "low",
+      "specific_issues": [],
+      "recommendations": [],
+      "confidence_score": 0.0,
+      "analyzed_at": "2025-12-02T18:35:11.017782"
+    },
+    "created_at": "2025-12-02T18:35:10.226612",
+    "processed": false
+  },
+  {
+    "feedback_id": "feedback_quiz_user_test_1764680677.262137_1764681127.218629",
+    "quiz_id": "quiz_user_test_1764680677.262137",
+    "user_id": "user_test",
+    "concept": "budgeting",
+    "rating": 3,
+    "comments": "The story was biased, the story is baised against different economic background",
+    "difficulty_perception": "too_easy",
+    "relevance_score": 3,
+    "bias_analysis": {
+      "has_bias": false,
+      "bias_types": [],
+      "severity": "low",
+      "specific_issues": [],
+      "recommendations": [],
+      "confidence_score": 0.0,
+      "analyzed_at": "2025-12-02T18:42:07.754091"
+    },
+    "created_at": "2025-12-02T18:42:07.218649",
+    "processed": false
+  },
+  {
+    "feedback_id": "feedback_quiz_user_test_1764680677.262137_1764681627.793709",
+    "quiz_id": "quiz_user_test_1764680677.262137",
+    "user_id": "user_test",
+    "concept": "budgeting",
+    "rating": 3,
+    "comments": "Its biased against other genders as the story contains people of only male gender",
+    "difficulty_perception": "too_easy",
+    "relevance_score": 3,
+    "bias_analysis": {
+      "has_bias": false,
+      "bias_types": [],
+      "severity": "low",
+      "specific_issues": [],
+      "recommendations": [],
+      "confidence_score": 0.0,
+      "analyzed_at": "2025-12-02T18:50:28.841520"
+    },
+    "created_at": "2025-12-02T18:50:27.793718",
+    "processed": false
+  },
+  {
+    "feedback_id": "feedback_quiz_user_test_1764680677.262137_1764681938.513359",
+    "quiz_id": "quiz_user_test_1764680677.262137",
+    "user_id": "user_test",
+    "concept": "budgeting",
+    "rating": 3,
+    "comments": "gender bias",
+    "difficulty_perception": "too_easy",
+    "relevance_score": 3,
+    "bias_analysis": {
+      "has_bias": false,
+      "bias_types": [],
+      "severity": "low",
+      "specific_issues": [],
+      "recommendations": [],
+      "confidence_score": 0.0,
+      "analyzed_at": "2025-12-02T18:55:39.066657"
+    },
+    "created_at": "2025-12-02T18:55:38.513375",
+    "processed": false
+  },
+  {
+    "feedback_id": "feedback_quiz_user_test_1764682521.707269_1764682545.118719",
+    "quiz_id": "quiz_user_test_1764682521.707269",
+    "user_id": "user_test",
+    "concept": "compound_interest",
+    "rating": 3,
+    "comments": "gender bais",
+    "difficulty_perception": "too_easy",
+    "relevance_score": 3,
+    "bias_analysis": {
+      "has_bias": false,
+      "bias_types": [],
+      "severity": "low",
+      "specific_issues": [],
+      "recommendations": [],
+      "confidence_score": 0.0,
+      "analyzed_at": "2025-12-02T19:05:45.770968"
+    },
+    "created_at": "2025-12-02T19:05:45.118728",
+    "processed": false
+  },
+  {
+    "feedback_id": "feedback_quiz_user_test_1764682521.707269_1764682928.434056",
+    "quiz_id": "quiz_user_test_1764682521.707269",
+    "user_id": "user_test",
+    "concept": "compound_interest",
+    "rating": 3,
+    "comments": "gender bias",
+    "difficulty_perception": "too_easy",
+    "relevance_score": 3,
+    "bias_analysis": {
+      "has_bias": false,
+      "bias_types": [],
+      "severity": "low",
+      "specific_issues": [],
+      "recommendations": [],
+      "confidence_score": 0.0,
+      "analyzed_at": "2025-12-02T19:12:09.068877"
+    },
+    "created_at": "2025-12-02T19:12:08.434072",
+    "processed": false
+  },
+  {
+    "feedback_id": "feedback_quiz_user_test_1764705664.598183_1764705701.749424",
+    "quiz_id": "quiz_user_test_1764705664.598183",
+    "user_id": "user_test",
+    "concept": "earning",
+    "rating": 3,
+    "comments": "Cultural bais",
+    "difficulty_perception": "too_easy",
+    "relevance_score": 3,
+    "bias_analysis": {
+      "has_bias": false,
+      "bias_types": [],
+      "severity": "low",
+      "specific_issues": [],
+      "recommendations": [],
+      "confidence_score": 0.0,
+      "analyzed_at": "2025-12-03T01:31:42.264466"
+    },
+    "created_at": "2025-12-03T01:31:41.749434",
+    "processed": false
+  },
+  {
+    "feedback_id": "feedback_quiz_user_test_1764705664.598183_1764705867.232342",
+    "quiz_id": "quiz_user_test_1764705664.598183",
+    "user_id": "user_test",
+    "concept": "earning",
+    "rating": 3,
+    "comments": "Cultural bais",
+    "difficulty_perception": "too_easy",
+    "relevance_score": 3,
+    "bias_analysis": {
+      "has_bias": false,
+      "bias_types": [],
+      "severity": "low",
+      "specific_issues": [],
+      "recommendations": [],
+      "confidence_score": 0.0,
+      "analyzed_at": "2025-12-03T01:34:27.732192"
+    },
+    "created_at": "2025-12-03T01:34:27.232351",
+    "processed": false
+  },
+  {
+    "feedback_id": "feedback_quiz_user_mounika_1764737798.471954_1764737826.133627",
+    "quiz_id": "quiz_user_mounika_1764737798.471954",
+    "user_id": "user_mounika",
+    "concept": "borrowing",
+    "rating": 3,
+    "comments": "gender bais",
+    "difficulty_perception": "too_easy",
+    "relevance_score": 3,
+    "bias_analysis": {
+      "has_bias": false,
+      "bias_types": [],
+      "severity": "low",
+      "specific_issues": [],
+      "recommendations": [],
+      "confidence_score": 0.0,
+      "analyzed_at": "2025-12-03T10:27:06.722378"
+    },
+    "created_at": "2025-12-03T10:27:06.133636",
+    "processed": false
+  },
+  {
+    "feedback_id": "feedback_quiz_user_mounika_1764738494.271263_1764738536.405628",
+    "quiz_id": "quiz_user_mounika_1764738494.271263",
+    "user_id": "user_mounika",
+    "concept": "budgeting",
+    "rating": 3,
+    "comments": "gender bais",
+    "difficulty_perception": "too_easy",
+    "relevance_score": 3,
+    "bias_analysis": {
+      "has_bias": false,
+      "bias_types": [],
+      "severity": "low",
+      "specific_issues": [
+        "AI analysis failed: Error code: 401 - {'error': {'message': 'Incorrect API key provided: 299c01b7****************************ab4a. You can find your API key at https://platform.openai.com/account/api-keys.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}}"
+      ],
+      "recommendations": [
+        "Manual review recommended"
+      ],
+      "confidence_score": 0.0,
+      "analyzed_at": "2025-12-03T10:38:57.098210"
+    },
+    "created_at": "2025-12-03T10:38:56.405640",
+    "processed": false
+  },
+  {
+    "feedback_id": "feedback_quiz_user_mounika_1764739317.041304_1764739382.822825",
+    "quiz_id": "quiz_user_mounika_1764739317.041304",
+    "user_id": "user_mounika",
+    "concept": "compound_interest",
+    "rating": 3,
+    "comments": "gender bais",
+    "difficulty_perception": "too_easy",
+    "relevance_score": 3,
+    "bias_analysis": {
+      "has_bias": false,
+      "bias_types": [],
+      "severity": "low",
+      "specific_issues": [
+        "AI analysis failed: Error code: 404 - {'error': 'Model not found'}"
+      ],
+      "recommendations": [
+        "Manual review recommended"
+      ],
+      "confidence_score": 0.0,
+      "analyzed_at": "2025-12-03T10:53:03.369144"
+    },
+    "created_at": "2025-12-03T10:53:02.822837",
+    "processed": false
+  },
+  {
+    "feedback_id": "feedback_quiz_user_mounika_1764739942.783946_1764739971.055939",
+    "quiz_id": "quiz_user_mounika_1764739942.783946",
+    "user_id": "user_mounika",
+    "concept": "borrowing",
+    "rating": 3,
+    "comments": "Gender bais",
+    "difficulty_perception": "too_easy",
+    "relevance_score": 3,
+    "bias_analysis": {
+      "has_bias": true,
+      "bias_types": [
+        "gender"
+      ],
+      "severity": "medium",
+      "specific_issues": [
+        "The feedback indicates a gender bias, suggesting that the quiz may stereotype or exclude a particular gender. This could manifest in examples or scenarios that predominantly feature one gender in specific roles, such as boys being depicted as more financially savvy or responsible than girls, or vice versa."
+      ],
+      "recommendations": [
+        "Review the quiz content to ensure that examples and scenarios include a balanced representation of genders. Avoid using gender-specific names or pronouns unless necessary, and ensure that both boys and girls are depicted in a variety of roles and contexts related to borrowing.",
+        "Incorporate diverse characters and scenarios that reflect a range of gender identities and roles to promote inclusivity."
+      ],
+      "confidence_score": 0.85,
+      "analyzed_at": "2025-12-03T11:02:56.026244"
+    },
+    "created_at": "2025-12-03T11:02:51.055948",
+    "processed": false
+  }
+]

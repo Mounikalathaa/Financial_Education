@@ -202,7 +202,7 @@ gcloud run deploy streamlit-app \
     --platform managed \
     --region us-central1 \
     --allow-unauthenticated \
-    --set-env-vars MCP_SERVER_URL=[mcp-url]
+    --set-.env-vars MCP_SERVER_URL=[mcp-url]
 ```
 
 ---

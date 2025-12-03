@@ -51,7 +51,7 @@ pip install -r requirements.txt -q
 echo -e "${GREEN}✓ Dependencies installed${NC}"
 echo ""
 
-# Check .env file
+# Check ..env file
 echo "Checking environment configuration..."
 if [ ! -f ".env" ]; then
     echo -e "${RED}✗ .env file not found${NC}"

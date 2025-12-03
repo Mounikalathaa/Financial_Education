@@ -36,9 +36,13 @@ class OrchestratorAgent:
         self.quiz_agent = QuizGenerationAgent(rag_service)
         self.evaluation_agent = EvaluationAgent()
         self.gamification_agent = GamificationAgent(mcp_client)
-        
-        logger.info("Orchestrator initialized with all sub-agents")
-    
+        from agents.feedback_agent import FeedbackAgent
+        self.feedback_agent = FeedbackAgent(rag_service)
+        from agents.admin_review_agent import AdminReviewAgent
+        self.admin_review_agent = AdminReviewAgent(rag_service, self.feedback_agent)
+
+        logger.info("Orchestrator initialized with all sub-agents including feedback and admin review agents")
+
     async def generate_personalized_quiz(
         self, 
         user_id: str, 

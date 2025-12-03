@@ -15,7 +15,7 @@ fi
 echo "🔧 Activating virtual environment..."
 source venv/bin/activate
 
-# Check if .env file exists
+# Check if ..env file exists
 if [ ! -f ".env" ]; then
     echo "⚠️  Warning: .env file not found!"
     echo "📝 Please create .env file with your OpenAI API key"

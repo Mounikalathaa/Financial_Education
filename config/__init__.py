@@ -14,6 +14,7 @@ class LLMConfig(BaseModel):
     """LLM configuration."""
     provider: str = "openai"
     model: str = Field(default_factory=lambda: os.getenv("DEFAULT_LLM_MODEL", "gpt-4-turbo-preview"))
+    api_key: str = Field(default_factory=lambda: os.getenv("OPENAI_API_KEY", ""))
     temperature: float = 0.7
     max_tokens: int = 2000
 

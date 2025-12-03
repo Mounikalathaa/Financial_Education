@@ -40,7 +40,7 @@ else
     echo "✓ Dependencies installed"
 fi
 
-# Check .env file
+# Check ..env file
 if [ -f ".env" ]; then
     echo "✓ Environment configuration found"
 else

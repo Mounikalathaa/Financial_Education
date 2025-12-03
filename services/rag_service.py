@@ -111,7 +111,7 @@ class RAGService:
             logger.error(f"Error retrieving knowledge: {str(e)}")
             return self._get_default_knowledge(concept, difficulty)
     
-    def add_documents(self, documents: List[str], metadata: List[Dict[str, Any]]):
+    async def add_documents(self, documents: List[str], metadata: List[Dict[str, Any]]):
         """
         Add documents to vector store.
         
@@ -131,6 +131,9 @@ class RAGService:
             self.documents.extend(documents)
             self.metadata.extend(metadata)
             
+            # Auto-save after adding documents
+            self.save_index()
+
             logger.info(f"Successfully added documents. Total: {len(self.documents)}")
             
         except Exception as e:
