@@ -23,6 +23,11 @@ data/vector_store/*.index
 data/vector_store/*.pkl
 data/vector_store/__pycache__/
 
+# Database files - created automatically on first run
+*.db
+data/*.db
+financial_education.db
+
 # Logs
 logs/
 *.log
