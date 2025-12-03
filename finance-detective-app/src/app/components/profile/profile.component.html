@@ -1,0 +1,54 @@
+<div class="container">
+  <h1 class="detective-title">👤 Detective Profile</h1>
+  
+  <div class="profile-grid grid grid-2" *ngIf="user && gamification">
+    <div class="profile-card detective-card">
+      <h2>🎭 Personal Info</h2>
+      <div class="info-row">
+        <span class="label">Name:</span>
+        <span class="value">{{ user.name }}</span>
+      </div>
+      <div class="info-row">
+        <span class="label">Age:</span>
+        <span class="value">{{ user.age }}</span>
+      </div>
+      <div class="info-row">
+        <span class="label">Hobbies:</span>
+        <span class="value">{{ user.hobbies.join(', ') }}</span>
+      </div>
+      <div class="info-row">
+        <span class="label">Interests:</span>
+        <span class="value">{{ user.interests.join(', ') }}</span>
+      </div>
+    </div>
+
+    <div class="stats-card detective-card">
+      <h2>📊 Statistics</h2>
+      <div class="stat-item">
+        <span class="stat-icon">💎</span>
+        <span class="stat-text">{{ gamification.total_points }} Total Points</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-icon">📚</span>
+        <span class="stat-text">{{ gamification.quizzes_completed }} Cases Solved</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-icon">🔥</span>
+        <span class="stat-text">{{ gamification.streak_days }} Day Streak</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-icon">⭐</span>
+        <span class="stat-text">{{ gamification.perfect_scores }} Perfect Scores</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="badges-section detective-card" *ngIf="gamification && gamification.badges.length > 0">
+    <h2>🏅 Earned Badges</h2>
+    <div class="badges-display">
+      <div *ngFor="let badge of gamification.badges" class="badge badge-achievement">
+        🏆 {{ badge }}
+      </div>
+    </div>
+  </div>
+</div>

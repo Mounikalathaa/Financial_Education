@@ -1,0 +1,372 @@
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { McpService } from '../../services/mcp.service';
+
+@Component({
+  selector: 'app-quiz',
+  templateUrl: './quiz.component.html',
+  styleUrls: ['./quiz.component.css']
+})
+export class QuizComponent implements OnInit {
+  concept: string = '';
+  quiz: any = null;
+  currentQuestionIndex: number = 0;
+  selectedAnswers: { [key: string]: string } = {};
+  loading: boolean = true;
+  evaluating: boolean = false;
+  showResults: boolean = false;
+  results: any = null;
+  error: string | null = null;
+  currentQuestionHint: string = '';
+  loadingHint: boolean = false;
+  storyChoices: string[] = [];
+  selectedChoice: string = '';
+  choiceImpact: any = null;
+  showImpactAnimation: boolean = false;
+
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private mcpService: McpService
+  ) {}
+
+  async ngOnInit() {
+    this.concept = this.route.snapshot.paramMap.get('concept') || '';
+    
+    const user = this.mcpService.getCurrentUser();
+    if (!user) {
+      this.router.navigate(['/login']);
+      return;
+    }
+
+    await this.loadQuiz(user.user_id);
+  }
+
+  onImageError(event: any) {
+    // Hide image if it fails to load
+    event.target.style.display = 'none';
+    console.warn('Failed to load case image');
+  }
+
+  stopSpeaking() {
+    if (this.speechSynthesis) {
+      this.speechSynthesis.cancel();
+      this.isSpeaking = false;
+    }
+  }
+
+  speak(text: string, rate: number = 0.9, pitch: number = 1.1, emotion: string = 'neutral') {
+    if (!this.speechEnabled || !this.speechSynthesis) return;
+    
+    // Stop any ongoing speech
+    this.stopSpeaking();
+    
+    // Clean text from emotion markers and sound effects
+    let cleanText = text
+      .replace(/\[excited\]|\[curious\]|\[encouraging\]|\[mysterious\]|\[proud\]/gi, '')
+      .replace(/\*[^*]+\*/g, '') // Remove *sound effects*
+      .trim();
+    
+    const utterance = new SpeechSynthesisUtterance(cleanText);
+    utterance.rate = rate;
+    utterance.pitch = pitch;
+    utterance.volume = 1.0;
+    
+    // Select voice based on personality
+    const voices = this.speechSynthesis.getVoices();
+    let preferredVoice;
+    
+    if (this.voicePersonality === 'mentor') {
+      preferredVoice = voices.find(v => 
+        v.name.includes('Alex') || v.name.includes('Daniel')
+      );
+    } else {
+      preferredVoice = voices.find(v => 
+        v.name.includes('Samantha') || 
+        v.name.includes('Google US English Female') ||
+        v.name.includes('Microsoft Zira')
+      );
+    }
+    
+    if (preferredVoice) {
+      utterance.voice = preferredVoice;
+    }
+    
+    utterance.onstart = () => {
+      this.isSpeaking = true;
+      this.currentEmotion = emotion;
+      this.playSoundEffect(emotion);
+    };
+    
+    utterance.onend = () => {
+      this.isSpeaking = false;
+      this.currentEmotion = 'neutral';
+    };
+    
+    utterance.onerror = () => {
+      this.isSpeaking = false;
+      this.currentEmotion = 'neutral';
+    };
+    
+    this.speechSynthesis.speak(utterance);
+  }
+
+  playSoundEffect(emotion: string) {
+    if (!this.soundEffectsEnabled) return;
+    
+    // Simple audio context for sound effects
+    try {
+      const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+      const oscillator = audioContext.createOscillator();
+      const gainNode = audioContext.createGain();
+      
+      oscillator.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+      
+      // Different sounds for different emotions
+      switch(emotion) {
+        case 'excited':
+          oscillator.frequency.value = 800;
+          gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+          gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
+          break;
+        case 'mysterious':
+          oscillator.frequency.value = 200;
+          oscillator.type = 'triangle';
+          gainNode.gain.setValueAtTime(0.05, audioContext.currentTime);
+          gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+          break;
+        case 'proud':
+          oscillator.frequency.value = 1000;
+          gainNode.gain.setValueAtTime(0.15, audioContext.currentTime);
+          gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.15);
+          break;
+        default:
+          return; // No sound for neutral
+      }
+      
+      oscillator.start(audioContext.currentTime);
+      oscillator.stop(audioContext.currentTime + 0.3);
+    } catch (e) {
+      console.log('Sound effects not supported');
+    }
+  }
+
+  async generateAIVoiceScript(text: string, context: string, difficulty: string = 'medium'): Promise<{script: string, rate: number, pitch: number, emotion: string}> {
+    try {
+      const user = this.mcpService.getCurrentUser();
+      if (!user) return {script: text, rate: 0.9, pitch: 1.1, emotion: 'neutral'};
+
+      const response = await this.mcpService.generateVoiceScript({
+        text: text,
+        context: context,
+        user_age: user.age,
+        personality: this.voicePersonality,
+        difficulty: difficulty
+      }).toPromise();
+
+      return {
+        script: response.script || text,
+        rate: response.rate || 0.9,
+        pitch: response.pitch || 1.1,
+        emotion: response.emotion || 'neutral'
+      };
+    } catch (error) {
+      console.error('AI voice script generation failed:', error);
+      return {script: text, rate: 0.9, pitch: 1.1, emotion: 'neutral'};
+    }
+  }
+
+  toggleSpeech() {
+    this.speechEnabled = !this.speechEnabled;
+    if (!this.speechEnabled) {
+      this.stopSpeaking();
+    }
+  }
+
+  async readQuestion() {
+    const question = this.quiz.questions[this.currentQuestionIndex];
+    if (question) {
+      this.isSpeaking = true;
+      const basicText = `Question ${this.currentQuestionIndex + 1}. ${question.question}. The options are: ${question.options.join(', ')}`;
+      
+      const voiceData = await this.generateAIVoiceScript(
+        basicText,
+        `question_reading_for_${this.concept}`,
+        this.quiz.difficulty || 'medium'
+      );
+      
+      this.speak(voiceData.script, voiceData.rate, voiceData.pitch, voiceData.emotion);
+    }
+  }
+
+  async readCaseBrief() {
+    if (this.quiz?.case_brief) {
+      this.isSpeaking = true;
+      const brief = this.quiz.case_brief;
+      const basicText = `${brief.title}. Your mission: ${brief.mission}. The case: ${brief.scenario}`;
+      
+      const voiceData = await this.generateAIVoiceScript(
+        basicText,
+        `case_brief_narration_for_${this.concept}`,
+        'medium'
+      );
+      
+      this.speak(voiceData.script, voiceData.rate * 0.9, voiceData.pitch, voiceData.emotion);
+    }
+  }
+
+  async readHint() {
+    if (this.currentQuestionHint) {
+      this.isSpeaking = true;
+      const basicText = `Detective's tip: ${this.currentQuestionHint}`;
+      
+      const voiceData = await this.generateAIVoiceScript(
+        basicText,
+        `hint_narration`,
+        'easy'
+      );
+      
+      this.speak(voiceData.script, voiceData.rate, voiceData.pitch, voiceData.emotion);
+    }
+  }
+
+  changeVoicePersonality(personality: string) {
+    this.voicePersonality = personality;
+    this.stopSpeaking();
+  }
+
+  toggleSoundEffects() {
+    this.soundEffectsEnabled = !this.soundEffectsEnabled;
+  }
+
+  async loadQuiz(userId: string) {
+    try {
+      this.loading = true;
+      this.error = null;
+      
+      this.quiz = await this.mcpService.generateQuiz(userId, this.concept).toPromise();
+      this.loading = false;
+    } catch (error: any) {
+      this.error = error.error?.detail || 'Failed to load quiz. Please try again.';
+      this.loading = false;
+    }
+  }
+
+  get currentQuestion() {
+    return this.quiz?.questions[this.currentQuestionIndex];
+  }
+
+  get progress() {
+    return ((this.currentQuestionIndex + 1) / this.quiz?.questions.length) * 100;
+  }
+
+  selectAnswer(answer: string) {
+    if (this.currentQuestion) {
+      this.selectedAnswers[this.currentQuestion.question_id] = answer;
+    }
+  }
+
+  isAnswerSelected(answer: string): boolean {
+    return this.selectedAnswers[this.currentQuestion?.question_id] === answer;
+  }
+
+  canGoNext(): boolean {
+    return !!this.selectedAnswers[this.currentQuestion?.question_id];
+  }
+
+  nextQuestion() {
+    if (this.currentQuestionIndex < this.quiz.questions - 1) {
+      this.currentQuestionIndex++;
+      this.currentQuestionHint = '';
+      this.storyChoices = [];
+      this.selectedChoice = '';
+      this.choiceImpact = null;
+    }
+  }
+
+  previousQuestion() {
+    if (this.currentQuestionIndex > 0) {
+      this.currentQuestionIndex--;
+      this.currentQuestionHint = '';
+      this.storyChoices = [];
+      this.selectedChoice = '';
+      this.choiceImpact = null;
+    }
+  }
+
+  async getAIHint() {
+    const user = this.mcpService.getCurrentUser();
+    if (!user || !this.currentQuestion) return;
+
+    this.loadingHint = true;
+    try {
+      const response = await this.mcpService.getAIHint(
+        user.user_id,
+        this.currentQuestion.question_text,
+        this.concept
+      ).toPromise();
+      
+      this.currentQuestionHint = response.hint;
+    } catch (err: any) {
+      console.error('Error getting hint:', err);
+      this.currentQuestionHint = '🔍 Think about the clues you learned. What patterns do you notice?';
+    } finally {
+      this.loadingHint = false;
+    }
+  }
+
+  async submitQuiz() {
+    const user = this.mcpService.getCurrentUser();
+    if (!user) return;
+
+    try {
+      this.evaluating = true;
+      
+      const response = {
+        quiz_id: this.quiz.quiz_id,
+        user_id: user.user_id,
+        answers: this.selectedAnswers
+      };
+
+      this.results = await this.mcpService.evaluateQuiz(this.quiz, response).toPromise();
+      
+      // Refresh gamification data
+      await this.mcpService.getGamificationData(user.user_id).toPromise();
+      
+      this.showResults = true;
+      this.evaluating = false;
+    } catch (error: any) {
+      this.error = error.error?.detail || 'Failed to evaluate quiz. Please try again.';
+      this.evaluating = false;
+    }
+  }
+
+  getScorePercentage(): number {
+    if (!this.results) return 0;
+    return (this.results.score / this.results.total_questions) * 100;
+  }
+
+  getScoreClass(): string {
+    const percentage = this.getScorePercentage();
+    if (percentage >= 90) return 'excellent';
+    if (percentage >= 70) return 'good';
+    if (percentage >= 50) return 'fair';
+    return 'needs-improvement';
+  }
+
+  backToDashboard() {
+    this.router.navigate(['/dashboard']);
+  }
+
+  retakeQuiz() {
+    this.currentQuestionIndex = 0;
+    this.selectedAnswers = {};
+    this.showResults = false;
+    this.results = null;
+    const user = this.mcpService.getCurrentUser();
+    if (user) {
+      this.loadQuiz(user.user_id);
+    }
+  }
+}

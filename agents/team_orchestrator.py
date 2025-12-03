@@ -248,9 +248,9 @@ class TeamOrchestrator:
             if not difficulty:
                 difficulty = self._determine_difficulty(context)
             
-            # Step 2: Content Generation Team - Story Generator
-            logger.info("[Team] Step 2: Content Generation Team - Story Generator creating story")
-            story = await self.content_agent.generate_story(
+            # Step 2: Content Generation Team - Case Brief Generator
+            logger.info("[Team] Step 2: Content Generation Team - Creating interactive case brief")
+            case_brief = await self.content_agent.generate_case_brief(
                 concept=concept,
                 user_context=context,
                 difficulty=difficulty
@@ -260,17 +260,18 @@ class TeamOrchestrator:
             logger.info("[Team] Step 3: Content Generation Team - Quiz Generator creating questions")
             questions = await self.quiz_agent.generate_questions(
                 concept=concept,
-                story=story,
+                story=case_brief,  # Pass case_brief as story for compatibility
                 difficulty=difficulty,
                 user_context=context
             )
             
-            # Step 4: Create complete quiz
+            # Step 4: Create complete quiz with case_brief
             quiz = Quiz(
                 quiz_id=f"quiz_{user_id}_{datetime.now().timestamp()}",
                 user_id=user_id,
                 concept=concept,
-                story=story,
+                case_brief=case_brief,
+                story=None,  # Deprecated
                 questions=questions,
                 difficulty=difficulty
             )

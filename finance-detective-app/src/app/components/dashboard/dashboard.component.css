@@ -1,0 +1,240 @@
+.dashboard-container {
+  padding: 2rem;
+  animation: fadeIn 0.6s ease;
+}
+
+.hero-section {
+  background: var(--gradient-detective);
+  padding: 3rem 2rem;
+  border-radius: 20px;
+  text-align: center;
+  margin-bottom: 2rem;
+  box-shadow: 0 10px 40px var(--shadow);
+  animation: slideInLeft 0.6s ease;
+}
+
+.hero-content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.hero-subtitle {
+  font-size: 1.5rem;
+  color: var(--text-light);
+  margin: 1rem 0;
+}
+
+.rank-display {
+  margin-top: 1.5rem;
+}
+
+.rank-badge {
+  font-size: 1.2rem;
+  padding: 0.75rem 2rem;
+  display: inline-block;
+  animation: glow 2s infinite;
+}
+
+.stats-section {
+  margin-bottom: 3rem;
+  animation: fadeIn 0.8s ease 0.2s backwards;
+}
+
+.stat-card {
+  animation: float 3s ease-in-out infinite;
+}
+
+.stat-card:nth-child(2) {
+  animation-delay: 0.5s;
+}
+
+.stat-card:nth-child(3) {
+  animation-delay: 1s;
+}
+
+.stat-card:nth-child(4) {
+  animation-delay: 1.5s;
+}
+
+.progress-section {
+  margin-top: 2rem;
+  padding: 2rem;
+  background: var(--secondary-dark);
+  border-radius: 15px;
+}
+
+.section-title {
+  font-size: 1.8rem;
+  color: var(--accent-gold);
+  margin-bottom: 1rem;
+  font-weight: 700;
+}
+
+.section-subtitle {
+  color: var(--text-muted);
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+}
+
+.cases-section {
+  margin-bottom: 3rem;
+  animation: fadeIn 1s ease 0.4s backwards;
+}
+
+.case-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  transition: all 0.3s ease;
+  animation: fadeIn 0.6s ease;
+}
+
+.case-card:hover {
+  transform: translateY(-10px) scale(1.02);
+  box-shadow: 0 15px 50px var(--shadow);
+}
+
+.case-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.case-icon {
+  font-size: 3rem;
+  animation: float 3s ease-in-out infinite;
+}
+
+.case-badge {
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.difficulty-beginner {
+  background: linear-gradient(135deg, #4CAF50 0%, #8BC34A 100%);
+  color: white;
+}
+
+.difficulty-intermediate {
+  background: linear-gradient(135deg, #FF9800 0%, #FFC107 100%);
+  color: white;
+}
+
+.difficulty-advanced {
+  background: linear-gradient(135deg, #F44336 0%, #E91E63 100%);
+  color: white;
+}
+
+.case-title {
+  font-size: 1.4rem;
+  color: var(--accent-gold);
+  margin: 0;
+}
+
+.case-description {
+  color: var(--text-muted);
+  flex-grow: 1;
+}
+
+.case-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(244, 162, 97, 0.2);
+}
+
+.case-reward {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--accent-gold);
+}
+
+.reward-icon {
+  font-size: 1.5rem;
+}
+
+.quick-actions {
+  margin-bottom: 3rem;
+  animation: fadeIn 1.2s ease 0.6s backwards;
+}
+
+.action-card {
+  background: var(--secondary-dark);
+  border: 2px solid var(--accent-gold);
+  border-radius: 15px;
+  padding: 2rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: var(--text-light);
+}
+
+.action-card:hover {
+  transform: translateY(-5px);
+  background: var(--gradient-detective);
+  box-shadow: 0 10px 30px var(--shadow);
+}
+
+.action-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.action-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--accent-gold);
+  margin-bottom: 0.5rem;
+}
+
+.action-description {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.badges-section {
+  animation: fadeIn 1.4s ease 0.8s backwards;
+}
+
+.badges-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 80vh;
+  color: var(--text-light);
+  font-size: 1.2rem;
+}
+
+@media (max-width: 768px) {
+  .dashboard-container {
+    padding: 1rem;
+  }
+
+  .hero-section {
+    padding: 2rem 1rem;
+  }
+
+  .case-footer {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .case-footer button {
+    width: 100%;
+  }
+}

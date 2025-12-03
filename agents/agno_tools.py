@@ -6,7 +6,7 @@ from pydantic import BaseModel, Field
 
 from models import (
     UserProfile, Quiz, QuizResponse, QuizResult,
-    EducationalStory, QuizQuestion, DifficultyLevel
+    EducationalStory, CaseBrief, QuizQuestion, DifficultyLevel
 )
 from agents.personalization_agent import PersonalizationAgent
 from agents.content_generation_agent import ContentGenerationAgent
@@ -46,11 +46,31 @@ class PersonalizationTools:
 
 
 class ContentGenerationTools:
-    """Tools for generating educational stories and content."""
+    """Tools for generating educational content (case briefs and stories)."""
     
     def __init__(self, rag_service: RAGService):
         self.agent = ContentGenerationAgent(rag_service)
         logger.info("ContentGenerationTools initialized")
+    
+    async def generate_case_brief(
+        self,
+        concept: str,
+        user_context: Dict[str, Any],
+        difficulty: DifficultyLevel
+    ) -> CaseBrief:
+        """
+        Generate interactive detective-style case brief for engaging learning.
+        
+        Args:
+            concept: Financial concept to teach
+            user_context: User profile and preferences
+            difficulty: Content difficulty level
+            
+        Returns:
+            CaseBrief object with mission, clues, and scenario
+        """
+        logger.info(f"[ContentGenerationTools] Generating case brief for concept: {concept}, difficulty: {difficulty}")
+        return await self.agent.generate_case_brief(concept, user_context, difficulty)
     
     async def generate_story(
         self,
@@ -59,7 +79,7 @@ class ContentGenerationTools:
         difficulty: DifficultyLevel
     ) -> EducationalStory:
         """
-        Generate personalized educational story about a financial concept.
+        Generate personalized educational story (legacy method).
         
         Args:
             concept: Financial concept to teach

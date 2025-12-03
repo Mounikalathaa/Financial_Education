@@ -1,0 +1,154 @@
+<div class="login-container">
+  <div class="login-card detective-card">
+    <div class="login-header">
+      <div class="detective-badge">🕵️</div>
+      <h1 class="detective-title">{{ isNewUser ? 'New Detective Onboarding' : 'Finance Detective Agency' }}</h1>
+      <p class="subtitle">{{ isNewUser ? 'Complete your profile to start investigating!' : 'Welcome back, detective! Enter your name to continue.' }}</p>
+    </div>
+
+    <!-- Existing User Login (Step 1) -->
+    <form *ngIf="!isNewUser" [formGroup]="loginForm" class="login-form">
+      <div class="form-group">
+        <label for="name" class="form-label">🎭 Detective Name</label>
+        <input
+          type="text"
+          id="name"
+          formControlName="name"
+          class="form-input"
+          placeholder="Enter your detective name..."
+          (keyup.enter)="checkExistingUser()"
+          [class.error]="loginForm.get('name')?.invalid && loginForm.get('name')?.touched"
+        />
+        <div class="error-message" *ngIf="loginForm.get('name')?.invalid && loginForm.get('name')?.touched">
+          Please enter a valid name (at least 2 characters)
+        </div>
+      </div>
+
+      <!-- Error Message -->
+      <div class="alert alert-danger" *ngIf="error">
+        {{ error }}
+      </div>
+
+      <!-- Continue Button -->
+      <button
+        type="button"
+        class="btn btn-primary btn-lg"
+        [disabled]="loginForm.get('name')?.invalid || checkingUser"
+        (click)="checkExistingUser()"
+      >
+        <span *ngIf="!checkingUser">🔍 Continue Investigation</span>
+        <span *ngIf="checkingUser">⏳ Checking...</span>
+      </button>
+
+      <div class="divider">
+        <span>OR</span>
+      </div>
+
+      <button
+        type="button"
+        class="btn btn-secondary btn-lg"
+        (click)="toggleToNewUser()"
+      >
+        ⭐ Join as New Detective
+      </button>
+    </form>
+
+    <!-- New User Onboarding Form (Step 2) -->
+    <form *ngIf="isNewUser" [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+      <!-- Name Input -->
+      <div class="form-group">
+        <label for="name" class="form-label">🎭 Detective Name</label>
+        <input
+          type="text"
+          id="name"
+          formControlName="name"
+          class="form-input"
+          placeholder="Enter your detective name..."
+          [class.error]="loginForm.get('name')?.invalid && loginForm.get('name')?.touched"
+        />
+        <div class="error-message" *ngIf="loginForm.get('name')?.invalid && loginForm.get('name')?.touched">
+          Please enter a valid name (at least 2 characters)
+        </div>
+      </div>
+
+      <!-- Age Input -->
+      <div class="form-group">
+        <label for="age" class="form-label">🎂 Age</label>
+        <input
+          type="number"
+          id="age"
+          formControlName="age"
+          class="form-input"
+          min="6"
+          max="18"
+          [class.error]="loginForm.get('age')?.invalid && loginForm.get('age')?.touched"
+        />
+        <div class="error-message" *ngIf="loginForm.get('age')?.invalid && loginForm.get('age')?.touched">
+          Age must be between 6 and 18
+        </div>
+      </div>
+
+      <!-- Hobbies Selection -->
+      <div class="form-group">
+        <label class="form-label">🎮 Hobbies (Select all that apply)</label>
+        <div class="options-grid">
+          <button
+            type="button"
+            *ngFor="let hobby of hobbiesOptions"
+            class="option-btn"
+            [class.selected]="isHobbySelected(hobby)"
+            (click)="toggleHobby(hobby)"
+          >
+            {{ hobby }}
+          </button>
+        </div>
+      </div>
+
+      <!-- Interests Selection -->
+      <div class="form-group">
+        <label class="form-label">⭐ Interests (Select all that apply)</label>
+        <div class="options-grid">
+          <button
+            type="button"
+            *ngFor="let interest of interestsOptions"
+            class="option-btn"
+            [class.selected]="isInterestSelected(interest)"
+            (click)="toggleInterest(interest)"
+          >
+            {{ interest }}
+          </button>
+        </div>
+      </div>
+
+      <!-- Error Message -->
+      <div class="alert alert-danger" *ngIf="error">
+        {{ error }}
+      </div>
+
+      <!-- Submit Button -->
+      <button
+        type="submit"
+        class="btn btn-primary btn-lg"
+        [disabled]="loginForm.invalid || loading"
+      >
+        <span *ngIf="!loading">🔍 Start Investigation</span>
+        <span *ngIf="loading">⏳ Creating Profile...</span>
+      </button>
+
+      <!-- Back Button -->
+      <button
+        type="button"
+        class="btn btn-secondary btn-lg"
+        (click)="backToLogin()"
+        [disabled]="loading"
+      >
+        ← Back to Login
+      </button>
+    </form>
+
+    <div class="login-footer">
+      <p>🎯 Learn financial concepts through exciting detective cases</p>
+      <p>🏆 Earn badges, level up, and become a financial expert</p>
+    </div>
+  </div>
+</div>

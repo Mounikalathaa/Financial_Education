@@ -1,0 +1,121 @@
+<div class="dashboard-container container" *ngIf="!loading">
+  <!-- Hero Section -->
+  <div class="hero-section">
+    <div class="hero-content">
+      <h1 class="detective-title">🕵️ Detective HQ</h1>
+      <p class="hero-subtitle">Welcome back, Detective {{ user?.name }}!</p>
+      <div class="rank-display">
+        <span class="rank-badge badge-rank">{{ detectiveRank }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stats Dashboard -->
+  <div class="stats-section" *ngIf="gamification">
+    <div class="grid grid-4">
+      <div class="stat-card">
+        <div class="stat-icon">💎</div>
+        <div class="stat-value">{{ gamification.total_points }}</div>
+        <div class="stat-label">Total Points</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon">📚</div>
+        <div class="stat-value">{{ gamification.quizzes_completed }}</div>
+        <div class="stat-label">Cases Solved</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon">🔥</div>
+        <div class="stat-value">{{ gamification.streak_days }}</div>
+        <div class="stat-label">Day Streak</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon">⭐</div>
+        <div class="stat-value">{{ gamification.perfect_scores }}</div>
+        <div class="stat-label">Perfect Cases</div>
+      </div>
+    </div>
+
+    <!-- Progress to Next Rank -->
+    <div class="progress-section">
+      <h3 class="section-title">🎖️ Progress to Next Rank</h3>
+      <div class="progress-bar">
+        <div class="progress-fill" [style.width.%]="(gamification.total_points % 250) / 250 * 100">
+          {{ gamification.total_points % 250 }}/250 XP
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Active Cases -->
+  <div class="cases-section">
+    <h2 class="section-title">📁 Active Case Files</h2>
+    <p class="section-subtitle">Choose a case to investigate and earn rewards!</p>
+
+    <div class="grid grid-2">
+      <div *ngFor="let case of cases" class="case-card detective-card">
+        <div class="case-header">
+          <div class="case-icon">{{ case.icon }}</div>
+          <div class="case-badge" [ngClass]="getDifficultyClass(case.difficulty)">
+            {{ case.difficulty }}
+          </div>
+        </div>
+
+        <h3 class="case-title">{{ case.title }}</h3>
+        <p class="case-description">{{ case.description }}</p>
+
+        <div class="case-footer">
+          <div class="case-reward">
+            <span class="reward-icon">💎</span>
+            <span class="reward-value">+{{ case.points }} XP</span>
+          </div>
+          <button class="btn btn-primary" (click)="startCase(case.id)">
+            🔍 Investigate
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick Actions -->
+  <div class="quick-actions">
+    <h3 class="section-title">⚡ Quick Actions</h3>
+    <div class="grid grid-3">
+      <button class="action-card" routerLink="/evidence-board">
+        <div class="action-icon">📊</div>
+        <div class="action-title">Evidence Board</div>
+        <div class="action-description">View your investigation history</div>
+      </button>
+
+      <button class="action-card" routerLink="/case-files">
+        <div class="action-icon">📁</div>
+        <div class="action-title">Case Files</div>
+        <div class="action-description">Browse all available cases</div>
+      </button>
+
+      <button class="action-card" routerLink="/profile">
+        <div class="action-icon">👤</div>
+        <div class="action-title">Detective Profile</div>
+        <div class="action-description">View badges and achievements</div>
+      </button>
+    </div>
+  </div>
+
+  <!-- Recent Badges -->
+  <div class="badges-section" *ngIf="gamification && gamification.badges.length > 0">
+    <h3 class="section-title">🏅 Recent Badges</h3>
+    <div class="badges-grid">
+      <div *ngFor="let badge of gamification.badges.slice(-4)" class="badge badge-achievement">
+        🏆 {{ badge }}
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Loading State -->
+<div class="loading-container" *ngIf="loading">
+  <div class="spinner"></div>
+  <p>Loading Detective HQ...</p>
+</div>

@@ -1,0 +1,50 @@
+<div class="app-container">
+  <!-- Navigation Header -->
+  <nav class="detective-nav" *ngIf="showNav">
+    <div class="nav-container">
+      <div class="nav-brand">
+        <h1 class="nav-title">🕵️ Finance Detective</h1>
+        <p class="nav-subtitle">Solve Financial Mysteries!</p>
+      </div>
+      
+      <div class="nav-links">
+        <a routerLink="/dashboard" routerLinkActive="active" class="nav-link">
+          🏠 Detective HQ
+        </a>
+        <a routerLink="/case-files" routerLinkActive="active" class="nav-link">
+          📁 Case Files
+        </a>
+        <a routerLink="/evidence-board" routerLinkActive="active" class="nav-link">
+          📊 Evidence Board
+        </a>
+        <a routerLink="/profile" routerLinkActive="active" class="nav-link">
+          👤 Profile
+        </a>
+      </div>
+      
+      <div class="nav-actions">
+        <button class="theme-toggle" (click)="toggleTheme()" [title]="isDarkMode ? 'Switch to Bright Mode' : 'Switch to Dark Mode'">
+          <span *ngIf="isDarkMode">☀️</span>
+          <span *ngIf="!isDarkMode">🌙</span>
+        </button>
+      </div>
+      
+      <div class="nav-user" *ngIf="currentUser$ | async as user">
+        <span class="user-name">Detective {{ user.name }}</span>
+        <button class="btn btn-danger" (click)="logout()">Logout</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <router-outlet></router-outlet>
+  </main>
+
+  <!-- Background Effects -->
+  <div class="background-effects">
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+  </div>
+</div>

@@ -1,0 +1,208 @@
+<div class="container quiz-container">
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-state">
+    <div class="spinner"></div>
+    <p>🔍 Generating your detective case...</p>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error && !loading" class="error-state detective-card">
+    <div class="error-icon">❌</div>
+    <h2>Investigation Failed</h2>
+    <p>{{ error }}</p>
+    <button class="btn btn-primary" (click)="backToDashboard()">Back to HQ</button>
+  </div>
+
+  <!-- Quiz Story -->
+  <div *ngIf="quiz && !showResults && !loading" class="quiz-content">
+    <!-- Case Brief Section - Always visible -->
+    <div class="case-brief-section detective-card" *ngIf="quiz.case_brief">
+      <div class="case-header">
+        <h1 class="case-title">🔍 {{ quiz.case_brief.title }}</h1>
+        <div class="difficulty-badge">{{ quiz.difficulty }}</div>
+      </div>
+      
+      <!-- AI-Generated Image -->
+      <div *ngIf="quiz.case_brief.image_url" class="case-image-container">
+        <img 
+          [src]="quiz.case_brief.image_url" 
+          [alt]="quiz.case_brief.title"
+          class="case-image"
+          (error)="onImageError($event)"
+        />
+        <div class="image-caption">🎨 AI-Generated Detective Scene</div>
+      </div>
+      
+      <!-- Mission -->
+      <div class="mission-box">
+        <h3 class="mission-label">🎯 YOUR MISSION</h3>
+        <p class="mission-text">{{ quiz.case_brief.mission }}</p>
+      </div>
+      
+      <!-- Evidence Clues -->
+      <div class="clues-section">
+        <h3 class="clues-label">🕵️ KEY EVIDENCE</h3>
+        <div class="clues-grid">
+          <div *ngFor="let clue of quiz.case_brief.clues; let i = index" class="clue-card">
+            <span class="clue-number">{{ i + 1 }}</span>
+            <span class="clue-text">{{ clue }}</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Scenario -->
+      <div class="scenario-box">
+        <h3 class="scenario-label">📋 THE CASE</h3>
+        <p class="scenario-text">{{ quiz.case_brief.scenario }}</p>
+      </div>
+      
+    </div>
+    
+    <!-- Fallback: Old Story Format -->
+    <div class="story-section detective-card" *ngIf="!quiz.case_brief && quiz.story">
+      <div class="story-header">
+        <h1 class="detective-title">📖 {{ quiz.story.title || 'Case File' }}</h1>
+        <div class="case-badge">{{ quiz.difficulty }}</div>
+      </div>
+      
+      <div class="story-content">
+        <p class="story-narrative">{{ quiz.story.content || quiz.story.narrative || 'Loading story...' }}</p>
+      </div>
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="progress-section">
+      <div class="progress-info">
+        <span>Question {{ currentQuestionIndex + 1 }} of {{ quiz.questions.length }}</span>
+        <span>{{ progress.toFixed(0) }}% Complete</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" [style.width.%]="progress"></div>
+      </div>
+    </div>
+
+    <!-- Question Section -->
+    <div class="question-section detective-card">
+      <h2 class="question-title">🕵️ {{ currentQuestion.question_text }}</h2>
+      
+      <!-- AI Hint Section -->
+      <div *ngIf="currentQuestionHint" class="hint-box">
+        <div class="hint-header">💡 Detective's Tip</div>
+        <div class="hint-text">{{ currentQuestionHint }}</div>
+      </div>
+      
+      <div class="options-list">
+        <button
+          *ngFor="let option of currentQuestion.options"
+          class="option-button"
+          [class.selected]="isAnswerSelected(option)"
+          (click)="selectAnswer(option)"
+        >
+          <span class="option-marker">{{ currentQuestion.options.indexOf(option) + 1 }}</span>
+          <span class="option-text">{{ option }}</span>
+        </button>
+      </div>
+      
+      <!-- Get Hint Button -->
+      <button 
+        *ngIf="!currentQuestionHint && !selectedAnswers[currentQuestion?.question_id]"
+        class="hint-button"
+        (click)="getAIHint()"
+        [disabled]="loadingHint"
+      >
+        <span *ngIf="!loadingHint">💡 Need a Hint?</span>
+        <span *ngIf="loadingHint">🔍 Thinking...</span>
+      </button>
+
+      <div class="question-nav">
+        <button
+          class="btn btn-secondary"
+          [disabled]="currentQuestionIndex === 0"
+          (click)="previousQuestion()"
+        >
+          ← Previous
+        </button>
+        
+        <button
+          *ngIf="currentQuestionIndex < quiz.questions.length - 1"
+          class="btn btn-primary"
+          [disabled]="!canGoNext()"
+          (click)="nextQuestion()"
+        >
+          Next →
+        </button>
+        
+        <button
+          *ngIf="currentQuestionIndex === quiz.questions.length - 1"
+          class="btn btn-primary btn-submit"
+          [disabled]="!canGoNext() || evaluating"
+          (click)="submitQuiz()"
+        >
+          <span *ngIf="!evaluating">✅ Submit Case</span>
+          <span *ngIf="evaluating">⏳ Evaluating...</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Results Section -->
+  <div *ngIf="showResults && results" class="results-section">
+    <div class="results-card detective-card">
+      <div class="results-header" [ngClass]="getScoreClass()">
+        <div class="score-badge">
+          <div class="score-value">{{ results.score }}/{{ results.total_questions }}</div>
+          <div class="score-percentage">{{ getScorePercentage().toFixed(0) }}%</div>
+        </div>
+        <h1 class="results-title">Case {{ getScorePercentage() >= 70 ? 'Solved' : 'Pending' }}!</h1>
+      </div>
+
+      <div class="results-content">
+        <div class="feedback-section">
+          <h3>🎯 Detective Feedback</h3>
+          <p class="feedback-text">{{ results.feedback }}</p>
+        </div>
+
+        <div class="rewards-section">
+          <h3>🏆 Rewards Earned</h3>
+          <div class="rewards-grid grid grid-3">
+            <div class="reward-card">
+              <div class="reward-icon">💎</div>
+              <div class="reward-value">+{{ results.gamification_updates.total_points }} XP</div>
+              <div class="reward-label">Experience Points</div>
+            </div>
+
+            <div class="reward-card">
+              <div class="reward-icon">🔥</div>
+              <div class="reward-value">{{ results.gamification_updates.streak_days }} Days</div>
+              <div class="reward-label">Current Streak</div>
+            </div>
+
+            <div class="reward-card">
+              <div class="reward-icon">📚</div>
+              <div class="reward-value">{{ results.gamification_updates.quizzes_completed }}</div>
+              <div class="reward-label">Cases Solved</div>
+            </div>
+          </div>
+
+          <div *ngIf="results.gamification_updates.badges && results.gamification_updates.badges.length > 0" class="badges-earned">
+            <h4>🏅 New Badges Unlocked!</h4>
+            <div class="badges-list">
+              <div *ngFor="let badge of results.gamification_updates.badges" class="badge badge-achievement">
+                🏆 {{ badge }}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="results-actions">
+          <button class="btn btn-secondary" (click)="retakeQuiz()">
+            🔄 Retry Case
+          </button>
+          <button class="btn btn-primary" (click)="backToDashboard()">
+            🏠 Back to HQ
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

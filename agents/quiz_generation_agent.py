@@ -5,7 +5,7 @@ import json
 import os
 from typing import List, Dict, Any
 from openai import AsyncAzureOpenAI
-from models import QuizQuestion, EducationalStory, DifficultyLevel
+from models import QuizQuestion, EducationalStory, CaseBrief, DifficultyLevel
 from config import config
 
 logger = logging.getLogger(__name__)
@@ -19,22 +19,23 @@ class QuizGenerationAgent:
         self.client = AsyncAzureOpenAI(
             api_key=os.getenv("OPENAI_API_KEY"),
             api_version=os.getenv("MODEL_API_VERSION", "2024-02-01"),
-            azure_endpoint=os.getenv("OPENAI_ENDPOINT")
+            azure_endpoint=os.getenv("OPENAI_ENDPOINT"),
+            timeout=120.0  # Increase timeout to 120 seconds
         )
     
     async def generate_questions(
         self,
         concept: str,
-        story: EducationalStory,
+        story,  # Can be CaseBrief or EducationalStory
         difficulty: DifficultyLevel,
         user_context: Dict[str, Any]
     ) -> List[QuizQuestion]:
         """
-        Generate quiz questions based on the story and concept.
+        Generate quiz questions based on the case brief or story.
         
         Args:
             concept: Financial concept
-            story: Generated educational story
+            story: Generated case brief or educational story
             difficulty: Difficulty level
             user_context: User context for personalization
             
@@ -85,9 +86,10 @@ class QuizGenerationAgent:
             
             # Convert to QuizQuestion objects
             questions = []
+            story_id = getattr(story, 'case_id', getattr(story, 'story_id', 'default'))
             for idx, q_data in enumerate(questions_data.get("questions", [])):
                 question = QuizQuestion(
-                    question_id=f"q_{story.story_id}_{idx+1}",
+                    question_id=f"q_{story_id}_{idx+1}",
                     question_text=q_data["question"],
                     options=q_data["options"],
                     correct_answer=q_data["correct_answer"],
@@ -106,17 +108,29 @@ class QuizGenerationAgent:
     def _build_question_prompt(
         self,
         concept: str,
-        story: EducationalStory,
+        story,  # Can be CaseBrief or EducationalStory
         difficulty: DifficultyLevel,
         num_questions: int,
         knowledge: str
     ) -> str:
         """Build the question generation prompt."""
-        prompt = f"""Generate {num_questions} multiple-choice quiz questions based on the following educational story and knowledge base.
-
-**Story:**
+        # Handle both CaseBrief and EducationalStory
+        if isinstance(story, CaseBrief):
+            clues_text = "\n".join([f"- {clue}" for clue in story.clues])
+            content_text = f"""**Case Brief:**
+Title: {story.title}
+Mission: {story.mission}
+Key Evidence:
+{clues_text}
+Scenario: {story.scenario}"""
+        else:
+            content_text = f"""**Story:**
 {story.title}
-{story.content}
+{getattr(story, 'content', getattr(story, 'narrative', ''))}"""
+        
+        prompt = f"""Generate {num_questions} multiple-choice quiz questions based on the following educational content and knowledge base.
+
+{content_text}
 
 **Knowledge Base:**
 {knowledge}

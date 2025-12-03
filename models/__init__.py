@@ -61,8 +61,20 @@ class QuizQuestion(BaseModel):
     explanation: str
     difficulty: DifficultyLevel
 
+class CaseBrief(BaseModel):
+    """Interactive case brief for detective-style learning."""
+    case_id: str
+    title: str
+    mission: str  # Short, engaging mission statement (1-2 sentences)
+    clues: List[str]  # 3-5 key clues/facts about the concept
+    scenario: str  # Brief scenario (2-3 sentences)
+    concept: str
+    age_appropriate: bool = True
+    personalization_elements: List[str] = []
+    image_url: Optional[str] = None  # AI-generated detective scene image
+
 class EducationalStory(BaseModel):
-    """Educational story model."""
+    """Educational story model (deprecated, use CaseBrief)."""
     story_id: str
     title: str
     content: str
@@ -75,7 +87,8 @@ class Quiz(BaseModel):
     quiz_id: str
     user_id: str
     concept: str
-    story: EducationalStory
+    case_brief: Optional[CaseBrief] = None
+    story: Optional[EducationalStory] = None  # Deprecated, use case_brief
     questions: List[QuizQuestion]
     created_at: datetime = Field(default_factory=datetime.now)
     difficulty: DifficultyLevel

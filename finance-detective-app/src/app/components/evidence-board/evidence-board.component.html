@@ -1,0 +1,29 @@
+<div class="container">
+  <h1 class="detective-title">📊 Evidence Board</h1>
+  <p class="section-subtitle">Your investigation history and case results</p>
+
+  <div *ngIf="loading" class="loading-container">
+    <div class="spinner"></div>
+    <p>Loading evidence...</p>
+  </div>
+
+  <div *ngIf="!loading && quizHistory.length === 0" class="empty-state detective-card">
+    <div class="empty-icon">🔍</div>
+    <h2>No Cases Solved Yet</h2>
+    <p>Start investigating cases to build your evidence board!</p>
+    <button class="btn btn-primary" routerLink="/dashboard">Start First Case</button>
+  </div>
+
+  <div *ngIf="!loading && quizHistory.length > 0" class="evidence-grid grid grid-2">
+    <div *ngFor="let quiz of quizHistory" class="evidence-card case-file">
+      <div class="evidence-header">
+        <h3>{{ quiz.concept }}</h3>
+        <div class="evidence-date">{{ quiz.completed_at | date: 'short' }}</div>
+      </div>
+      <div class="evidence-score" [ngClass]="getScoreClass(quiz.score, quiz.total_questions)">
+        <span class="score-value">{{ quiz.score }}/{{ quiz.total_questions }}</span>
+        <span class="score-percentage">{{ (quiz.score / quiz.total_questions * 100).toFixed(0) }}%</span>
+      </div>
+    </div>
+  </div>
+</div>

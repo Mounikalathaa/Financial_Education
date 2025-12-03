@@ -1,0 +1,81 @@
+<div class="container">
+  <h1 class="detective-title">📁 Case Files Archive</h1>
+  <p class="section-subtitle">Browse all available financial mystery cases</p>
+
+  <!-- Filters Section -->
+  <div class="filters-section detective-card">
+    <div class="filter-group">
+      <label for="search">🔍 Search Cases</label>
+      <input
+        type="text"
+        id="search"
+        [(ngModel)]="searchTerm"
+        placeholder="Search by title, concept, or description..."
+        class="filter-input"
+      />
+    </div>
+
+    <div class="filter-group">
+      <label for="difficulty">🎯 Difficulty Level</label>
+      <select id="difficulty" [(ngModel)]="selectedDifficulty" class="filter-select">
+        <option value="all">All Levels</option>
+        <option value="beginner">Beginner</option>
+        <option value="intermediate">Intermediate</option>
+        <option value="advanced">Advanced</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Results Count -->
+  <div class="results-info">
+    <p>Found {{ filteredCases.length }} case(s)</p>
+  </div>
+
+  <!-- Cases Grid -->
+  <div class="cases-grid grid grid-2" *ngIf="filteredCases.length > 0">
+    <div *ngFor="let case of filteredCases" class="case-card detective-card">
+      <div class="case-header">
+        <div class="case-icon-large">{{ case.icon }}</div>
+        <div class="case-badge" [ngClass]="getDifficultyClass(case.difficulty)">
+          {{ case.difficulty }}
+        </div>
+      </div>
+
+      <h3 class="case-title">{{ case.title }}</h3>
+      <div class="case-concept">📝 Concept: {{ case.concept }}</div>
+      <p class="case-description">{{ case.description }}</p>
+
+      <div class="case-skills">
+        <h4>🎯 Skills You'll Learn:</h4>
+        <div class="skills-list">
+          <span *ngFor="let skill of case.skills" class="skill-tag">{{ skill }}</span>
+        </div>
+      </div>
+
+      <div class="case-meta">
+        <div class="meta-item">
+          <span class="meta-icon">⏱️</span>
+          <span>{{ case.estimatedTime }}</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-icon">💎</span>
+          <span>+{{ case.points }} XP</span>
+        </div>
+      </div>
+
+      <button class="btn btn-primary btn-full" (click)="startCase(case.id)">
+        🔍 Start Investigation
+      </button>
+    </div>
+  </div>
+
+  <!-- Empty State -->
+  <div *ngIf="filteredCases.length === 0" class="empty-state detective-card">
+    <div class="empty-icon">🔎</div>
+    <h2>No Cases Found</h2>
+    <p>Try adjusting your search or filter criteria</p>
+    <button class="btn btn-secondary" (click)="searchTerm = ''; selectedDifficulty = 'all'">
+      Clear Filters
+    </button>
+  </div>
+</div>

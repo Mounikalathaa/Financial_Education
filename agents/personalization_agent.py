@@ -113,3 +113,35 @@ class PersonalizationAgent:
             "top_category": max(categories.items(), key=lambda x: x[1])[0] if categories else None,
             "transaction_count": len(transactions)
         }
+    
+    def filter_topics_by_age(self, topics: list, user_age: int) -> list:
+        """
+        Filter topics based on user's age to show age-appropriate content.
+        
+        Age mapping:
+        - 6-11 years (Class 6-7): Beginner topics
+        - 12-14 years (Class 8-9): Intermediate topics  
+        - 15+ years (Class 10+): Advanced topics
+        
+        Args:
+            topics: List of topic dictionaries with 'class' field
+            user_age: User's age
+            
+        Returns:
+            Filtered list of age-appropriate topics
+        """
+        # Determine appropriate class levels based on age
+        if user_age <= 11:
+            # Show Class 6-7 (beginner)
+            appropriate_classes = ["6", "7"]
+        elif user_age <= 14:
+            # Show Class 6-9 (beginner + intermediate)
+            appropriate_classes = ["6", "7", "8", "9"]
+        else:
+            # Show all classes (beginner + intermediate + advanced)
+            appropriate_classes = ["6", "7", "8", "9", "10"]
+        
+        filtered = [t for t in topics if t.get("class") in appropriate_classes]
+        
+        logger.info(f"Filtered {len(topics)} topics to {len(filtered)} for age {user_age}")
+        return filtered
