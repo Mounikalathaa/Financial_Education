@@ -108,8 +108,8 @@ export class QuizComponent implements OnInit {
       this.loadingHint = true;
       const response = await this.mcpService.getAIHint(
         user.user_id,
-        question.question,
-        this.concept
+        question.question_text || question.question,
+        this.quiz.concept || this.concept
       ).toPromise();
 
       this.currentQuestionHint = response.hint;
