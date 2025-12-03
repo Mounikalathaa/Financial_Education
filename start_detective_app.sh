@@ -124,8 +124,8 @@ echo ""
 echo -e "${GREEN}🎮 Starting Finance Detective Angular App on port 4200...${NC}"
 echo ""
 
-# Start Angular app (this will run in foreground)
-npm start
+# Start Angular app (this will run in foreground and open browser)
+npm start -- --open
 
 # Cleanup on exit
 cleanup() {
