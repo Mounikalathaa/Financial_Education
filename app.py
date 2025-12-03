@@ -826,6 +826,47 @@ def dashboard():
                 del st.session_state[key]
             st.rerun()
     
+    # User Profile Card
+    st.markdown("""
+    <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+         padding: 1.5rem; border-radius: 20px; margin: 1rem 0; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
+        <h3 style="color: white; margin-bottom: 1rem;">👤 Your Profile</h3>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    # Profile details in columns
+    profile_cols = st.columns(3)
+    with profile_cols[0]:
+        st.markdown(f"""
+        <div style="background-color: #f8f9fa; padding: 1rem; border-radius: 15px; text-align: center; height: 100%;">
+            <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🎂</div>
+            <div style="font-size: 0.9rem; color: #6c757d; margin-bottom: 0.3rem;">Age</div>
+            <div style="font-size: 1.5rem; font-weight: bold; color: #667eea;">{profile.age} years</div>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    with profile_cols[1]:
+        hobbies_display = ", ".join(profile.hobbies) if profile.hobbies else "Not specified"
+        st.markdown(f"""
+        <div style="background-color: #f8f9fa; padding: 1rem; border-radius: 15px; text-align: center; height: 100%;">
+            <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🎨</div>
+            <div style="font-size: 0.9rem; color: #6c757d; margin-bottom: 0.3rem;">Hobbies</div>
+            <div style="font-size: 1rem; font-weight: bold; color: #764ba2;">{hobbies_display}</div>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    with profile_cols[2]:
+        interests_display = ", ".join(profile.interests) if profile.interests else "Not specified"
+        st.markdown(f"""
+        <div style="background-color: #f8f9fa; padding: 1rem; border-radius: 15px; text-align: center; height: 100%;">
+            <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">💡</div>
+            <div style="font-size: 0.9rem; color: #6c757d; margin-bottom: 0.3rem;">Interests</div>
+            <div style="font-size: 1rem; font-weight: bold; color: #667eea;">{interests_display}</div>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    st.markdown("<br>", unsafe_allow_html=True)
+    
     # Gamification display
     if gamif:
         st.markdown(f'<div class="level-badge">🏆 Level: {gamif["level"]}</div>', unsafe_allow_html=True)
