@@ -1,0 +1,193 @@
+"""
+FEEDBACK AGENT INTEGRATION FLOW
+================================
+
+┌─────────────────────────────────────────────────────────────────────┐
+│                         USER COMPLETES QUIZ                          │
+└────────────────────────────┬────────────────────────────────────────┘
+                             │
+                             ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│                    QUIZ RESULTS DISPLAYED                            │
+│  • Score & Percentage                                                │
+│  • Points Earned                                                     │
+│  • Correct/Incorrect Answers                                         │
+│  • Explanations                                                      │
+└────────────────────────────┬────────────────────────────────────────┘
+                             │
+                             ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│                    FEEDBACK FORM APPEARS                             │
+│  ┌───────────────────────────────────────────────────────────────┐  │
+│  │  📊 Overall Rating: ⭐⭐⭐⭐⭐                                    │  │
+│  │  📈 Difficulty: ○ Too Easy ● Just Right ○ Too Hard           │  │
+│  │  🎯 Relevance Score: ⭐⭐⭐⭐⭐                                  │  │
+│  │  💬 Comments: [Optional text feedback]                        │  │
+│  │  [Submit Feedback] 🔵                                         │  │
+│  └───────────────────────────────────────────────────────────────┘  │
+└────────────────────────────┬────────────────────────────────────────┘
+                             │
+                             ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│                      FEEDBACK AGENT PROCESSES                        │
+│  ┌───────────────────────────────────────────────────────────────┐  │
+│  │  Step 1: COLLECT FEEDBACK                                     │  │
+│  │  • Create QuizFeedback object                                 │  │
+│  │  • Capture all user inputs                                    │  │
+│  │  • Generate unique feedback ID                                │  │
+│  └───────────────────────────────────────────────────────────────┘  │
+│  ┌───────────────────────────────────────────────────────────────┐  │
+│  │  Step 2: ANALYZE FOR BIAS (GPT-4)                             │  │
+│  │  • Check for gender bias                                      │  │
+│  │  • Check for cultural bias                                    │  │
+│  │  • Check for economic bias                                    │  │
+│  │  • Check for stereotypes                                      │  │
+│  │  • Check for accessibility issues                             │  │
+│  │  • Determine severity (low/medium/high)                       │  │
+│  │  • Generate recommendations                                   │  │
+│  └───────────────────────────────────────────────────────────────┘  │
+│  ┌───────────────────────────────────────────────────────────────┐  │
+│  │  Step 3: PROCESS FEEDBACK                                     │  │
+│  │  • Evaluate rating (flag if <= 2)                             │  │
+│  │  • Check bias severity                                        │  │
+│  │  • Identify difficulty mismatches                             │  │
+│  │  • Check relevance scores                                     │  │
+│  │  • Determine actions needed                                   │  │
+│  └───────────────────────────────────────────────────────────────┘  │
+│  ┌───────────────────────────────────────────────────────────────┐  │
+│  │  Step 4: UPDATE KNOWLEDGE BASE (if bias detected)             │  │
+│  │  • Generate improved, bias-free content (GPT-4)               │  │
+│  │  • Create content for all difficulty levels                   │  │
+│  │  • Add to FAISS vector store                                  │  │
+│  │  • Save metadata                                              │  │
+│  │  • Persist changes to disk                                    │  │
+│  └───────────────────────────────────────────────────────────────┘  │
+│  ┌───────────────────────────────────────────────────────────────┐  │
+│  │  Step 5: SAVE FEEDBACK                                        │  │
+│  │  • Store in data/feedback.json                                │  │
+│  │  • Available for analytics                                    │  │
+│  └───────────────────────────────────────────────────────────────┘  │
+└────────────────────────────┬────────────────────────────────────────┘
+                             │
+                             ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│                    RESULTS SHOWN TO USER                             │
+│  ┌───────────────────────────────────────────────────────────────┐  │
+│  │  ✅ Thank you for your feedback!                              │  │
+│  │                                                                │  │
+│  │  IF NO BIAS:                                                  │  │
+│  │  ✓ No bias detected. Content is inclusive!                   │  │
+│  │                                                                │  │
+│  │  IF BIAS DETECTED:                                            │  │
+│  │  ⚠️ Bias detected (Severity: medium)                          │  │
+│  │  📋 Issues found:                                             │  │
+│  │     - Gender stereotyping in examples                         │  │
+│  │     - Limited cultural representation                         │  │
+│  │  💡 Actions taken:                                            │  │
+│  │     ✓ Urgent bias review initiated                            │  │
+│  │     ✓ Knowledge base updated with better content              │  │
+│  │  ✨ Changes are already live for future learners!            │  │
+│  └───────────────────────────────────────────────────────────────┘  │
+└────────────────────────────┬────────────────────────────────────────┘
+                             │
+                             ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│                   CONTINUOUS IMPROVEMENT CYCLE                       │
+│                                                                      │
+│  Next Quiz Uses:                                                     │
+│  • Updated, bias-free content from vector store                      │
+│  • More inclusive examples                                           │
+│  • Better representation                                             │
+│                                                                      │
+│  Analytics Dashboard Shows:                                          │
+│  • Feedback trends                                                   │
+│  • Bias detection rates                                              │
+│  • Content improvements over time                                    │
+│  • Concept-level health scores                                       │
+└─────────────────────────────────────────────────────────────────────┘
+
+
+DATA FLOW DIAGRAM
+=================
+
+┌──────────────┐     ┌──────────────┐     ┌──────────────┐
+│   Feedback   │────▶│  Bias        │────▶│  Knowledge   │
+│   Collection │     │  Detection   │     │  Base Update │
+└──────────────┘     └──────────────┘     └──────────────┘
+       │                     │                     │
+       │                     │                     │
+       ▼                     ▼                     ▼
+   Store in             BiasAnalysis         FAISS Vector
+feedback.json             Model               Store + Save
+
+
+AGENT INTERACTIONS
+==================
+
+┌────────────────────┐
+│   Orchestrator     │ ◀── Coordinates all agents
+└─────────┬──────────┘
+          │
+          ├─────▶ Personalization Agent
+          ├─────▶ Content Generation Agent
+          ├─────▶ Quiz Generation Agent
+          ├─────▶ Evaluation Agent
+          ├─────▶ Gamification Agent
+          └─────▶ Feedback Agent ⭐ NEW!
+                       │
+                       ├─────▶ RAG Service (update KB)
+                       └─────▶ OpenAI (bias detection)
+
+
+KEY COMPONENTS
+==============
+
+1. FeedbackAgent Class
+   - collect_feedback()
+   - analyze_bias()
+   - process_feedback()
+   - update_knowledge_base_for_bias()
+   - generate_feedback_insights()
+
+2. Data Models
+   - QuizFeedback
+   - BiasAnalysis
+
+3. UI Integration
+   - Feedback form in results screen
+   - Real-time processing feedback
+   - Transparent results display
+
+4. Storage
+   - JSON file for feedback history
+   - FAISS vector store for improved content
+   - Metadata tracking
+
+5. Analytics
+   - view_feedback_insights.py script
+   - Aggregated statistics
+   - Trend analysis
+
+
+BENEFITS
+========
+
+For Users:
+✓ Voice is heard
+✓ See immediate impact
+✓ Better content over time
+✓ More inclusive learning
+
+For System:
+✓ Automatic content improvement
+✓ Bias detection & correction
+✓ Quality monitoring
+✓ Data-driven enhancements
+
+For Society:
+✓ More inclusive education
+✓ Better representation
+✓ Reduced bias in learning
+✓ Equal opportunities for all
+"""
+

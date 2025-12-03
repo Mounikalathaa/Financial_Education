@@ -132,7 +132,7 @@ source venv/bin/activate
 pip install -r requirements.txt
 
 # 4. Set up environment
-echo "OPENAI_API_KEY=your_key_here" > .env
+echo "OPENAI_API_KEY=your_key_here" > ..env
 
 # 5. Initialize knowledge base
 python scripts/load_knowledge_base.py

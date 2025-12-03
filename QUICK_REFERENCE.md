@@ -144,8 +144,8 @@ pip install -r requirements.txt
 
 **API Key Error**
 ```bash
-# Check .env file
-cat .env
+# Check ..env file
+cat ..env
 
 # Verify API key is valid
 # Get new key from Azure Portal

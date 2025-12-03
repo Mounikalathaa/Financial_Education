@@ -1,0 +1,696 @@
+[
+  {
+    "review_id": "review_1764680033.165005",
+    "feedback": {
+      "feedback_id": "feedback_quiz_user_test_1764679959.637654_1764680032.605374",
+      "quiz_id": "quiz_user_test_1764679959.637654",
+      "user_id": "user_test",
+      "concept": "saving",
+      "rating": 4,
+      "comments": "I thin there is some gender bias issue as no character in story was female",
+      "difficulty_perception": "just_right",
+      "relevance_score": 4,
+      "bias_analysis": {
+        "has_bias": false,
+        "bias_types": [],
+        "severity": "low",
+        "specific_issues": [],
+        "recommendations": [],
+        "confidence_score": 0.0,
+        "analyzed_at": "2025-12-02T18:23:53.164375"
+      },
+      "created_at": "2025-12-02T18:23:52.605391",
+      "processed": false
+    },
+    "reason": "Low AI confidence (0.00%) - potential missed bias",
+    "priority": "medium",
+    "status": "reviewed",
+    "created_at": "2025-12-02T18:23:53.165131",
+    "reviewed_at": "2025-12-02T18:25:02.458846",
+    "reviewed_by": "admin@example.com",
+    "admin_decision": "flag_bias",
+    "actions_taken": [
+      "manual_bias_flagged",
+      "knowledge_base_updated_by_admin"
+    ],
+    "admin_review": {
+      "review_id": "review_1764680033.165005",
+      "feedback_id": "feedback_quiz_user_test_1764679959.637654_1764680032.605374",
+      "admin_id": "admin@example.com",
+      "decision": "flag_bias",
+      "admin_notes": "Ai should create story with character based on all genders",
+      "bias_override": {
+        "bias_types": [],
+        "severity": "low",
+        "specific_issues": [],
+        "recommendations": []
+      },
+      "actions_taken": [],
+      "reviewed_at": "2025-12-02T18:25:01.543397"
+    }
+  },
+  {
+    "review_id": "review_1764680711.018331",
+    "feedback": {
+      "feedback_id": "feedback_quiz_user_test_1764680677.262137_1764680710.226597",
+      "quiz_id": "quiz_user_test_1764680677.262137",
+      "user_id": "user_test",
+      "concept": "budgeting",
+      "rating": 3,
+      "comments": "I think it bias against people of different economic background",
+      "difficulty_perception": "too_easy",
+      "relevance_score": 3,
+      "bias_analysis": {
+        "has_bias": false,
+        "bias_types": [],
+        "severity": "low",
+        "specific_issues": [],
+        "recommendations": [],
+        "confidence_score": 0.0,
+        "analyzed_at": "2025-12-02T18:35:11.017782"
+      },
+      "created_at": "2025-12-02T18:35:10.226612",
+      "processed": false
+    },
+    "reason": "Low AI confidence (0.00%) - potential missed bias",
+    "priority": "medium",
+    "status": "reviewed",
+    "created_at": "2025-12-02T18:35:11.018398",
+    "reviewed_at": "2025-12-02T18:36:25.367902",
+    "reviewed_by": "admin@example.com",
+    "admin_decision": "reject",
+    "actions_taken": [
+      "ai_decision_rejected"
+    ],
+    "admin_review": {
+      "review_id": "review_1764680711.018331",
+      "feedback_id": "feedback_quiz_user_test_1764680677.262137_1764680710.226597",
+      "admin_id": "admin@example.com",
+      "decision": "reject",
+      "admin_notes": "Yes take into consider of all economic background",
+      "bias_override": null,
+      "actions_taken": [],
+      "reviewed_at": "2025-12-02T18:36:25.367828"
+    }
+  },
+  {
+    "review_id": "review_1764681127.754649",
+    "feedback": {
+      "feedback_id": "feedback_quiz_user_test_1764680677.262137_1764681127.218629",
+      "quiz_id": "quiz_user_test_1764680677.262137",
+      "user_id": "user_test",
+      "concept": "budgeting",
+      "rating": 3,
+      "comments": "The story was biased, the story is baised against different economic background",
+      "difficulty_perception": "too_easy",
+      "relevance_score": 3,
+      "bias_analysis": {
+        "has_bias": false,
+        "bias_types": [],
+        "severity": "low",
+        "specific_issues": [],
+        "recommendations": [],
+        "confidence_score": 0.0,
+        "analyzed_at": "2025-12-02T18:42:07.754091"
+      },
+      "created_at": "2025-12-02T18:42:07.218649",
+      "processed": false
+    },
+    "reason": "User feedback contains concerning keywords",
+    "priority": "medium",
+    "status": "reviewed",
+    "created_at": "2025-12-02T18:42:07.754730",
+    "reviewed_at": "2025-12-02T18:43:08.837151",
+    "reviewed_by": "admin@example.com",
+    "admin_decision": "flag_bias",
+    "actions_taken": [
+      "manual_bias_flagged",
+      "knowledge_base_updated_by_admin"
+    ],
+    "admin_review": {
+      "review_id": "review_1764681127.754649",
+      "feedback_id": "feedback_quiz_user_test_1764680677.262137_1764681127.218629",
+      "admin_id": "admin@example.com",
+      "decision": "flag_bias",
+      "admin_notes": "Try taking into consideration of people from all economic background",
+      "bias_override": {
+        "bias_types": [],
+        "severity": "low",
+        "specific_issues": [],
+        "recommendations": []
+      },
+      "actions_taken": [],
+      "reviewed_at": "2025-12-02T18:43:08.306469"
+    }
+  },
+  {
+    "review_id": "review_1764681628.842226",
+    "feedback": {
+      "feedback_id": "feedback_quiz_user_test_1764680677.262137_1764681627.793709",
+      "quiz_id": "quiz_user_test_1764680677.262137",
+      "user_id": "user_test",
+      "concept": "budgeting",
+      "rating": 3,
+      "comments": "Its biased against other genders as the story contains people of only male gender",
+      "difficulty_perception": "too_easy",
+      "relevance_score": 3,
+      "bias_analysis": {
+        "has_bias": false,
+        "bias_types": [],
+        "severity": "low",
+        "specific_issues": [],
+        "recommendations": [],
+        "confidence_score": 0.0,
+        "analyzed_at": "2025-12-02T18:50:28.841520"
+      },
+      "created_at": "2025-12-02T18:50:27.793718",
+      "processed": false
+    },
+    "reason": "User feedback contains concerning keywords",
+    "priority": "medium",
+    "status": "reviewed",
+    "created_at": "2025-12-02T18:50:28.842314",
+    "reviewed_at": "2025-12-02T18:51:29.285307",
+    "reviewed_by": "admin@example.com",
+    "admin_decision": "flag_bias",
+    "actions_taken": [
+      "manual_bias_flagged",
+      "knowledge_base_updated_by_admin"
+    ],
+    "admin_review": {
+      "review_id": "review_1764681628.842226",
+      "feedback_id": "feedback_quiz_user_test_1764680677.262137_1764681627.793709",
+      "admin_id": "admin@example.com",
+      "decision": "flag_bias",
+      "admin_notes": "Please use character of both gender",
+      "bias_override": {
+        "bias_types": [],
+        "severity": "low",
+        "specific_issues": [],
+        "recommendations": []
+      },
+      "actions_taken": [],
+      "reviewed_at": "2025-12-02T18:51:28.757189"
+    }
+  },
+  {
+    "review_id": "review_1764681939.067111",
+    "feedback": {
+      "feedback_id": "feedback_quiz_user_test_1764680677.262137_1764681938.513359",
+      "quiz_id": "quiz_user_test_1764680677.262137",
+      "user_id": "user_test",
+      "concept": "budgeting",
+      "rating": 3,
+      "comments": "gender bias",
+      "difficulty_perception": "too_easy",
+      "relevance_score": 3,
+      "bias_analysis": {
+        "has_bias": false,
+        "bias_types": [],
+        "severity": "low",
+        "specific_issues": [],
+        "recommendations": [],
+        "confidence_score": 0.0,
+        "analyzed_at": "2025-12-02T18:55:39.066657"
+      },
+      "created_at": "2025-12-02T18:55:38.513375",
+      "processed": false
+    },
+    "reason": "Low AI confidence (0.00%) - potential missed bias",
+    "priority": "medium",
+    "status": "reviewed",
+    "created_at": "2025-12-02T18:55:39.067165",
+    "reviewed_at": "2025-12-02T18:56:22.437838",
+    "reviewed_by": "admin@example.com",
+    "admin_decision": "update_content",
+    "actions_taken": [
+      "forced_content_update"
+    ],
+    "admin_review": {
+      "review_id": "review_1764681939.067111",
+      "feedback_id": "feedback_quiz_user_test_1764680677.262137_1764681938.513359",
+      "admin_id": "admin@example.com",
+      "decision": "update_content",
+      "admin_notes": "gender biased",
+      "bias_override": {
+        "bias_types": [],
+        "severity": "low",
+        "specific_issues": [],
+        "recommendations": []
+      },
+      "actions_taken": [],
+      "reviewed_at": "2025-12-02T18:56:21.983934"
+    }
+  },
+  {
+    "review_id": "review_1764682545.771689",
+    "feedback": {
+      "feedback_id": "feedback_quiz_user_test_1764682521.707269_1764682545.118719",
+      "quiz_id": "quiz_user_test_1764682521.707269",
+      "user_id": "user_test",
+      "concept": "compound_interest",
+      "rating": 3,
+      "comments": "gender bais",
+      "difficulty_perception": "too_easy",
+      "relevance_score": 3,
+      "bias_analysis": {
+        "has_bias": false,
+        "bias_types": [],
+        "severity": "low",
+        "specific_issues": [],
+        "recommendations": [],
+        "confidence_score": 0.0,
+        "analyzed_at": "2025-12-02T19:05:45.770968"
+      },
+      "created_at": "2025-12-02T19:05:45.118728",
+      "processed": false
+    },
+    "reason": "Low AI confidence (0.00%) - potential missed bias",
+    "priority": "medium",
+    "status": "reviewed",
+    "created_at": "2025-12-02T19:05:45.771788",
+    "reviewed_at": "2025-12-02T19:07:15.795251",
+    "reviewed_by": "admin@example.com",
+    "admin_decision": "flag_bias",
+    "actions_taken": [
+      "manual_bias_flagged",
+      "knowledge_base_updated_by_admin"
+    ],
+    "admin_review": {
+      "review_id": "review_1764682545.771689",
+      "feedback_id": "feedback_quiz_user_test_1764682521.707269_1764682545.118719",
+      "admin_id": "admin@example.com",
+      "decision": "flag_bias",
+      "admin_notes": "gender bais",
+      "bias_override": {
+        "bias_types": [
+          "gender"
+        ],
+        "severity": "medium",
+        "specific_issues": [
+          "content only have one gender type in story"
+        ],
+        "recommendations": [
+          "Include character of all gender types"
+        ]
+      },
+      "actions_taken": [],
+      "reviewed_at": "2025-12-02T19:07:15.011152"
+    }
+  },
+  {
+    "review_id": "review_1764682929.069753",
+    "feedback": {
+      "feedback_id": "feedback_quiz_user_test_1764682521.707269_1764682928.434056",
+      "quiz_id": "quiz_user_test_1764682521.707269",
+      "user_id": "user_test",
+      "concept": "compound_interest",
+      "rating": 3,
+      "comments": "gender bias",
+      "difficulty_perception": "too_easy",
+      "relevance_score": 3,
+      "bias_analysis": {
+        "has_bias": false,
+        "bias_types": [],
+        "severity": "low",
+        "specific_issues": [],
+        "recommendations": [],
+        "confidence_score": 0.0,
+        "analyzed_at": "2025-12-02T19:12:09.068877"
+      },
+      "created_at": "2025-12-02T19:12:08.434072",
+      "processed": false
+    },
+    "reason": "Low AI confidence (0.00%) - potential missed bias",
+    "priority": "medium",
+    "status": "reviewed",
+    "created_at": "2025-12-02T19:12:09.069882",
+    "reviewed_at": "2025-12-02T19:13:46.497011",
+    "reviewed_by": "admin@example.com",
+    "admin_decision": "flag_bias",
+    "actions_taken": [
+      "manual_bias_flagged",
+      "knowledge_base_updated_by_admin"
+    ],
+    "admin_review": {
+      "review_id": "review_1764682929.069753",
+      "feedback_id": "feedback_quiz_user_test_1764682521.707269_1764682928.434056",
+      "admin_id": "admin@example.com",
+      "decision": "flag_bias",
+      "admin_notes": "gender bais",
+      "bias_override": {
+        "bias_types": [
+          "gender"
+        ],
+        "severity": "high",
+        "specific_issues": [
+          "content has characters of only one gender"
+        ],
+        "recommendations": [
+          "Include characters of all gender."
+        ]
+      },
+      "actions_taken": [],
+      "reviewed_at": "2025-12-02T19:13:46.001812"
+    }
+  },
+  {
+    "review_id": "review_1764705702.265035",
+    "feedback": {
+      "feedback_id": "feedback_quiz_user_test_1764705664.598183_1764705701.749424",
+      "quiz_id": "quiz_user_test_1764705664.598183",
+      "user_id": "user_test",
+      "concept": "earning",
+      "rating": 3,
+      "comments": "Cultural bais",
+      "difficulty_perception": "too_easy",
+      "relevance_score": 3,
+      "bias_analysis": {
+        "has_bias": false,
+        "bias_types": [],
+        "severity": "low",
+        "specific_issues": [],
+        "recommendations": [],
+        "confidence_score": 0.0,
+        "analyzed_at": "2025-12-03T01:31:42.264466"
+      },
+      "created_at": "2025-12-03T01:31:41.749434",
+      "processed": false
+    },
+    "reason": "Low AI confidence (0.00%) - potential missed bias",
+    "priority": "medium",
+    "status": "reviewed",
+    "created_at": "2025-12-03T01:31:42.265172",
+    "reviewed_at": "2025-12-03T01:32:43.734769",
+    "reviewed_by": "admin@example.com",
+    "admin_decision": "approve",
+    "actions_taken": [
+      "ai_decision_approved"
+    ],
+    "admin_review": {
+      "review_id": "review_1764705702.265035",
+      "feedback_id": "feedback_quiz_user_test_1764705664.598183_1764705701.749424",
+      "admin_id": "admin@example.com",
+      "decision": "approve",
+      "admin_notes": "There is excessive representation of character from 1 culture",
+      "bias_override": null,
+      "actions_taken": [],
+      "reviewed_at": "2025-12-03T01:32:43.734727"
+    }
+  },
+  {
+    "review_id": "review_1764705867.732903",
+    "feedback": {
+      "feedback_id": "feedback_quiz_user_test_1764705664.598183_1764705867.232342",
+      "quiz_id": "quiz_user_test_1764705664.598183",
+      "user_id": "user_test",
+      "concept": "earning",
+      "rating": 3,
+      "comments": "Cultural bais",
+      "difficulty_perception": "too_easy",
+      "relevance_score": 3,
+      "bias_analysis": {
+        "has_bias": false,
+        "bias_types": [],
+        "severity": "low",
+        "specific_issues": [],
+        "recommendations": [],
+        "confidence_score": 0.0,
+        "analyzed_at": "2025-12-03T01:34:27.732192"
+      },
+      "created_at": "2025-12-03T01:34:27.232351",
+      "processed": false
+    },
+    "reason": "Low AI confidence (0.00%) - potential missed bias",
+    "priority": "medium",
+    "status": "reviewed",
+    "created_at": "2025-12-03T01:34:27.732983",
+    "reviewed_at": "2025-12-03T01:36:06.166905",
+    "reviewed_by": "admin@example.com",
+    "admin_decision": "flag_bias",
+    "actions_taken": [
+      "manual_bias_flagged",
+      "knowledge_base_updated_by_admin"
+    ],
+    "admin_review": {
+      "review_id": "review_1764705867.732903",
+      "feedback_id": "feedback_quiz_user_test_1764705664.598183_1764705867.232342",
+      "admin_id": "admin@example.com",
+      "decision": "flag_bias",
+      "admin_notes": "Excessive representation of characters from one culture",
+      "bias_override": {
+        "bias_types": [
+          "cultural"
+        ],
+        "severity": "high",
+        "specific_issues": [
+          "Content only takes character from European culture"
+        ],
+        "recommendations": [
+          "Include character from different cultural background"
+        ]
+      },
+      "actions_taken": [],
+      "reviewed_at": "2025-12-03T01:36:05.547157"
+    }
+  },
+  {
+    "review_id": "review_1764737826.723083",
+    "feedback": {
+      "feedback_id": "feedback_quiz_user_mounika_1764737798.471954_1764737826.133627",
+      "quiz_id": "quiz_user_mounika_1764737798.471954",
+      "user_id": "user_mounika",
+      "concept": "borrowing",
+      "rating": 3,
+      "comments": "gender bais",
+      "difficulty_perception": "too_easy",
+      "relevance_score": 3,
+      "bias_analysis": {
+        "has_bias": false,
+        "bias_types": [],
+        "severity": "low",
+        "specific_issues": [],
+        "recommendations": [],
+        "confidence_score": 0.0,
+        "analyzed_at": "2025-12-03T10:27:06.722378"
+      },
+      "created_at": "2025-12-03T10:27:06.133636",
+      "processed": false
+    },
+    "reason": "Low AI confidence (0.00%) - potential missed bias",
+    "priority": "medium",
+    "status": "reviewed",
+    "created_at": "2025-12-03T10:27:06.723158",
+    "reviewed_at": "2025-12-03T10:28:48.569488",
+    "reviewed_by": "admin@example.com",
+    "admin_decision": "flag_bias",
+    "actions_taken": [
+      "manual_bias_flagged",
+      "knowledge_base_updated_by_admin"
+    ],
+    "admin_review": {
+      "review_id": "review_1764737826.723083",
+      "feedback_id": "feedback_quiz_user_mounika_1764737798.471954_1764737826.133627",
+      "admin_id": "admin@example.com",
+      "decision": "flag_bias",
+      "admin_notes": "Gender bais",
+      "bias_override": {
+        "bias_types": [
+          "gender"
+        ],
+        "severity": "high",
+        "specific_issues": [
+          "Content only has character of one gender"
+        ],
+        "recommendations": [
+          "include characters of other gender as well."
+        ]
+      },
+      "actions_taken": [],
+      "reviewed_at": "2025-12-03T10:28:47.872583"
+    }
+  },
+  {
+    "review_id": "review_1764738537.09855",
+    "feedback": {
+      "feedback_id": "feedback_quiz_user_mounika_1764738494.271263_1764738536.405628",
+      "quiz_id": "quiz_user_mounika_1764738494.271263",
+      "user_id": "user_mounika",
+      "concept": "budgeting",
+      "rating": 3,
+      "comments": "gender bais",
+      "difficulty_perception": "too_easy",
+      "relevance_score": 3,
+      "bias_analysis": {
+        "has_bias": false,
+        "bias_types": [],
+        "severity": "low",
+        "specific_issues": [
+          "AI analysis failed: Error code: 401 - {'error': {'message': 'Incorrect API key provided: 299c01b7****************************ab4a. You can find your API key at https://platform.openai.com/account/api-keys.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}}"
+        ],
+        "recommendations": [
+          "Manual review recommended"
+        ],
+        "confidence_score": 0.0,
+        "analyzed_at": "2025-12-03T10:38:57.098210"
+      },
+      "created_at": "2025-12-03T10:38:56.405640",
+      "processed": false
+    },
+    "reason": "Low AI confidence (0.00%) - potential missed bias",
+    "priority": "medium",
+    "status": "reviewed",
+    "created_at": "2025-12-03T10:38:57.098595",
+    "reviewed_at": "2025-12-03T10:40:16.532953",
+    "reviewed_by": "admin@example.com",
+    "admin_decision": "flag_bias",
+    "actions_taken": [
+      "manual_bias_flagged",
+      "knowledge_base_updated_by_admin"
+    ],
+    "admin_review": {
+      "review_id": "review_1764738537.09855",
+      "feedback_id": "feedback_quiz_user_mounika_1764738494.271263_1764738536.405628",
+      "admin_id": "admin@example.com",
+      "decision": "flag_bias",
+      "admin_notes": "gender bais",
+      "bias_override": {
+        "bias_types": [
+          "gender"
+        ],
+        "severity": "medium",
+        "specific_issues": [
+          "character from one gender only"
+        ],
+        "recommendations": [
+          "Include character from other genders as well"
+        ]
+      },
+      "actions_taken": [],
+      "reviewed_at": "2025-12-03T10:40:15.734511"
+    }
+  },
+  {
+    "review_id": "review_1764739383.369508",
+    "feedback": {
+      "feedback_id": "feedback_quiz_user_mounika_1764739317.041304_1764739382.822825",
+      "quiz_id": "quiz_user_mounika_1764739317.041304",
+      "user_id": "user_mounika",
+      "concept": "compound_interest",
+      "rating": 3,
+      "comments": "gender bais",
+      "difficulty_perception": "too_easy",
+      "relevance_score": 3,
+      "bias_analysis": {
+        "has_bias": false,
+        "bias_types": [],
+        "severity": "low",
+        "specific_issues": [
+          "AI analysis failed: Error code: 404 - {'error': 'Model not found'}"
+        ],
+        "recommendations": [
+          "Manual review recommended"
+        ],
+        "confidence_score": 0.0,
+        "analyzed_at": "2025-12-03T10:53:03.369144"
+      },
+      "created_at": "2025-12-03T10:53:02.822837",
+      "processed": false
+    },
+    "reason": "Low AI confidence (0.00%) - potential missed bias",
+    "priority": "medium",
+    "status": "reviewed",
+    "created_at": "2025-12-03T10:53:03.369559",
+    "reviewed_at": "2025-12-03T10:55:08.379717",
+    "reviewed_by": "admin@example.com",
+    "admin_decision": "flag_bias",
+    "actions_taken": [
+      "manual_bias_flagged",
+      "knowledge_base_updated_by_admin"
+    ],
+    "admin_review": {
+      "review_id": "review_1764739383.369508",
+      "feedback_id": "feedback_quiz_user_mounika_1764739317.041304_1764739382.822825",
+      "admin_id": "admin@example.com",
+      "decision": "flag_bias",
+      "admin_notes": "gender bais",
+      "bias_override": {
+        "bias_types": [
+          "gender"
+        ],
+        "severity": "high",
+        "specific_issues": [
+          "Content is having character from one gender only"
+        ],
+        "recommendations": [
+          "Include character from other gender as well."
+        ]
+      },
+      "actions_taken": [],
+      "reviewed_at": "2025-12-03T10:55:07.727527"
+    }
+  },
+  {
+    "review_id": "review_1764739985.840968",
+    "feedback": {
+      "feedback_id": "feedback_quiz_user_mounika_1764739942.783946_1764739971.055939",
+      "quiz_id": "quiz_user_mounika_1764739942.783946",
+      "user_id": "user_mounika",
+      "concept": "borrowing",
+      "rating": 3,
+      "comments": "Gender bais",
+      "difficulty_perception": "too_easy",
+      "relevance_score": 3,
+      "bias_analysis": {
+        "has_bias": true,
+        "bias_types": [
+          "gender"
+        ],
+        "severity": "medium",
+        "specific_issues": [
+          "The feedback indicates a gender bias, suggesting that the quiz may stereotype or exclude a particular gender. This could manifest in examples or scenarios that predominantly feature one gender in specific roles, such as boys being depicted as more financially savvy or responsible than girls, or vice versa."
+        ],
+        "recommendations": [
+          "Review the quiz content to ensure that examples and scenarios include a balanced representation of genders. Avoid using gender-specific names or pronouns unless necessary, and ensure that both boys and girls are depicted in a variety of roles and contexts related to borrowing.",
+          "Incorporate diverse characters and scenarios that reflect a range of gender identities and roles to promote inclusivity."
+        ],
+        "confidence_score": 0.85,
+        "analyzed_at": "2025-12-03T11:02:56.026244"
+      },
+      "created_at": "2025-12-03T11:02:51.055948",
+      "processed": false
+    },
+    "reason": "AI detected medium severity bias: gender",
+    "priority": "high",
+    "status": "reviewed",
+    "created_at": "2025-12-03T11:03:05.840995",
+    "reviewed_at": "2025-12-03T11:05:21.677240",
+    "reviewed_by": "admin@example.com",
+    "admin_decision": "flag_bias",
+    "actions_taken": [
+      "manual_bias_flagged",
+      "knowledge_base_updated_by_admin"
+    ],
+    "admin_review": {
+      "review_id": "review_1764739985.840968",
+      "feedback_id": "feedback_quiz_user_mounika_1764739942.783946_1764739971.055939",
+      "admin_id": "admin@example.com",
+      "decision": "flag_bias",
+      "admin_notes": "Gender bais",
+      "bias_override": {
+        "bias_types": [
+          "gender"
+        ],
+        "severity": "high",
+        "specific_issues": [
+          "Content only shows character of one gender"
+        ],
+        "recommendations": [
+          "Include character of other genders as well"
+        ]
+      },
+      "actions_taken": [],
+      "reviewed_at": "2025-12-03T11:05:02.976773"
+    }
+  }
+]

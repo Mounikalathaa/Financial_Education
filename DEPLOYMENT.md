@@ -89,8 +89,8 @@ cd financial-education-quiz
 
 3. **Configure environment**
 ```bash
-cp .env.example .env
-nano .env  # Edit with production credentials
+cp ..env.example ..env
+nano ..env  # Edit with production credentials
 ```
 
 4. **Run setup**

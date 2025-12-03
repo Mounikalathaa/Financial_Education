@@ -44,7 +44,7 @@ This will install:
 Create a `.env` file in the project root:
 
 ```bash
-touch .env
+touch ..env
 ```
 
 Add your OpenAI API key:
@@ -156,7 +156,7 @@ pip install -r requirements.txt
 
 **Solution**: Check your `.env` file has correct OpenAI API key:
 ```bash
-cat .env  # Should show OPENAI_API_KEY=sk-...
+cat ..env  # Should show OPENAI_API_KEY=sk-...
 ```
 
 ### Issue: "Connection refused" or "MCP server not available"
