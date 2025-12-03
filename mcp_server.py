@@ -20,6 +20,7 @@ from services.rag_service import RAGService
 from services.mcp_client import MCPClient
 from agents.team_orchestrator import TeamOrchestrator
 from utils import database as db
+import database as main_db  # For detailed quiz result saving
 import asyncio
 
 app = FastAPI(
@@ -130,8 +131,8 @@ async def get_transactions(
 
 @app.get("/api/user/quiz-history")
 async def get_quiz_history(user_id: str = Query(..., description="User ID")):
-    """Get quiz history for user."""
-    history = db.get_quiz_history(user_id)
+    """Get quiz history for user from quiz_results table."""
+    history = main_db.get_quiz_history(user_id)
     return {"history": history}
 
 @app.post("/api/user/quiz-history")
@@ -209,6 +210,7 @@ async def generate_quiz(request: dict):
         user_id = request.get("user_id")
         concept = request.get("concept")
         difficulty = request.get("difficulty", "beginner")
+        case_title = request.get("title")  # Optional predefined title
         
         if not user_id or not concept:
             raise HTTPException(status_code=400, detail="user_id and concept are required")
@@ -230,7 +232,8 @@ async def generate_quiz(request: dict):
         quiz = await orchestrator.generate_personalized_quiz(
             user_id=user_id,
             concept=concept,
-            difficulty=difficulty_level
+            difficulty=difficulty_level,
+            predefined_title=case_title
         )
         
         return quiz.model_dump(mode='json')
@@ -262,7 +265,40 @@ async def evaluate_quiz(request: dict):
         # Update database
         user_id = response.user_id
         
-        # Save quiz history
+        # Prepare detailed answers for database
+        answers_for_db = []
+        for question in quiz.questions:
+            user_answer = response.answers.get(question.question_id, '')
+            is_correct = question.question_id in result.correct_questions
+            
+            answers_for_db.append({
+                'question_id': question.question_id,
+                'question_text': question.question_text,
+                'correct_answer': question.correct_answer,
+                'user_answer': user_answer,
+                'is_correct': is_correct
+            })
+        
+        # Save detailed quiz results to quiz_results and quiz_answers tables
+        # Extract title from case_brief or use concept as fallback
+        quiz_title = quiz.case_brief.title if quiz.case_brief else quiz.concept
+        
+        quiz_result_id = main_db.save_quiz_result(
+            user_id=user_id,
+            quiz_id=quiz.quiz_id,
+            concept=quiz.concept,
+            score=result.score,
+            total_questions=result.total_questions,
+            answers=answers_for_db,
+            title=quiz_title
+        )
+        
+        if not quiz_result_id:
+            print(f"⚠️  Warning: Failed to save detailed quiz results to database")
+        else:
+            print(f"✅ Saved quiz results with ID: {quiz_result_id}")
+        
+        # Also save to quiz_history table (for backwards compatibility)
         db.add_quiz_history(
             user_id=user_id,
             quiz_id=quiz.quiz_id,
@@ -271,44 +307,13 @@ async def evaluate_quiz(request: dict):
             total_questions=result.total_questions
         )
         
-        # Update gamification data
+        # Note: Gamification data is already updated by the orchestrator's gamification agent
+        # No need to manually update quizzes_completed or points here
+        # Just retrieve the latest data to return it
         gamif_data = db.get_gamification(user_id)
         
         if not gamif_data:
             raise HTTPException(status_code=404, detail="User gamification data not found")
-        
-        gamif_data['total_points'] += result.points_earned
-        gamif_data['quizzes_completed'] += 1
-        
-        # Update level based on points (using string levels for frontend compatibility)
-        if gamif_data['total_points'] >= 1000:
-            gamif_data['level'] = "Legendary Detective"
-        elif gamif_data['total_points'] >= 750:
-            gamif_data['level'] = "Chief Detective"
-        elif gamif_data['total_points'] >= 500:
-            gamif_data['level'] = "Senior Detective"
-        elif gamif_data['total_points'] >= 300:
-            gamif_data['level'] = "Detective"
-        elif gamif_data['total_points'] >= 100:
-            gamif_data['level'] = "Junior Detective"
-        else:
-            gamif_data['level'] = "Rookie Detective"
-        
-        # Add new badges
-        for badge in result.new_badges:
-            if badge not in gamif_data['badges']:
-                gamif_data['badges'].append(badge)
-        
-        # Update streak
-        gamif_data['current_streak'] += 1
-        if gamif_data['current_streak'] > gamif_data['longest_streak']:
-            gamif_data['longest_streak'] = gamif_data['current_streak']
-        
-        # Check for perfect score
-        if result.score == result.total_questions:
-            gamif_data['perfect_scores'] += 1
-        
-        db.update_gamification(user_id, gamif_data)
         
         return result.model_dump(mode='json')
         

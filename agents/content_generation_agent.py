@@ -80,7 +80,8 @@ Hint:"""
         self,
         concept: str,
         user_context: Dict[str, Any],
-        difficulty: DifficultyLevel
+        difficulty: DifficultyLevel,
+        predefined_title: str = None
     ) -> CaseBrief:
         """
         Generate an interactive case brief for detective-style learning.
@@ -126,7 +127,7 @@ Hint:"""
             content = response.choices[0].message.content
             
             # Parse the structured response
-            case_brief = self._parse_case_brief(content, concept, user_context)
+            case_brief = self._parse_case_brief(content, concept, user_context, predefined_title)
             
             logger.info(f"Case brief generated successfully: {case_brief.title}")
             
@@ -570,18 +571,19 @@ Your case briefs are:
 
 Always use the exact format: TITLE:, MISSION:, CLUE1:, CLUE2:, CLUE3:, SCENARIO:"""
     
-    def _parse_case_brief(self, content: str, concept: str, user_context: Dict[str, Any]) -> CaseBrief:
+    def _parse_case_brief(self, content: str, concept: str, user_context: Dict[str, Any], predefined_title: str = None) -> CaseBrief:
         """Parse LLM response into CaseBrief object."""
         lines = content.strip().split('\n')
         
-        title = ""
+        title = predefined_title or ""  # Use predefined title if provided
         mission = ""
         clues = []
         scenario = ""
         
+        # Only parse title from LLM if no predefined title
         for line in lines:
             line = line.strip()
-            if line.startswith("TITLE:"):
+            if line.startswith("TITLE:") and not predefined_title:
                 title = line.replace("TITLE:", "").strip()
             elif line.startswith("MISSION:"):
                 mission = line.replace("MISSION:", "").strip()

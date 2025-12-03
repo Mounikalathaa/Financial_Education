@@ -22,6 +22,7 @@ export interface QuizHistory {
   quiz_id: string;
   user_id: string;
   concept: string;
+  title?: string;
   score: number;
   total_questions: number;
   completed_at: string;

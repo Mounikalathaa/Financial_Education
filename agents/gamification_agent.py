@@ -69,11 +69,12 @@ class GamificationAgent:
             # Update gamification data
             gamif_data.total_points = new_total
             gamif_data.level = new_level["name"]
-            gamif_data.quizzes_completed += 1
             gamif_data.streak_days = new_streak
             gamif_data.last_quiz_date = datetime.now()
             
+            # Only count as "completed" if all questions are correct (100% score)
             if quiz_result.percentage == 100:
+                gamif_data.quizzes_completed += 1
                 gamif_data.perfect_scores += 1
             
             # Add new badges

@@ -68,14 +68,44 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.gamification = await this.mcpService.getGamificationData(this.user.user_id).toPromise() || null;
       this.detectiveRank = this.calculateRank(this.gamification?.total_points || 0);
       
+      // Load quiz history to determine completed cases
+      const historyResponse = await this.mcpService.getQuizHistory(this.user.user_id).toPromise();
+      const quizHistory = historyResponse?.history || [];
+      console.log('📊 Quiz History:', quizHistory);
+      
+      const completedConcepts = new Set(
+        quizHistory
+          .filter((quiz: any) => {
+            const isComplete = quiz.percentage === 100;
+            console.log(`  ${quiz.concept}: ${quiz.percentage}% - ${isComplete ? '✅ SOLVED' : '❌ NOT SOLVED'}`);
+            return isComplete;
+          })
+          .map((quiz: any) => quiz.concept.toLowerCase())
+      );
+      
+      console.log('✅ Completed concepts:', Array.from(completedConcepts));
+      
       // Load age-appropriate topics from knowledge base (filtered by personalization agent)
       console.log('Loading topics for user:', this.user.user_id);
       const topicsResponse = await this.mcpService.getAvailableTopics(this.user.user_id).toPromise();
       console.log(`Loaded ${topicsResponse.total} topics:`, topicsResponse.topics.slice(0, 3).map((t: any) => `${t.concept} (Class ${t.class})`));
-      this.cases = topicsResponse.topics.map((topic: any) => ({
-        ...topic,
-        icon: this.getTopicIcon(topic.concept)
-      }));
+      
+      // Filter to show only unsolved cases in dashboard (Active Cases)
+      const allTopics = topicsResponse.topics;
+      console.log('🔍 Filtering topics...');
+      this.cases = allTopics
+        .filter((topic: any) => {
+          const conceptLower = topic.concept.toLowerCase();
+          const isCompleted = completedConcepts.has(conceptLower);
+          console.log(`  ${topic.concept}: ${isCompleted ? '❌ FILTERED OUT (completed)' : '✅ ACTIVE (not completed)'}`);
+          return !isCompleted;
+        })
+        .map((topic: any) => ({
+          ...topic,
+          icon: this.getTopicIcon(topic.concept)
+        }));
+      
+      console.log(`📋 Active (unsolved) cases: ${this.cases.length}, Completed: ${completedConcepts.size}, Total available: ${allTopics.length}`);
       
     } catch (error) {
       console.error('Error loading dashboard data:', error);

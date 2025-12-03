@@ -15,15 +15,23 @@ export class EvidenceBoardComponent implements OnInit {
 
   async ngOnInit() {
     const user = this.mcpService.getCurrentUser();
+    console.log('🔍 Evidence Board - Current user:', user);
+    
     if (user) {
       try {
+        console.log('📡 Fetching quiz history for user:', user.user_id);
         const result = await this.mcpService.getQuizHistory(user.user_id).toPromise();
+        console.log('📊 Quiz history API response:', result);
         this.quizHistory = result?.history || [];
+        console.log('✅ Quiz history loaded:', this.quizHistory);
       } catch (error) {
-        console.error('Error loading quiz history:', error);
+        console.error('❌ Error loading quiz history:', error);
       } finally {
         this.loading = false;
       }
+    } else {
+      console.warn('⚠️ No user found in evidence board');
+      this.loading = false;
     }
   }
 

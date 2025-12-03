@@ -220,7 +220,8 @@ class TeamOrchestrator:
         self, 
         user_id: str, 
         concept: str,
-        difficulty: Optional[DifficultyLevel] = None
+        difficulty: Optional[DifficultyLevel] = None,
+        predefined_title: str = None
     ) -> Quiz:
         """
         Generate a complete personalized quiz for a user using Agno Team.
@@ -255,7 +256,8 @@ class TeamOrchestrator:
             case_brief = await self.content_agent.generate_case_brief(
                 concept=concept,
                 user_context=context,
-                difficulty=difficulty
+                difficulty=difficulty,
+                predefined_title=predefined_title
             )
             
             # Step 3: Content Generation Team - Quiz Generator

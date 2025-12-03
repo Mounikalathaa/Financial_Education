@@ -22,18 +22,35 @@ export class McpService {
   private gamificationSubject = new BehaviorSubject<GamificationData | null>(null);
   public gamification$ = this.gamificationSubject.asObservable();
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    // Load user from localStorage on initialization
+    const savedUser = localStorage.getItem('currentUser');
+    if (savedUser) {
+      try {
+        this.currentUserSubject.next(JSON.parse(savedUser));
+      } catch (e) {
+        console.error('Error loading saved user:', e);
+        localStorage.removeItem('currentUser');
+      }
+    }
+  }
 
   // User Profile APIs
   getUserProfile(userId: string): Observable<UserProfile> {
     const params = new HttpParams().set('user_id', userId);
     return this.http.get<UserProfile>(`${this.apiUrl}/user/profile`, { params })
-      .pipe(tap(profile => this.currentUserSubject.next(profile)));
+      .pipe(tap(profile => {
+        this.currentUserSubject.next(profile);
+        localStorage.setItem('currentUser', JSON.stringify(profile));
+      }));
   }
 
   createUserProfile(profile: UserProfile): Observable<any> {
     return this.http.post(`${this.apiUrl}/user/profile`, profile)
-      .pipe(tap(() => this.currentUserSubject.next(profile)));
+      .pipe(tap(() => {
+        this.currentUserSubject.next(profile);
+        localStorage.setItem('currentUser', JSON.stringify(profile));
+      }));
   }
 
   loginUser(name: string): Observable<any> {
@@ -71,12 +88,16 @@ export class McpService {
   }
 
   // Quiz APIs
-  generateQuiz(userId: string, concept: string, difficulty: string = 'beginner'): Observable<any> {
-    return this.http.post(`${this.apiUrl}/quiz/generate`, {
+  generateQuiz(userId: string, concept: string, difficulty: string = 'beginner', title?: string): Observable<any> {
+    const body: any = {
       user_id: userId,
       concept: concept,
       difficulty: difficulty
-    }).pipe(
+    };
+    if (title) {
+      body.title = title;
+    }
+    return this.http.post(`${this.apiUrl}/quiz/generate`, body).pipe(
       timeout(150000) // 150 seconds timeout for quiz generation (AI takes time)
     );
   }
@@ -126,10 +147,12 @@ export class McpService {
 
   setCurrentUser(user: UserProfile): void {
     this.currentUserSubject.next(user);
+    localStorage.setItem('currentUser', JSON.stringify(user));
   }
 
   clearSession(): void {
     this.currentUserSubject.next(null);
     this.gamificationSubject.next(null);
+    localStorage.removeItem('currentUser');
   }
 }

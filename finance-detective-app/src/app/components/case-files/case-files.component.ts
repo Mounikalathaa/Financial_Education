@@ -1,107 +1,74 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { McpService } from '../../services/mcp.service';
+import { UserProfile } from '../../models';
 
 @Component({
   selector: 'app-case-files',
   templateUrl: './case-files.component.html',
   styleUrls: ['./case-files.component.css']
 })
-export class CaseFilesComponent {
+export class CaseFilesComponent implements OnInit {
   searchTerm: string = '';
   selectedDifficulty: string = 'all';
+  allCases: any[] = [];
+  loading = true;
+  user: UserProfile | null = null;
 
-  allCases = [
-    {
-      id: 'budgeting',
-      title: 'The Mystery of the Missing Allowance',
-      concept: 'Budgeting',
-      difficulty: 'beginner',
-      icon: '💰',
-      description: 'Help solve where all the money went! Learn how to track expenses and create a budget.',
-      points: 100,
-      skills: ['Expense Tracking', 'Budget Planning', 'Money Management'],
-      estimatedTime: '10-15 min'
-    },
-    {
-      id: 'saving',
-      title: 'The Case of the Growing Piggy Bank',
-      concept: 'Saving',
-      difficulty: 'beginner',
-      icon: '🏦',
-      description: 'Uncover the secrets of growing wealth through smart saving strategies.',
-      points: 120,
-      skills: ['Savings Goals', 'Interest', 'Emergency Fund'],
-      estimatedTime: '10-15 min'
-    },
-    {
-      id: 'investing',
-      title: 'The Investment Enigma',
-      concept: 'Investing',
-      difficulty: 'intermediate',
-      icon: '📈',
-      description: 'Crack the code of making money grow through investments.',
-      points: 150,
-      skills: ['Stocks', 'Bonds', 'Risk Management'],
-      estimatedTime: '15-20 min'
-    },
-    {
-      id: 'credit',
-      title: 'The Credit Card Caper',
-      concept: 'Credit',
-      difficulty: 'intermediate',
-      icon: '💳',
-      description: 'Investigate the world of borrowed money and credit scores.',
-      points: 140,
-      skills: ['Credit Score', 'Interest Rates', 'Responsible Borrowing'],
-      estimatedTime: '15-20 min'
-    },
-    {
-      id: 'taxes',
-      title: 'The Tax Mystery',
-      concept: 'Taxes',
-      difficulty: 'advanced',
-      icon: '📋',
-      description: 'Decode where tax money goes and how taxes work.',
-      points: 180,
-      skills: ['Income Tax', 'Deductions', 'Public Services'],
-      estimatedTime: '20-25 min'
-    },
-    {
-      id: 'entrepreneurship',
-      title: 'The Business Blueprint',
-      concept: 'Entrepreneurship',
-      difficulty: 'advanced',
-      icon: '🚀',
-      description: 'Solve the startup success puzzle and learn business basics.',
-      points: 200,
-      skills: ['Business Planning', 'Revenue', 'Profit & Loss'],
-      estimatedTime: '20-25 min'
-    },
-    {
-      id: 'insurance',
-      title: 'The Protection Protocol',
-      concept: 'Insurance',
-      difficulty: 'intermediate',
-      icon: '🛡️',
-      description: 'Investigate how insurance protects against financial risks.',
-      points: 145,
-      skills: ['Risk Protection', 'Premiums', 'Coverage'],
-      estimatedTime: '15-20 min'
-    },
-    {
-      id: 'compound-interest',
-      title: 'The Compound Conundrum',
-      concept: 'Compound Interest',
-      difficulty: 'intermediate',
-      icon: '📊',
-      description: 'Unravel the mystery of money multiplying over time.',
-      points: 155,
-      skills: ['Interest Calculation', 'Time Value', 'Growth'],
-      estimatedTime: '15-20 min'
+  // Icon mapping for different topics
+  private topicIcons: { [key: string]: string } = {
+    'money': '💰', 'budget': '💰', 'saving': '🏦', 'bank': '🏦',
+    'invest': '📈', 'stock': '📈', 'share': '📈',
+    'credit': '💳', 'card': '💳', 'loan': '💳',
+    'tax': '📋', 'gst': '📋',
+    'insurance': '🛡️', 'trade': '🔄', 'barter': '🔄',
+    'business': '🚀', 'entrepreneur': '🚀', 'commerce': '🛒',
+    'rbi': '🏛️', 'pan': '🆔', 'aadhaar': '🆔',
+    'cheque': '💵', 'draft': '💵', 'default': '🔍'
+  };
+
+  constructor(
+    private router: Router,
+    private mcpService: McpService
+  ) {}
+
+  async ngOnInit() {
+    this.user = this.mcpService.getCurrentUser();
+    
+    if (!this.user) {
+      this.router.navigate(['/login']);
+      return;
     }
-  ];
 
-  constructor(private router: Router) {}
+    try {
+      this.loading = true;
+      
+      // Load all age-appropriate topics from knowledge base
+      console.log('Loading all case files for user:', this.user.user_id);
+      const topicsResponse = await this.mcpService.getAvailableTopics(this.user.user_id).toPromise();
+      console.log(`Loaded ${topicsResponse.total} case files`);
+      
+      this.allCases = topicsResponse.topics.map((topic: any) => ({
+        ...topic,
+        icon: this.getTopicIcon(topic.concept)
+      }));
+      
+    } catch (error) {
+      console.error('Error loading case files:', error);
+    } finally {
+      this.loading = false;
+    }
+  }
+
+  getTopicIcon(concept: string): string {
+    const lowerConcept = concept.toLowerCase();
+    for (const [key, icon] of Object.entries(this.topicIcons)) {
+      if (lowerConcept.includes(key)) {
+        return icon;
+      }
+    }
+    return this.topicIcons['default'];
+  }
 
   get filteredCases() {
     return this.allCases.filter(caseFile => {
@@ -117,7 +84,14 @@ export class CaseFilesComponent {
   }
 
   startCase(caseId: string) {
-    this.router.navigate(['/quiz', caseId]);
+    // Find the case to get its title
+    const caseData = this.allCases.find(c => c.id === caseId);
+    const title = caseData?.title || `The Case of ${caseId}`;
+    
+    // Navigate with both concept ID and title as query params
+    this.router.navigate(['/quiz', caseId], {
+      queryParams: { title: title }
+    });
   }
 
   getDifficultyClass(difficulty: string): string {

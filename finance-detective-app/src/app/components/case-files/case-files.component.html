@@ -2,8 +2,15 @@
   <h1 class="detective-title">📁 Case Files Archive</h1>
   <p class="section-subtitle">Browse all available financial mystery cases</p>
 
-  <!-- Filters Section -->
-  <div class="filters-section detective-card">
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-state detective-card">
+    <div class="loading-spinner"></div>
+    <p>Loading case files...</p>
+  </div>
+
+  <div *ngIf="!loading">
+    <!-- Filters Section -->
+    <div class="filters-section detective-card">
     <div class="filter-group">
       <label for="search">🔍 Search Cases</label>
       <input
@@ -45,18 +52,7 @@
       <div class="case-concept">📝 Concept: {{ case.concept }}</div>
       <p class="case-description">{{ case.description }}</p>
 
-      <div class="case-skills">
-        <h4>🎯 Skills You'll Learn:</h4>
-        <div class="skills-list">
-          <span *ngFor="let skill of case.skills" class="skill-tag">{{ skill }}</span>
-        </div>
-      </div>
-
       <div class="case-meta">
-        <div class="meta-item">
-          <span class="meta-icon">⏱️</span>
-          <span>{{ case.estimatedTime }}</span>
-        </div>
         <div class="meta-item">
           <span class="meta-icon">💎</span>
           <span>+{{ case.points }} XP</span>
@@ -77,5 +73,6 @@
     <button class="btn btn-secondary" (click)="searchTerm = ''; selectedDifficulty = 'all'">
       Clear Filters
     </button>
+  </div>
   </div>
 </div>

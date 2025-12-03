@@ -17,7 +17,7 @@
   <div *ngIf="!loading && quizHistory.length > 0" class="evidence-grid grid grid-2">
     <div *ngFor="let quiz of quizHistory" class="evidence-card case-file">
       <div class="evidence-header">
-        <h3>{{ quiz.concept }}</h3>
+        <h3>{{ quiz.title || quiz.concept }}</h3>
         <div class="evidence-date">{{ quiz.completed_at | date: 'short' }}</div>
       </div>
       <div class="evidence-score" [ngClass]="getScoreClass(quiz.score, quiz.total_questions)">

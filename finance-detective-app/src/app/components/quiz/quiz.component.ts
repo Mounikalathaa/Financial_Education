@@ -9,6 +9,7 @@ import { McpService } from '../../services/mcp.service';
 })
 export class QuizComponent implements OnInit {
   concept: string = '';
+  caseTitle: string = '';
   quiz: any = null;
   currentQuestionIndex: number = 0;
   selectedAnswers: { [key: string]: string } = {};
@@ -28,6 +29,7 @@ export class QuizComponent implements OnInit {
 
   async ngOnInit() {
     this.concept = this.route.snapshot.paramMap.get('concept') || '';
+    this.caseTitle = this.route.snapshot.queryParamMap.get('title') || '';
     
     const user = this.mcpService.getCurrentUser();
     if (!user) {
@@ -52,7 +54,8 @@ export class QuizComponent implements OnInit {
       const response = await this.mcpService.generateQuiz(
         userId,
         this.concept,
-        'beginner'
+        'beginner',
+        this.caseTitle
       ).toPromise();
 
       this.quiz = response;

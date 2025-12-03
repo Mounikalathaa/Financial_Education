@@ -54,6 +54,7 @@ def init_database():
                 user_id TEXT NOT NULL,
                 quiz_id TEXT NOT NULL,
                 concept TEXT NOT NULL,
+                title TEXT,
                 score INTEGER NOT NULL,
                 total_questions INTEGER NOT NULL,
                 percentage REAL NOT NULL,
@@ -203,7 +204,7 @@ def get_all_users() -> List[Dict[str, Any]]:
 
 
 def save_quiz_result(user_id: str, quiz_id: str, concept: str, score: int, 
-                     total_questions: int, answers: List[Dict[str, Any]]) -> Optional[int]:
+                     total_questions: int, answers: List[Dict[str, Any]], title: str = None) -> Optional[int]:
     """Save quiz result and detailed answers to the database."""
     try:
         with get_db_connection() as conn:
@@ -215,9 +216,9 @@ def save_quiz_result(user_id: str, quiz_id: str, concept: str, score: int,
             # Insert quiz result
             cursor.execute("""
                 INSERT INTO quiz_results 
-                (user_id, quiz_id, concept, score, total_questions, percentage)
-                VALUES (?, ?, ?, ?, ?, ?)
-            """, (user_id, quiz_id, concept, score, total_questions, percentage))
+                (user_id, quiz_id, concept, title, score, total_questions, percentage)
+                VALUES (?, ?, ?, ?, ?, ?, ?)
+            """, (user_id, quiz_id, concept, title, score, total_questions, percentage))
             
             quiz_result_id = cursor.lastrowid
             
@@ -249,7 +250,7 @@ def get_quiz_history(user_id: str, limit: int = 50) -> List[Dict[str, Any]]:
         with get_db_connection() as conn:
             cursor = conn.cursor()
             cursor.execute("""
-                SELECT id, quiz_id, concept, score, total_questions, 
+                SELECT id, quiz_id, concept, title, score, total_questions, 
                        percentage, completed_at
                 FROM quiz_results
                 WHERE user_id = ?
@@ -259,18 +260,23 @@ def get_quiz_history(user_id: str, limit: int = 50) -> List[Dict[str, Any]]:
             
             history = []
             for row in cursor.fetchall():
-                # Parse datetime string to datetime object
+                # Parse datetime string to datetime object, then convert to ISO string
                 completed_at = row['completed_at']
                 if isinstance(completed_at, str):
                     try:
-                        completed_at = datetime.fromisoformat(completed_at)
+                        completed_at = datetime.fromisoformat(completed_at).isoformat()
                     except:
-                        completed_at = datetime.now()
+                        completed_at = datetime.now().isoformat()
+                elif isinstance(completed_at, datetime):
+                    completed_at = completed_at.isoformat()
+                else:
+                    completed_at = datetime.now().isoformat()
                 
                 history.append({
                     'id': row['id'],
                     'quiz_id': row['quiz_id'],
                     'concept': row['concept'],
+                    'title': row['title'] if row['title'] else row['concept'],
                     'score': row['score'],
                     'total_questions': row['total_questions'],
                     'percentage': row['percentage'],
