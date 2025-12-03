@@ -45,6 +45,7 @@ from agents.content_generation_agent import ContentGenerationAgent
 from agents.quiz_generation_agent import QuizGenerationAgent
 from agents.evaluation_agent import EvaluationAgent
 from agents.gamification_agent import GamificationAgent
+from agents.bias_checking_agent import BiasCheckingAgent
 from agents.agno_tools import AgnoToolkit
 from services.mcp_client import MCPClient
 from services.rag_service import RAGService
@@ -70,6 +71,7 @@ class TeamOrchestrator:
         self.quiz_agent = QuizGenerationAgent(rag_service)
         self.evaluation_agent = EvaluationAgent()
         self.gamification_agent = GamificationAgent(mcp_client)
+        self.bias_checking_agent = BiasCheckingAgent()
         
         # Initialize Agno toolkit with all tools
         self.toolkit = AgnoToolkit(mcp_client, rag_service)
@@ -265,7 +267,143 @@ class TeamOrchestrator:
                 user_context=context
             )
             
-            # Step 4: Create complete quiz with case_brief
+            # Step 4: Bias Checking - Validate content for fairness and inclusivity
+            logger.info("[Team] Step 4: Bias Checking Agent validating content")
+            print("[Team] Step 4: Bias Checking Agent validating content")
+            
+            try:
+                user_age = context.get("age", 12)  # Default to 12 if age not available
+                print(f"[DEBUG] User age: {user_age}")
+                
+                # Convert case brief to dictionary for bias checking
+                case_brief_content = {
+                    "title": case_brief.title,
+                    "mission": case_brief.mission,
+                    "clues": case_brief.clues,
+                    "scenario": case_brief.scenario
+                }
+                print(f"[DEBUG] Case brief content prepared, checking bias...")
+                
+                # Check case brief for bias
+                case_bias = await self.bias_checking_agent.check_content_bias(
+                    content=case_brief_content,
+                    content_type="story",
+                    user_age=user_age
+                )
+                print(f"[DEBUG] Case bias result: score={case_bias.get('bias_score')}, acceptable={case_bias.get('is_acceptable')}")
+                
+                # Log detailed bias results
+                logger.info(f"[Bias Check] Case Brief - Score: {case_bias['bias_score']}/10, Acceptable: {case_bias['is_acceptable']}")
+                if case_bias['issues_found']:
+                    logger.info(f"[Bias Check] Issues Found ({len(case_bias['issues_found'])}):")
+                    for i, issue in enumerate(case_bias['issues_found'][:3], 1):
+                        logger.info(f"  {i}. {issue}")
+            except Exception as e:
+                logger.error(f"[Bias Check] Error during case brief bias check: {str(e)}", exc_info=True)
+                print(f"[ERROR] Case bias check failed: {str(e)}")
+                import traceback
+                traceback.print_exc()
+                case_bias = {"bias_score": 7, "is_acceptable": True, "issues_found": [], "recommendations": []}
+            
+            # Check quiz questions for bias
+            try:
+                quiz_content = {
+                    "questions": [
+                        {
+                            "question": q.question_text,
+                            "options": q.options
+                        } for q in questions
+                    ]
+                }
+                print(f"[DEBUG] Quiz content prepared with {len(quiz_content['questions'])} questions, checking bias...")
+                
+                quiz_bias = await self.bias_checking_agent.check_content_bias(
+                    content=quiz_content,
+                    content_type="quiz",
+                    user_age=user_age
+                )
+                print(f"[DEBUG] Quiz bias result: score={quiz_bias.get('bias_score')}, acceptable={quiz_bias.get('is_acceptable')}")
+                
+                # Log detailed quiz bias results
+                logger.info(f"[Bias Check] Quiz - Score: {quiz_bias['bias_score']}/10, Acceptable: {quiz_bias['is_acceptable']}")
+                if quiz_bias['issues_found']:
+                    logger.info(f"[Bias Check] Issues Found ({len(quiz_bias['issues_found'])}):")
+                    for i, issue in enumerate(quiz_bias['issues_found'][:3], 1):
+                        logger.info(f"  {i}. {issue}")
+            except Exception as e:
+                logger.error(f"[Bias Check] Error during quiz bias check: {str(e)}", exc_info=True)
+                print(f"[ERROR] Quiz bias check failed: {str(e)}")
+                import traceback
+                traceback.print_exc()
+                quiz_bias = {"bias_score": 7, "is_acceptable": True, "issues_found": [], "recommendations": []}
+            
+            # Log bias reports and auto-improve if needed
+            print(f"[DEBUG] Checking case brief improvement conditions: acceptable={case_bias['is_acceptable']}, score={case_bias['bias_score']}")
+            if not case_bias["is_acceptable"] and case_bias["bias_score"] < 7:
+                logger.warning(f"[Bias Check] ⚠️  Case brief needs improvement (score: {case_bias['bias_score']}/10)")
+                logger.info("[Bias Check] 🔄 Auto-regenerating case brief with inclusivity guidelines...")
+                print("[DEBUG] Triggering case brief auto-improvement...")
+                
+                # Regenerate case brief with bias feedback
+                inclusivity_prompt = "\n".join([
+                    "IMPORTANT: Ensure the content is inclusive and unbiased:",
+                    "- Use gender-neutral language and diverse character representations",
+                    "- Include diverse names from various cultural backgrounds",
+                    "- Avoid assumptions about socioeconomic status",
+                    "- Use scenarios that reflect diverse family structures and communities",
+                    "- Ensure accessibility for children with different abilities"
+                ])
+                
+                # Add inclusivity context to user_context
+                inclusive_context = context.copy()
+                inclusive_context['inclusivity_requirements'] = inclusivity_prompt
+                inclusive_context['bias_feedback'] = case_bias['recommendations'][:3]  # Top 3 recommendations
+                
+                # Regenerate case brief
+                case_brief = await self.content_agent.generate_case_brief(
+                    concept=concept,
+                    user_context=inclusive_context,
+                    difficulty=difficulty
+                )
+                logger.info(f"[Bias Check] ✅ Case brief regenerated with inclusivity improvements")
+                print("[DEBUG] Case brief regeneration complete")
+            elif not case_bias["is_acceptable"]:
+                logger.warning(f"[Bias Check] ⚠️  Case brief has minor issues (score: {case_bias['bias_score']}/10, threshold met)")
+                print(f"[DEBUG] Case brief has minor issues but meets threshold")
+            else:
+                logger.info(f"[Bias Check] ✅ Case brief passed (score: {case_bias['bias_score']}/10)")
+                print(f"[DEBUG] Case brief passed bias check")
+            
+            print(f"[DEBUG] Checking quiz improvement conditions: acceptable={quiz_bias['is_acceptable']}, score={quiz_bias['bias_score']}")
+            if not quiz_bias["is_acceptable"] and quiz_bias["bias_score"] < 7:
+                logger.warning(f"[Bias Check] ⚠️  Quiz needs improvement (score: {quiz_bias['bias_score']}/10)")
+                logger.info("[Bias Check] 🔄 Auto-regenerating quiz with inclusivity guidelines...")
+                print("[DEBUG] Triggering quiz auto-improvement...")
+                
+                # Add inclusivity guidelines to context
+                inclusive_context = context.copy()
+                inclusive_context['inclusivity_requirements'] = "Use inclusive language, diverse examples, and culturally sensitive scenarios"
+                inclusive_context['bias_feedback'] = quiz_bias['recommendations'][:3]
+                
+                # Regenerate questions
+                questions = await self.quiz_agent.generate_questions(
+                    concept=concept,
+                    story=case_brief,
+                    difficulty=difficulty,
+                    user_context=inclusive_context
+                )
+                logger.info(f"[Bias Check] ✅ Quiz questions regenerated with inclusivity improvements")
+                print("[DEBUG] Quiz regeneration complete")
+            elif not quiz_bias["is_acceptable"]:
+                logger.warning(f"[Bias Check] ⚠️  Quiz has minor issues (score: {quiz_bias['bias_score']}/10, threshold met)")
+                print(f"[DEBUG] Quiz has minor issues but meets threshold")
+            else:
+                logger.info(f"[Bias Check] ✅ Quiz passed (score: {quiz_bias['bias_score']}/10)")
+                print(f"[DEBUG] Quiz passed bias check")
+            
+            print("[DEBUG] Bias checking complete, creating final quiz object...")
+            
+            # Step 5: Create complete quiz with case_brief
             quiz = Quiz(
                 quiz_id=f"quiz_{user_id}_{datetime.now().timestamp()}",
                 user_id=user_id,
@@ -391,6 +529,8 @@ class TeamOrchestrator:
         │   │   └── Role: Create educational stories
         │   └── Quiz Generator Agent
         │       └── Role: Generate quiz questions
+        ├── Bias Checking Agent
+        │   └── Role: Validate content for fairness and inclusivity
         ├── Evaluation Agent
         │   └── Role: Score quiz and provide feedback
         └── Gamification Agent

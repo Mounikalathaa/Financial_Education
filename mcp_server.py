@@ -344,6 +344,32 @@ async def get_ai_hint(request: dict):
             concept=concept
         )
         
+        # Check hint for bias
+        hint_content = {"hint": hint}
+        bias_check = await orchestrator.bias_checking_agent.check_content_bias(
+            content=hint_content,
+            content_type="hint",
+            user_age=user_context["age"]
+        )
+        
+        # Log bias check results
+        if not bias_check["is_acceptable"]:
+            print(f"⚠️ [Bias Check] Hint has bias issues (score: {bias_check['bias_score']}/10)")
+            print(f"⚠️ [Bias Check] Issues: {bias_check['issues_found']}")
+            # Auto-improve if bias score is low
+            if bias_check["bias_score"] < 7:
+                print("[Bias Check] Auto-improving hint...")
+                improved_hint = await orchestrator.bias_checking_agent.suggest_improvements(
+                    content=hint_content,
+                    bias_analysis=bias_check,
+                    content_type="hint"
+                )
+                if improved_hint and isinstance(improved_hint, dict) and "hint" in improved_hint:
+                    hint = improved_hint["hint"]
+                    print("[Bias Check] Hint improved successfully")
+        else:
+            print(f"✅ [Bias Check] Hint passed (score: {bias_check['bias_score']}/10)")
+        
         return {"hint": hint}
         
     except Exception as e:
@@ -378,6 +404,32 @@ async def get_ai_explanation(request: dict):
             user_age=user_age,
             concept=concept
         )
+        
+        # Check explanation for bias
+        explanation_content = {"explanation": explanation}
+        bias_check = await orchestrator.bias_checking_agent.check_content_bias(
+            content=explanation_content,
+            content_type="explanation",
+            user_age=user_age
+        )
+        
+        # Log bias check results
+        if not bias_check["is_acceptable"]:
+            print(f"⚠️ [Bias Check] Explanation has bias issues (score: {bias_check['bias_score']}/10)")
+            print(f"⚠️ [Bias Check] Issues: {bias_check['issues_found']}")
+            # Auto-improve if bias score is low
+            if bias_check["bias_score"] < 7:
+                print("[Bias Check] Auto-improving explanation...")
+                improved_explanation = await orchestrator.bias_checking_agent.suggest_improvements(
+                    content=explanation_content,
+                    bias_analysis=bias_check,
+                    content_type="explanation"
+                )
+                if improved_explanation and isinstance(improved_explanation, dict) and "explanation" in improved_explanation:
+                    explanation = improved_explanation["explanation"]
+                    print("[Bias Check] Explanation improved successfully")
+        else:
+            print(f"✅ [Bias Check] Explanation passed (score: {bias_check['bias_score']}/10)")
         
         return {"explanation": explanation}
         

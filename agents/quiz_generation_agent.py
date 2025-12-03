@@ -60,7 +60,7 @@ class QuizGenerationAgent:
             
             # Build question generation prompt
             prompt = self._build_question_prompt(
-                concept, story, difficulty, num_questions, knowledge
+                concept, story, difficulty, num_questions, knowledge, user_context
             )
             
             # Generate questions using LLM
@@ -111,7 +111,8 @@ class QuizGenerationAgent:
         story,  # Can be CaseBrief or EducationalStory
         difficulty: DifficultyLevel,
         num_questions: int,
-        knowledge: str
+        knowledge: str,
+        user_context: Dict[str, Any] = None
     ) -> str:
         """Build the question generation prompt."""
         # Handle both CaseBrief and EducationalStory
@@ -128,12 +129,19 @@ Scenario: {story.scenario}"""
 {story.title}
 {getattr(story, 'content', getattr(story, 'narrative', ''))}"""
         
+        # Add inclusivity requirements if provided
+        inclusivity_section = ""
+        if user_context and 'inclusivity_requirements' in user_context:
+            inclusivity_section = f"\n\n**INCLUSIVITY REQUIREMENTS (MANDATORY):**\n{user_context['inclusivity_requirements']}"
+            if 'bias_feedback' in user_context:
+                inclusivity_section += f"\n\n**Apply these improvements:**\n" + "\n".join([f"- {rec}" for rec in user_context['bias_feedback']])
+        
         prompt = f"""Generate {num_questions} multiple-choice quiz questions based on the following educational content and knowledge base.
 
 {content_text}
 
 **Knowledge Base:**
-{knowledge}
+{knowledge}{inclusivity_section}
 
 **Requirements:**
 - Generate exactly {num_questions} questions
@@ -144,6 +152,8 @@ Scenario: {story.scenario}"""
 - Ensure accuracy based on the knowledge base
 - Age-appropriate language
 - Provide clear explanations for correct answers
+- Use inclusive language and diverse examples (avoid gender, cultural, or socioeconomic bias)
+- Ensure accessibility for all learners
 
 **Output Format (JSON):**
 {{

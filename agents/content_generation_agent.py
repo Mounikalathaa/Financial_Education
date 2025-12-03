@@ -521,29 +521,38 @@ Always maintain a positive, encouraging tone that makes learning about money fun
         if hobbies:
             personalization += f", Interests: {', '.join(hobbies[:2])}"
         
+        # Add inclusivity requirements if provided
+        inclusivity_section = ""
+        if 'inclusivity_requirements' in user_context:
+            inclusivity_section = f"\n\n**INCLUSIVITY REQUIREMENTS (MANDATORY):**\n{user_context['inclusivity_requirements']}"
+            if 'bias_feedback' in user_context:
+                inclusivity_section += f"\n\n**Apply these improvements:**\n" + "\n".join([f"- {rec}" for rec in user_context['bias_feedback']])
+        
         return f"""Create an engaging detective-style case brief for a {age}-year-old to learn about "{concept}".
 
 **Knowledge Base:**
 {knowledge}
 
-**Personalization:** {personalization}
+**Personalization:** {personalization}{inclusivity_section}
 
 **Format (STRICTLY follow this structure):**
-TITLE: [Creative case title with emoji, max 8 words]
+TITLE: [Creative case title with gender-neutral emoji, max 8 words]
 MISSION: [1-2 exciting sentences about what detective needs to solve/learn]
-CLUE1: [One key fact about the concept - use emoji]
-CLUE2: [Second key fact - use emoji]
-CLUE3: [Third key fact - use emoji]
-CLUE4: [Fourth key fact - optional, use emoji]
+CLUE1: [One key fact about the concept - use inclusive emoji]
+CLUE2: [Second key fact - use inclusive emoji]
+CLUE3: [Third key fact - use inclusive emoji]
+CLUE4: [Fourth key fact - optional, use inclusive emoji]
 SCENARIO: [2-3 sentences setting up a relatable situation where this concept matters]
 
 **Requirements:**
 - Make it fun and engaging for kids
-- Use emojis to make it visually appealing
+- Use emojis to make it visually appealing (prefer gender-neutral emojis)
 - Keep clues short (max 15 words each)
 - Relate to child's interests when possible
 - Be accurate based on knowledge base
 - Difficulty: {difficulty.value}
+- Use inclusive, diverse examples and scenarios
+- Avoid stereotypes and assumptions about gender, culture, or economic status
 
 Generate the case brief now:"""
     
